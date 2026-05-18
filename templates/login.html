@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Jogo de Gestão de Recursos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="auth-page">
+    <main class="auth-container">
+        <header class="auth-header">
+            <h1>Login</h1>
+            <p>Introduz as tuas credenciais.</p>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <section class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </section>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('login') }}" method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="username">Nome de Utilizador:</label>
+                <input type="text" id="username" name="username" required autocomplete="off" placeholder="O teu nome de jogador">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required placeholder="A tua password">
+            </div>
+
+            <button type="submit" class="btn-submit">Entrar no Jogo</button>
+        </form>
+
+        <footer class="auth-footer">
+            <p>Ainda não tens conta? <a href="{{ url_for('register') }}">Regista-te aqui gratuitamente</a>.</p>
+        </footer>
+    </main>
+</body>
+</html>

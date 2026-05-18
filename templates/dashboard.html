@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Reino - Jogo de Gestão</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">⚔️ Império de Recursos</div>
+        <div class="navbar-user">
+            <span>Rei: <strong>{{ user.username }}</strong></span>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
+        </div>
+    </nav>
+
+    <main class="auth-container dashboard-wide">
+        <header class="auth-header">
+            <h1>O Teu Reino</h1>
+            <p>Extrai matérias-primas e investe no desenvolvimento de habitações.</p>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <section class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </section>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Grelha de Recursos e Inventário (Lab 3) -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>🪵 Madeira</h3>
+                <p>{{ user.madeira }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>🧱 Telhas</h3>
+                <p>{{ user.telhas }}</p>
+            </div>
+            <div class="stat-card" style="border-color: #4f46e5;">
+                <h3>🏠 Casas Construídas</h3>
+                <p style="color: #4f46e5;">{{ user.casas }}</p>
+            </div>
+        </section>
+
+        <!-- Zona de Ações Clicker -->
+        <section class="action-zone" style="margin-top: 35px; display: flex; gap: 15px; justify-content: center;">
+            <form action="{{ url_for('colher_recurso', recurso='madeira') }}" method="POST" style="flex: 1;">
+                <button type="submit" class="btn-submit" style="background: linear-gradient(90deg, #b45309, #78350f);">🪵 Colher Madeira (+5)</button>
+            </form>
+            <form action="{{ url_for('colher_recurso', recurso='telhas') }}" method="POST" style="flex: 1;">
+                <button type="submit" class="btn-submit" style="background: linear-gradient(90deg, #64748b, #475569);">🧱 Colher Telhas (+5)</button>
+            </form>
+        </section>
+
+        <!-- Zona de Construção Principal -->
+        <section style="margin-top: 20px; text-align: center;">
+            <form action="{{ url_for('construir') }}" method="POST">
+                <button type="submit" class="btn-submit" style="background: linear-gradient(90deg, #4f46e5, #6366f1);">
+                    🔨 Construir Casa (Custo: 50 🪵 | 50 🧱)
+                </button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

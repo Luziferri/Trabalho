@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registo - Jogo de Gestão de Recursos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="auth-page">
+    <main class="auth-container">
+        <header class="auth-header">
+            <h1>Criar Nova Conta</h1>
+            <p>Regista-te para começares a gerir o teu império!</p>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <section class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </section>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('register') }}" method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="username">Nome de Utilizador:</label>
+                <input type="text" id="username" name="username" required autocomplete="off" placeholder="Escolhe o teu nome de jogador">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required placeholder="Escolhe uma password segura">
+            </div>
+
+            <button type="submit" class="btn-submit">Criar Conta</button>
+        </form>
+
+        <footer class="auth-footer">
+            <p>Já tens uma conta criada? <a href="{{ url_for('login') }}">Faz login aqui</a>.</p>
+        </footer>
+    </main>
+</body>
+</html>
