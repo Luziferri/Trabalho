@@ -418,29 +418,36 @@ body::after{
     border-top: 1px solid #2c3545;
     margin: 20px 0;
 }
-
-.profile-card {
-    text-align: left;
-    margin-top: 20px;
-}
-.profile-field {
-    background-color: #11141a;
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid #2c3545;
-    margin-bottom: 15px;
-}
-.profile-field span {
-    display: block;
-    font-size: 0.85em;
-    color: #a3aed0;
-    font-weight: 600;
-}
-.profile-field strong {
-    font-size: 1.1em;
-    color: #ffffff;
-}
-
+  .profile-card {
+            text-align: left;
+            margin-top: 25px;
+        }
+        .profile-field {
+            background-color: #11141a;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #2c3545;
+            margin-bottom: 15px;
+        }
+        .profile-field span {
+            display: block;
+            font-size: 0.85em;
+            color: #a3aed0;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .profile-field strong {
+            font-size: 1.2em;
+            color: #ffffff;
+        }
+        .achievement-list li {
+            padding: 12px;
+            border-bottom: 1px solid #2c3545;
+            color: #e3e6eb;
+        }
+        .achievement-list li:last-child {
+            border-bottom: none;
+        }
 .auth-footer.flex-between{display:flex;gap:10px;justify-content:space-between;}
 .link-primary{color:#6366f1;text-decoration:none;font-weight:600;margin-right:15px}
 .link-danger{color:#ef4444;text-decoration:none;font-weight:600;}
@@ -453,3 +460,6 @@ body::after{
 .btn-wood{background: linear-gradient(90deg, #b45309, #78350f);} /* Colher Madeira */
 .btn-tiles{background: linear-gradient(90deg, #64748b, #475569);} /* Colher Telhas */
 .btn-build{background: linear-gradient(90deg, #4f46e5, #6366f1);} /* Construir */
+
+
+
