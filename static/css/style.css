@@ -527,8 +527,7 @@ body::after{
     line-height:1.2;
 }
 
-/* Disable hover/active effects for the tile button so image remains static */
-/* Reintroduce hover/active effects on the tile button to match the log (madeira) */
+
 .tile-image-button:hover,
 .tile-image-button:focus{
     filter: brightness(1.06);
@@ -539,14 +538,14 @@ body::after{
     transform: translateY(-1px) scale(.995);
 }
 
-/* Toast / push notification styles */
+
 .toast-container, #toast-container, #toast-container *{box-sizing:border-box}
 #toast-container{
     position: fixed;
     top: 50px;
     right: 18px;
     display: flex;
-    flex-direction: column-reverse; /* Isto empilha as novas por cima das antigas */
+    flex-direction: column-reverse;
     gap: 10px;
     z-index: 1000;
     pointer-events: none;
