@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Utilizador - Gestão de Recursos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="auth-container">
+        <header class="auth-header">
+            <h1>Perfil do Rei</h1>
+            <p>Estatísticas de autenticação e dados da tua conta.</p>
+        </header>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="{{ url_for('static', filename='images/' + user.avatar) }}"
+                 alt="Avatar do Utilizador"
+                 style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #4f46e5; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+        </div>
+
+        <section class="profile-card">
+            <div class="profile-field">
+                <span>Nome de Utilizador</span>
+                <strong>{{ user.username }}</strong>
+            </div>
+
+            <div class="profile-field">
+                <span>Endereço de Email (Registo Avançado)</span>
+                <strong>{{ user.email }}</strong>
+            </div>
+
+            <div class="profile-field">
+                <span>Dificuldade do Jogo Escolhida</span>
+                <strong>{{ user.dificuldade }}</strong>
+            </div>
+            
+            <div class="profile-field">
+                <span>Identificador Único (ID da Base de Dados)</span>
+                <strong># {{ user.id }}</strong>
+            </div>
+        </section>
+
+        <footer class="auth-footer flex-between">
+            <a href="{{ url_for('dashboard') }}" class="link-primary">← Voltar ao Jogo</a>
+            <a href="{{ url_for('logout') }}" class="link-danger">Terminar Sessão</a>
+        </footer>
+    </main>
+</body>
+</html>

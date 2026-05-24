@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registo - Jogo de Gestão de Recursos</title>
+    <title>Registo Avançado - Jogo de Gestão de Recursos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="auth-page">
+<body>
     <main class="auth-container">
         <header class="auth-header">
             <h1>Criar Nova Conta</h1>
-            <p>Regista-te para começares a gerir o teu império!</p>
+            <p>Regista-te com segurança avançada para começares a gerir o teu império!</p>
         </header>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -30,8 +30,48 @@
             </div>
 
             <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required placeholder="Escolhe uma password segura">
+                <label for="email">Endereço de Email:</label>
+                <input type="email" id="email" name="email" required placeholder="O teu email principal">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password Segura:</label>
+                <input type="password" id="password" name="password" required placeholder="Escolhe uma password forte">
+            </div>
+
+            <div class="form-group">
+                <label for="dificuldade">Dificuldade Inicial:</label>
+                <select id="dificuldade" name="dificuldade" required>
+                    <option value="Fácil">Fácil (Mais recursos iniciais)</option>
+                    <option value="Normal" selected>Normal (Modo Padrão)</option>
+                    <option value="Difícil">Difícil (Modo Sobrevivência)</option>
+                </select>
+            </div>
+
+            <hr class="auth-hr">
+
+            <div class="form-group">
+                <label for="pergunta_seguranca">Pergunta de Segurança (Em caso de perda de conta):</label>
+                <select id="pergunta_seguranca" name="pergunta_seguranca" required>
+                    <option value="Qual o nome do teu primeiro animal?">Qual o nome do teu primeiro animal?</option>
+                    <option value="Qual é a tua comida favorita?">Qual é a tua comida favorita?</option>
+                    <option value="Em que cidade nasceste?">Em que cidade nasceste?</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="resposta_seguranca">Resposta Secreta:</label>
+                <input type="text" id="resposta_seguranca" name="resposta_seguranca" required autocomplete="off" placeholder="A tua resposta secreta">
+            </div>
+
+            <div class="form-group">
+                <label for="avatar">Escolhe o teu Avatar:</label>
+                <select id="avatar" name="avatar" required>
+                    <option value="default.png">Camponês (Padrão)</option>
+                    <option value="rei.png">Rei</option>
+                    <option value="cavaleiro.png">Cavaleiro</option>
+                    <option value="mago.png">Mago Sábio</option>
+                </select>
             </div>
 
             <button type="submit" class="btn-submit">Criar Conta</button>

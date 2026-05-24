@@ -3,6 +3,7 @@ import secrets
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from models import db, User
+from sqlalchemy import text
 
 app = Flask(__name__)
 app.config.from_object("settings") 
@@ -15,6 +16,20 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+    if app.config['SQLALCHEMY_DATABASE_URI'].startswith('sqlite'):
+        existing_columns = {
+            row[1]
+            for row in db.session.execute(text("PRAGMA table_info('user')"))
+        }
+        for column_name in ('avatar', 'madeira', 'telhas', 'casas'):
+            if column_name == 'avatar':
+                column_sql = "avatar TEXT NOT NULL DEFAULT 'default.png'"
+            else:
+                column_sql = f"{column_name} INTEGER NOT NULL DEFAULT 0"
+            if column_name not in existing_columns:
+                db.session.execute(text(f"ALTER TABLE user ADD COLUMN {column_sql}"))
+        db.session.commit()
+
 @app.route('/')
 def home():
     if 'user_id' in session:
@@ -25,25 +40,37 @@ def home():
 def register():
     if request.method == 'POST':
         username = request.form.get('username', '').strip()
+        email = request.form.get('email', '').strip()
         password = request.form.get('password', '')
+        dificuldade = request.form.get('dificuldade', 'Normal')
+        pergunta = request.form.get('pergunta_seguranca', '')
+        resposta = request.form.get('resposta_seguranca', '').strip().lower() # Guardar em minúsculas
+        avatar_escolhido = request.form.get('avatar', 'default.png')
         
-        if not username or not password:
+        if not username or not password or not email or not pergunta or not resposta:
             flash('Todos os campos são obrigatórios!', 'danger')
             return redirect(url_for('register'))
             
-        existing_user = User.query.filter_by(username=username).first()
+        existing_user = User.query.filter((User.username==username) | (User.email==email)).first()
         if existing_user:
-            flash('Este nome de utilizador já existe.', 'danger')
+            flash('Nome de utilizador ou email já em uso.', 'danger')
             return redirect(url_for('register'))
             
-        # Criação do utilizador local
-        new_user = User(username=username)
-        new_user.set_password(password)
+        # Criação do utilizador com os novos campos avançados
+        new_user = User(
+            username=username, 
+            email=email, 
+            dificuldade=dificuldade,
+            pergunta_seguranca=pergunta,
+            resposta_seguranca=resposta,
+            avatar=avatar_escolhido
+        )
+        new_user.set_password(password) # Usa o hashing reforçado
         
         db.session.add(new_user)
         db.session.commit()
         
-        flash('Conta criada! Já podes entrar no teu reino.', 'success')
+        flash('Conta criada com sucesso! Já podes entrar.', 'success')
         return redirect(url_for('login'))
         
     return render_template('register.html')
@@ -67,6 +94,38 @@ def login():
             
     return render_template('login.html')
 
+
+@app.route('/recuperar', methods=['GET', 'POST'])
+def recuperar_password():
+    """Sistema de recuperação de conta baseado em pergunta de segurança."""
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        resposta = request.form.get('resposta_seguranca', '').strip().lower()
+        nova_password = request.form.get('nova_password', '')
+        
+        user = User.query.filter_by(username=username).first()
+        
+        # Verifica se o utilizador existe e se a resposta bate certo
+        if user and user.resposta_seguranca == resposta:
+            user.set_password(nova_password)
+            db.session.commit()
+            flash('A tua password foi reposta com sucesso! Podes fazer login.', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash('Nome de utilizador ou resposta de segurança incorretos.', 'danger')
+            
+    return render_template('recuperar.html')
+
+
+@app.route('/perfil')
+def perfil():
+    """Exibe o Perfil do Utilizador (Estatísticas e Dados)."""
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+        
+    user = db.session.get(User, session['user_id']) # Uso a forma atualizada do SQLAlchemy
+    return render_template('perfil.html', user=user)
+
 @app.route('/logout')
 def logout():
     """Termina a sessão do jogador e limpa os cookies."""
@@ -81,7 +140,7 @@ def dashboard():
         flash('Precisas de iniciar sessão para jogar.', 'warning')
         return redirect(url_for('login'))
         
-    user = User.query.get(session['user_id'])
+    user = db.session.get(User, session['user_id'])
     return render_template('dashboard.html', user=user)
 
 @app.route('/colher', methods=['POST'])
@@ -93,7 +152,7 @@ def colher_recurso():
         return redirect(url_for('login'))
         
     # 1. Procura o jogador atual na Base de Dados
-    user = User.query.get(session['user_id'])
+    user = db.session.get(User, session['user_id'])
     recurso = request.args.get('recurso')
 
     if recurso not in {'madeira', 'telhas'}:
@@ -119,7 +178,7 @@ def construir():
         flash('Precisas de iniciar sessão primeiro.', 'warning')
         return redirect(url_for('login'))
 
-    user = User.query.get(session['user_id'])
+    user = db.session.get(User, session['user_id'])
 
     if user.madeira < 50 or user.telhas < 50:
         flash('Não tens recursos suficientes para construir uma casa.', 'warning')

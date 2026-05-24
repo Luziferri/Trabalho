@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Jogo de Gestão de Recursos</title>
+    <title>Recuperar Conta - Jogo de Gestão de Recursos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="auth-page">
+<body>
     <main class="auth-container">
         <header class="auth-header">
-            <h1>Login</h1>
-            <p>Introduz as tuas credenciais.</p>
+            <h1>Recuperar Conta</h1>
+            <p>Responde à tua pergunta secreta para repores a tua password.</p>
         </header>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -23,24 +23,28 @@
             {% endif %}
         {% endwith %}
 
-        <form action="{{ url_for('login') }}" method="POST" class="auth-form">
+        <form action="{{ url_for('recuperar_password') }}" method="POST" class="auth-form">
             <div class="form-group">
                 <label for="username">Nome de Utilizador:</label>
                 <input type="text" id="username" name="username" required autocomplete="off" placeholder="O teu nome de jogador">
             </div>
 
             <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required placeholder="A tua password">
+                <label for="resposta_seguranca">Resposta Secreta:</label>
+                <input type="text" id="resposta_seguranca" name="resposta_seguranca" required autocomplete="off" placeholder="A resposta à tua pergunta de segurança">
             </div>
 
-            <button type="submit" class="btn-submit">Entrar no Jogo</button>
+            <div class="form-group">
+                <label for="nova_password">Nova Password:</label>
+                <input type="password" id="nova_password" name="nova_password" required placeholder="Escolhe uma nova password segura">
+            </div>
+
+            <button type="submit" class="btn-submit">Repor Password</button>
         </form>
 
-     <footer class="auth-footer">
-    <p>Esqueceste-te da password? <a href="{{ url_for('recuperar_password') }}">Recuperar conta</a>.</p>
-    <p>Ainda não tens conta? <a href="{{ url_for('register') }}">Regista-te aqui gratuitamente</a>.</p>
-</footer>
+        <footer class="auth-footer">
+            <p>Lembraste-te da credencial? <a href="{{ url_for('login') }}">Voltar ao Login</a>.</p>
+        </footer>
     </main>
 </body>
 </html>

@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-brand">⚔️ Império de Recursos</div>
-        <div class="navbar-user">
-            <span>Rei: <strong>{{ user.username }}</strong></span>
-            <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
-        </div>
-    </nav>
+<nav class="navbar">
+    <div class="navbar-brand">Império de Recursos</div>
+    <div class="navbar-user">
+        <a href="{{ url_for('perfil') }}" class="link-primary">Meu Perfil</a>
+        <span>Rei: <strong>{{ user.username }}</strong></span>
+        <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
+    </div>
+</nav>
 
     <main class="auth-container dashboard-wide">
         <header class="auth-header">
@@ -34,34 +35,34 @@
         <!-- Grelha de Recursos e Inventário (Lab 3) -->
         <section class="stats-grid">
             <div class="stat-card">
-                <h3>🪵 Madeira</h3>
+                <h3>Madeira</h3>
                 <p>{{ user.madeira }}</p>
             </div>
             <div class="stat-card">
-                <h3>🧱 Telhas</h3>
+                <h3>Telhas</h3>
                 <p>{{ user.telhas }}</p>
             </div>
-            <div class="stat-card" style="border-color: #4f46e5;">
-                <h3>🏠 Casas Construídas</h3>
-                <p style="color: #4f46e5;">{{ user.casas }}</p>
+            <div class="stat-card highlight">
+                <h3>Casas Construídas</h3>
+                <p>{{ user.casas }}</p>
             </div>
         </section>
 
         <!-- Zona de Ações Clicker -->
-        <section class="action-zone" style="margin-top: 35px; display: flex; gap: 15px; justify-content: center;">
-            <form action="{{ url_for('colher_recurso', recurso='madeira') }}" method="POST" style="flex: 1;">
-                <button type="submit" class="btn-submit" style="background: linear-gradient(90deg, #b45309, #78350f);">🪵 Colher Madeira (+5)</button>
+        <section class="action-zone">
+            <form action="{{ url_for('colher_recurso', recurso='madeira') }}" method="POST">
+                <button type="submit" class="btn-submit btn-wood">Colher Madeira (+5)</button>
             </form>
-            <form action="{{ url_for('colher_recurso', recurso='telhas') }}" method="POST" style="flex: 1;">
-                <button type="submit" class="btn-submit" style="background: linear-gradient(90deg, #64748b, #475569);">🧱 Colher Telhas (+5)</button>
+            <form action="{{ url_for('colher_recurso', recurso='telhas') }}" method="POST">
+                <button type="submit" class="btn-submit btn-tiles">Colher Telhas (+5)</button>
             </form>
         </section>
 
         <!-- Zona de Construção Principal -->
         <section style="margin-top: 20px; text-align: center;">
             <form action="{{ url_for('construir') }}" method="POST">
-                <button type="submit" class="btn-submit" style="background: linear-gradient(90deg, #4f46e5, #6366f1);">
-                    🔨 Construir Casa (Custo: 50 🪵 | 50 🧱)
+                <button type="submit" class="btn-submit btn-build">
+                    Construir Casa (Custo: 50 Madeira | 50 Telhas)
                 </button>
             </form>
         </section>
