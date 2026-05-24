@@ -229,9 +229,7 @@ body::after{
 
 
 
-/* ==========================================================================
-   Ajustes para o Dashboard (Estilo Layout do Lab 03)
-   ========================================================================== */
+
 
 /* Alarga o painel para caberem as estatísticas lado a lado */
 .auth-container.dashboard-wide {
@@ -324,9 +322,7 @@ body::after{
 }
 
 
-/* ==========================================================================
-   Configurações Extra para o Dashboard (Lab 03)
-   ========================================================================== */
+
 .auth-container.dashboard-wide {
     max-width: 750px;
 }
@@ -460,6 +456,382 @@ body::after{
 .btn-wood{background: linear-gradient(90deg, #b45309, #78350f);} /* Colher Madeira */
 .btn-tiles{background: linear-gradient(90deg, #64748b, #475569);} /* Colher Telhas */
 .btn-build{background: linear-gradient(90deg, #4f46e5, #6366f1);} /* Construir */
+
+.wood-image-button{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    padding:0;
+    width:auto;
+    margin:0 auto;
+    background:transparent;
+    border:none;
+    box-shadow:none;
+    transition: transform 340ms cubic-bezier(.2,.9,.2,1), filter 340ms cubic-bezier(.2,.9,.2,1), box-shadow 340ms cubic-bezier(.2,.9,.2,1);
+    will-change: transform, filter;
+}
+
+.wood-image-button:hover{
+    background:transparent;
+    box-shadow:none;
+}
+
+.wood-image{
+    width:100%;
+    max-width:105px;
+    height:auto;
+    display:block;
+    filter: drop-shadow(0 10px 18px rgba(0,0,0,0.35));
+    pointer-events:none;
+}
+
+.tile-image-button{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    margin:0 auto;
+    background:transparent;
+    border:none;
+    box-shadow:none;
+    transition: transform 340ms cubic-bezier(.2,.9,.2,1), filter 340ms cubic-bezier(.2,.9,.2,1), box-shadow 340ms cubic-bezier(.2,.9,.2,1);
+    will-change: transform, filter;
+}
+
+.tile-image{
+    width:100%;
+    max-width:105px;
+    height:auto;
+    display:block;
+    filter: drop-shadow(0 8px 14px rgba(0,0,0,0.28));
+    pointer-events:none;
+}
+
+@media (max-width: 800px) {
+    .wood-image{ max-width:320px; }
+}
+
+@media (max-width: 420px) {
+    .wood-image{ max-width:200px; }
+}
+
+.wood-image-button span{
+    font-size:0.95em;
+    line-height:1.2;
+}
+
+.tile-image-button span{
+    font-size:0.95em;
+    line-height:1.2;
+}
+
+/* Disable hover/active effects for the tile button so image remains static */
+/* Reintroduce hover/active effects on the tile button to match the log (madeira) */
+.tile-image-button:hover,
+.tile-image-button:focus{
+    filter: brightness(1.06);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: none;
+}
+.tile-image-button:active{
+    transform: translateY(-1px) scale(.995);
+}
+
+/* Toast / push notification styles */
+.toast-container, #toast-container, #toast-container *{box-sizing:border-box}
+#toast-container{
+    position: fixed;
+    top: 50px;
+    right: 18px;
+    display: flex;
+    flex-direction: column-reverse; /* Isto empilha as novas por cima das antigas */
+    gap: 10px;
+    z-index: 1000;
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
+}
+#toast-container .toast:nth-last-child(n+5){
+    display: none;
+}
+.toast{
+    pointer-events:auto;
+    min-width:160px;
+    max-width:360px;
+    padding:10px 14px;
+    border-radius:10px;
+    color:#fff;
+    font-weight:700;
+    transform: translateY(16px) scale(.96);
+    opacity:0;
+    transition: transform 420ms cubic-bezier(.2,.9,.2,1), opacity 420ms cubic-bezier(.2,.9,.2,1);
+    will-change: transform, opacity;
+}
+.toast.show{opacity:1; transform: translateY(0) scale(1);}
+
+/* confetti pieces inside toast */
+.toast{position:relative; overflow:visible}
+.toast .toast-text{position:relative; z-index:2}
+.toast.success{background: linear-gradient(90deg,#10b981,#059669);}
+.toast.danger{background: linear-gradient(90deg,#ef4444,#dc2626);}
+/* Styles for other flash categories */
+.toast.warning{background: linear-gradient(90deg,#f59e0b,#f97316);}
+.toast.info{background: linear-gradient(90deg,#3b82f6,#06b6d4);}
+.toast.default{background: linear-gradient(90deg,#374151,#111827);}
+
+/* Responsive layout overrides */
+body.dashboard-page{
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content:flex-start;
+    padding:0;
+    overflow-x:hidden;
+}
+
+body.dashboard-page::before,
+body.dashboard-page::after{
+    opacity:0.55;
+}
+
+body.dashboard-page .navbar{
+    position: sticky;
+    top: 0;
+    z-index: 30;
+}
+
+body.dashboard-page .dashboard-container,
+body.profile-page .profile-container{
+    width: min(100%, 840px);
+}
+
+body.dashboard-page .dashboard-container{
+    margin: 24px auto 40px;
+    padding-top: 28px;
+}
+
+body.profile-page{
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content:center;
+    padding: 32px 20px;
+}
+
+body.profile-page .profile-container{
+    margin: 0 auto;
+    padding: 32px;
+}
+
+.dashboard-container .btn-submit,
+.profile-container .btn-submit{
+    width: 100%;
+}
+
+.dashboard-container .action-zone{
+    flex-wrap: wrap;
+}
+
+.dashboard-container .action-zone form{
+    min-width: 180px;
+}
+
+.dashboard-container .btn-build{
+    width: 100%;
+    max-width: 100%;
+}
+
+.profile-header{
+    text-align:center;
+    margin-bottom: 30px;
+}
+
+.profile-avatar{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #4f46e5;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.profile-username{
+    margin-top: 15px;
+    color: #fff;
+}
+
+.profile-meta{
+    color: #a3aed0;
+    font-size: 0.95em;
+    word-break: break-word;
+}
+
+.profile-stats{
+    display:flex;
+    gap:15px;
+    text-align:center;
+}
+
+.profile-stats .profile-field{
+    flex:1;
+    margin-bottom:0;
+}
+
+.profile-footer{
+    display:flex;
+    gap:10px;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.profile-footer a{
+    white-space:nowrap;
+}
+
+@media (max-width: 960px){
+    .stats-grid{
+        flex-direction: column;
+    }
+
+    .action-zone{
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .action-zone form{
+        width: 100%;
+    }
+
+    .navbar{
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .navbar-user{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .navbar-user span,
+    .navbar-user .link-primary{
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 720px){
+    body{
+        padding: 18px 14px;
+    }
+
+    .auth-container{
+        padding: 22px 18px;
+        border-radius: 14px;
+    }
+
+    .auth-header h1{
+        font-size: 1.65em;
+    }
+
+    .auth-footer.flex-between,
+    .profile-footer{
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .auth-footer.flex-between a,
+    .profile-footer a{
+        text-align: center;
+    }
+
+    .profile-stats{
+        flex-direction: column;
+    }
+
+    .profile-avatar{
+        width: 100px;
+        height: 100px;
+    }
+
+    #toast-container{
+        left: 12px;
+        right: 12px;
+        top: auto;
+        bottom: 12px;
+        align-items: stretch;
+    }
+
+    .toast{
+        width: 100%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 520px){
+    .navbar{
+        padding: 12px 16px;
+    }
+
+    .navbar-brand{
+        font-size: 0.98em;
+    }
+
+    .navbar-user{
+        font-size: 0.92em;
+    }
+
+    .dashboard-container,
+    .profile-container{
+        width: 100%;
+    }
+
+    .dashboard-container .action-zone form{
+        min-width: 0;
+    }
+
+    .wood-image,
+    .tile-image{
+        max-width: 88px;
+    }
+
+    .wood-image-button,
+    .tile-image-button{
+        gap: 8px;
+    }
+
+    .btn-submit{
+        padding: 13px 14px;
+    }
+}
+
+@media (max-width: 420px){
+    .auth-container{
+        padding: 18px 14px;
+    }
+
+    .auth-header h1{
+        font-size: 1.45em;
+    }
+
+    .form-group input,
+    .form-group select{
+        padding: 11px 12px;
+    }
+
+    .wood-image,
+    .tile-image{
+        max-width: 76px;
+    }
+
+    .btn-build{
+        font-size: 0.95em;
+        line-height: 1.3;
+    }
+}
 
 
 

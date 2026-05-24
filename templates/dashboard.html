@@ -6,7 +6,7 @@
     <title>Painel do Reino - Jogo de Gestão</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
+<body class="dashboard-page">
 <nav class="navbar">
     <div class="navbar-brand">Império de Recursos</div>
     <div class="navbar-user">
@@ -16,19 +16,18 @@
     </div>
 </nav>
 
-    <main class="auth-container dashboard-wide">
+    <main class="auth-container dashboard-wide dashboard-container">
         <header class="auth-header">
             <h1>O Teu Reino</h1>
             <p>Extrai matérias-primas e investe no desenvolvimento de habitações.</p>
         </header>
 
+        {# Server-side flash messages are converted to client toasts to avoid stacked alerts on reload #}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                <section class="flash-messages">
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">{{ message }}</div>
-                    {% endfor %}
-                </section>
+                {% for category, message in messages %}
+                    <div class="flash-message" data-category="{{ category }}" style="display:none;">{{ message }}</div>
+                {% endfor %}
             {% endif %}
         {% endwith %}
 
@@ -51,15 +50,21 @@
         <!-- Zona de Ações Clicker -->
         <section class="action-zone">
             <form action="{{ url_for('colher_recurso', recurso='madeira') }}" method="POST">
-                <button type="submit" class="btn-submit btn-wood">Colher Madeira (+5)</button>
+                <button type="submit" class="btn-submit btn-wood wood-image-button" aria-label="Colher madeira">
+                    <img src="{{ url_for('static', filename='images/log.png') }}" alt="Madeira" class="wood-image">
+                    <span>+5</span>
+                </button>
             </form>
             <form action="{{ url_for('colher_recurso', recurso='telhas') }}" method="POST">
-                <button type="submit" class="btn-submit btn-tiles">Colher Telhas (+5)</button>
+                <button type="submit" class="btn-submit btn-tiles tile-image-button" aria-label="Colher telhas">
+                    <img src="{{ url_for('static', filename='images/telha.png') }}" alt="Telhas" class="tile-image">
+                    <span>+5</span>
+                </button>
             </form>
         </section>
 
         <!-- Zona de Construção Principal -->
-        <section style="margin-top: 20px; text-align: center;">
+        <section class="build-section">
             <form action="{{ url_for('construir') }}" method="POST">
                 <button type="submit" class="btn-submit btn-build">
                     Construir Casa (Custo: 50 Madeira | 50 Telhas)
@@ -67,5 +72,8 @@
             </form>
         </section>
     </main>
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

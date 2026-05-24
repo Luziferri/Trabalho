@@ -1,7 +1,7 @@
 import os
 import secrets
 
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from models import db, User
 from sqlalchemy import text
 
@@ -156,6 +156,9 @@ def colher_recurso():
     recurso = request.args.get('recurso')
 
     if recurso not in {'madeira', 'telhas'}:
+        # Return JSON for AJAX or redirect for normal requests
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.is_json:
+            return jsonify({'success': False, 'message': 'Recurso inválido.'}), 400
         flash('Recurso inválido.', 'danger')
         return redirect(url_for('dashboard'))
     
@@ -165,9 +168,15 @@ def colher_recurso():
     # 3. Guarda a alteração no jogo.db
     db.session.commit()
     
-    # 4. Envia um feedback visual rápido (Lab 8)
-    flash(f'+5 {recurso.capitalize()}!', 'success')
-    
+    # 4. For normal requests, flash a message; for AJAX, skip server flash and return JSON
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.is_json
+    if not is_ajax:
+        flash(f'+5 {recurso.capitalize()}!', 'success')
+
+    # If this was an AJAX request, return JSON with the new value
+    if is_ajax:
+        return jsonify({'success': True, 'recurso': recurso, 'amount': 5, 'new_value': getattr(user, recurso)})
+
     # 5. Atualiza a página do dashboard com o novo valor
     return redirect(url_for('dashboard'))
 
