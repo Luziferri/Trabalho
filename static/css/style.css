@@ -7,7 +7,7 @@
     --card: rgba(255,255,255,0.03);
     --muted: #a3aed0;
     --accent-1: #7c3aed; /* purple */
-    --accent-2: #06b6d4; /* teal */
+    --accent-2: #06b6d4;
     --accent-grad: linear-gradient(90deg,var(--accent-1),#6366f1,var(--accent-2));
     --danger: #ef4444;
 }
