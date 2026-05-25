@@ -57,7 +57,7 @@ def register():
             flash('Nome de utilizador ou email já em uso.', 'danger')
             return redirect(url_for('register'))
             
-        # Criação do utilizador com os novos campos avançados teste 1 teste 2 teste 3 teste 4
+        # Criação do utilizador com os novos campos avançados teste 1 teste 2 teste 3 teste 4fafqfaeafaefaef
         new_user = User(
             username=username, 
             email=email, 
@@ -219,3 +219,6 @@ if __name__ == '__main__':
         print(f"Porta {desired_port} em uso; a iniciar na porta {port}.")
 
     app.run(host="0.0.0.0", port=port)
+
+app.add_url_rule("/ranking", view_func=views.ranking_page)
+app.add_url_rule("/api/ranking", view_func=views.api_ranking)
