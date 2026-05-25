@@ -8,6 +8,15 @@
 
 </head>
 <body class="profile-page">
+    <nav class="navbar">
+        <div class="navbar-brand">Império de Recursos</div>
+        <div class="navbar-user">
+            <a href="{{ url_for('dashboard') }}" class="link-primary">Voltar ao Jogo</a>
+            <span>Rei: <strong>{{ user.username }}</strong></span>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
+        </div>
+    </nav>
+
     <main class="auth-container profile-container">
         <header class="auth-header">
             <h1>Perfil do Jogador</h1>
