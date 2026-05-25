@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Reino - Jogo de Gestão</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <li><a class="botao" href="/ranking">Ranking</a></li>
+    
 </head>
 <body class="dashboard-page">
 <nav class="navbar">
     <div class="navbar-brand">Império de Recursos</div>
     <div class="navbar-user">
+        <li><a class="botao" href="/ranking">Ranking</a></li>
         <a href="{{ url_for('perfil') }}" class="link-primary">Meu Perfil</a>
         <span>Rei: <strong>{{ user.username }}</strong></span>
         <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
