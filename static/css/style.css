@@ -546,6 +546,47 @@ nav ul li a:active,
     width: 100%;
 }
 
+.dashboard-section {
+    margin-top: 26px;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.section-heading h2 {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    font-size: 0.98em;
+}
+
+.resource-actions {
+    margin-top: 0;
+}
+
+.build-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.build-grid form {
+    width: 100%;
+}
+
+.button-meta {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.78em;
+    line-height: 1.2;
+    color: rgba(253, 245, 230, 0.88);
+}
+
 .wood-image-button,
 .tile-image-button {
     width: 100%;
@@ -572,6 +613,17 @@ nav ul li a:active,
     width: 100%;
     min-height: 58px;
     font-size: 1.05em;
+}
+
+.btn-military {
+    width: 100%;
+    min-height: 76px;
+    background: linear-gradient(90deg, #6d4c41, #4e342e);
+    border-color: #d4af37;
+}
+
+.btn-military:hover {
+    background: linear-gradient(to bottom, #8d6e63, #5d4037);
 }
 
 .profile-header {
@@ -1443,9 +1495,17 @@ body.profile-page .profile-container{
     min-width: 180px;
 }
 
+.dashboard-container .build-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .dashboard-container .btn-build{
     width: 100%;
     max-width: 100%;
+}
+
+.dashboard-container .btn-military{
+    width: 100%;
 }
 
 .dashboard-container .auth-header{
@@ -1628,6 +1688,10 @@ body.profile-page .profile-container{
 
     .dashboard-container .action-zone form{
         min-width: 0;
+    }
+
+    .build-grid{
+        grid-template-columns: 1fr;
     }
 
     .wood-image,

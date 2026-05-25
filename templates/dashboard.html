@@ -56,10 +56,28 @@
                 <h3>Casas Construídas</h3>
                 <p>{{ user.casas }}</p>
             </div>
+            <div class="stat-card">
+                <h3>Comida</h3>
+                <p>{{ user.comida }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Joias</h3>
+                <p>{{ user.joias }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Soldados</h3>
+                <p>{{ user.soldados }}</p>
+            </div>
         </section>
 
-        <!-- Zona de Ações Clicker -->
-        <section class="action-zone">
+        <section class="dashboard-section">
+            <header class="section-heading">
+                <h2>Recolha de Recursos</h2>
+                <p>Escolhe o recurso que queres produzir agora.</p>
+            </header>
+
+            <!-- Zona de Ações Clicker -->
+            <div class="action-zone resource-actions">
             <form action="{{ url_for('colher_recurso', recurso='madeira') }}" method="POST">
                 <button type="submit" class="btn-submit btn-wood wood-image-button" aria-label="Colher madeira">
                     <img src="{{ url_for('static', filename='images/log.png') }}" alt="Madeira" class="wood-image">
@@ -72,15 +90,69 @@
                     <span>+5</span>
                 </button>
             </form>
-        </section>
-
-        <!-- Zona de Construção Principal -->
-        <section class="build-section">
-            <form action="{{ url_for('construir') }}" method="POST">
-                <button type="submit" class="btn-submit btn-build">
-                    Construir Casa (Custo: 50 Madeira | 50 Telhas)
+            <form action="{{ url_for('colher_recurso', recurso='comida') }}" method="POST">
+                <button type="submit" class="btn-submit btn-tiles" aria-label="Colher comida">
+                    <span>+5 Comida</span>
                 </button>
             </form>
+            <form action="{{ url_for('colher_recurso', recurso='joias') }}" method="POST">
+                <button type="submit" class="btn-submit btn-build" aria-label="Colher joias">
+                    <span>+2 Joias</span>
+                </button>
+            </form>
+            </div>
+        </section>
+
+        <section class="dashboard-section build-section">
+            <header class="section-heading">
+                <h2>Construção e Exército</h2>
+                <p>Ergue edifícios ou recruta tropas para fortalecer o reino.</p>
+            </header>
+
+            <div class="build-grid">
+                <form action="{{ url_for('construir_edificio', tipo='casa') }}" method="POST">
+                    <button type="submit" class="btn-submit btn-build">
+                        Construir Casa
+                        <span class="button-meta">50 Madeira | 50 Telhas</span>
+                    </button>
+                </form>
+                <form action="{{ url_for('construir_edificio', tipo='fazenda') }}" method="POST">
+                    <button type="submit" class="btn-submit btn-build">
+                        Construir Fazenda
+                        <span class="button-meta">10 Comida</span>
+                    </button>
+                </form>
+                <form action="{{ url_for('construir_edificio', tipo='estrada') }}" method="POST">
+                    <button type="submit" class="btn-submit btn-build">
+                        Construir Estrada
+                        <span class="button-meta">5 Comida</span>
+                    </button>
+                </form>
+                <form action="{{ url_for('construir_edificio', tipo='castelo') }}" method="POST">
+                    <button type="submit" class="btn-submit btn-build">
+                        Construir Castelo
+                        <span class="button-meta">20 Comida | 5 Joias</span>
+                    </button>
+                </form>
+                <form action="{{ url_for('construir_edificio', tipo='porto') }}" method="POST">
+                    <button type="submit" class="btn-submit btn-build">
+                        Construir Porto
+                        <span class="button-meta">15 Comida | 2 Joias</span>
+                    </button>
+                </form>
+                <form action="{{ url_for('construir_edificio', tipo='igreja') }}" method="POST">
+                    <button type="submit" class="btn-submit btn-build">
+                        Construir Igreja
+                        <span class="button-meta">10 Joias</span>
+                    </button>
+                </form>
+                <form action="{{ url_for('recrutar_soldados') }}" method="POST" class="military-form">
+                    <button type="submit" class="btn-submit btn-military">
+                        Recrutar Soldados
+                        <span class="button-meta">10 Comida | 2 Joias → +5 Soldados</span>
+                    </button>
+                </form>
+            </div>
         </section>
     </main>
     <div id="toast-container" aria-live="polite" aria-atomic="true"></div>

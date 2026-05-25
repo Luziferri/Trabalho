@@ -22,7 +22,13 @@ with app.app_context():
             row[1]
             for row in db.session.execute(text("PRAGMA table_info('user')"))
         }
-        for column_name in ('avatar', 'madeira', 'telhas', 'casas'):
+        colunas_necessarias = [
+            'avatar', 'madeira', 'telhas', 'casas',
+            'comida', 'joias', 'soldados', 'cavalos',
+            'fazendas', 'estradas', 'castelos', 'portos', 'igrejas'
+        ]
+
+        for column_name in colunas_necessarias:
             if column_name == 'avatar':
                 column_sql = "avatar TEXT NOT NULL DEFAULT 'default.png'"
             else:
@@ -30,6 +36,19 @@ with app.app_context():
             if column_name not in existing_columns:
                 db.session.execute(text(f"ALTER TABLE user ADD COLUMN {column_sql}"))
         db.session.commit()
+
+
+EDIFICIOS_INFO = {
+    'casa': {'custo': {'madeira': 50, 'telhas': 50}, 'coluna': 'casas'},
+    'fazenda': {'custo': {'comida': 10}, 'coluna': 'fazendas'},
+    'estrada': {'custo': {'comida': 5}, 'coluna': 'estradas'},
+    'castelo': {'custo': {'comida': 20, 'joias': 5}, 'coluna': 'castelos'},
+    'porto': {'custo': {'comida': 15, 'joias': 2}, 'coluna': 'portos'},
+    'igreja': {'custo': {'joias': 10}, 'coluna': 'igrejas'},
+}
+
+RECRUTAR_SOLDADOS_CUSTO = {'comida': 10, 'joias': 2}
+RECRUTAR_SOLDADOS_GANHO = 5
 
 @app.route('/')
 def home():
@@ -57,7 +76,7 @@ def register():
             flash('Nome de utilizador ou email já em uso.', 'danger')
             return redirect(url_for('register'))
             
-        # Criação do utilizador com os novos campos avançados teste 1 teste 2 teste 3 teste 4fafqfaeafaefaef
+        # Criação do utilizador com os novos campos avançados teste 1 teste 2 teste 3 teste 4
         new_user = User(
             username=username, 
             email=email, 
@@ -156,8 +175,9 @@ def colher_recurso():
     user = db.session.get(User, session['user_id'])
     recurso = request.args.get('recurso')
     wants_json = request.accept_mimetypes.accept_json or request.is_json
+    recursos_validos = {'madeira', 'telhas', 'comida', 'joias'}
 
-    if recurso not in {'madeira', 'telhas'}:
+    if recurso not in recursos_validos:
         # Return JSON for fetch requests or redirect for normal requests
         if wants_json:
             return jsonify({'success': False, 'message': 'Recurso inválido.'}), 400
@@ -165,42 +185,87 @@ def colher_recurso():
         return redirect(url_for('dashboard'))
     
     # 2. Incrementa o recurso escolhido.
-      # 2. Incrementa o recurso escolhido.
-    setattr(user, recurso, getattr(user, recurso) + 5)
+    quantidade = 2 if recurso == 'joias' else 5
+    setattr(user, recurso, getattr(user, recurso) + quantidade)
         
     # 3. Guarda a alteração no jogo.db teste
     db.session.commit()
     
     # 4. For normal requests, flash a message; for fetch requests, return JSON
     if not wants_json:
-        flash(f'+5 {recurso.capitalize()}!', 'success')
+        flash(f'+{quantidade} {recurso.capitalize()}!', 'success')
 
     # If this was a fetch request, return JSON with the new value
     if wants_json:
-        return jsonify({'success': True, 'recurso': recurso, 'amount': 5, 'new_value': getattr(user, recurso)})
+        return jsonify({'success': True, 'recurso': recurso, 'amount': quantidade, 'new_value': getattr(user, recurso)})
 
     # 5. Atualiza a página do dashboard com o novo valor
     return redirect(url_for('dashboard'))
 
 
+def construir_edificio_por_tipo(tipo):
+    if 'user_id' not in session:
+        flash('Precisas de iniciar sessão primeiro.', 'warning')
+        return redirect(url_for('login'))
+
+    user = db.session.get(User, session['user_id'])
+    info = EDIFICIOS_INFO.get(tipo)
+
+    if info is None:
+        flash('Edifício inválido.', 'danger')
+        return redirect(url_for('dashboard'))
+
+    for recurso_necessario, quantidade_necessaria in info['custo'].items():
+        if getattr(user, recurso_necessario) < quantidade_necessaria:
+            flash(f'Não tens recursos suficientes para construir {tipo.capitalize()}.', 'warning')
+            return redirect(url_for('dashboard'))
+
+    for recurso_necessario, quantidade_necessaria in info['custo'].items():
+        setattr(user, recurso_necessario, getattr(user, recurso_necessario) - quantidade_necessaria)
+
+    setattr(user, info['coluna'], getattr(user, info['coluna']) + 1)
+
+    if tipo == 'castelo':
+        user.soldados += 5
+        flash('O teu novo Castelo gerou 5 Soldados para o teu exército!', 'info')
+
+    db.session.commit()
+
+    flash(f'{tipo.capitalize()} construído(a) com sucesso!', 'success')
+    return redirect(url_for('dashboard'))
+
+
+@app.route('/construir_edificio', methods=['POST'])
+def construir_edificio():
+    tipo = request.args.get('tipo')
+    return construir_edificio_por_tipo(tipo)
+
+
 @app.route('/construir', methods=['POST'])
 def construir():
+    return construir_edificio_por_tipo('casa')
+
+
+@app.route('/recrutar_soldados', methods=['POST'])
+def recrutar_soldados():
     if 'user_id' not in session:
         flash('Precisas de iniciar sessão primeiro.', 'warning')
         return redirect(url_for('login'))
 
     user = db.session.get(User, session['user_id'])
 
-    if user.madeira < 50 or user.telhas < 50:
-        flash('Não tens recursos suficientes para construir uma casa.', 'warning')
-        return redirect(url_for('dashboard'))
+    for recurso_necessario, quantidade_necessaria in RECRUTAR_SOLDADOS_CUSTO.items():
+        if getattr(user, recurso_necessario) < quantidade_necessaria:
+            flash('Não tens recursos suficientes para recrutar soldados.', 'warning')
+            return redirect(url_for('dashboard'))
 
-    user.madeira -= 50
-    user.telhas -= 50
-    user.casas += 1
+    for recurso_necessario, quantidade_necessaria in RECRUTAR_SOLDADOS_CUSTO.items():
+        setattr(user, recurso_necessario, getattr(user, recurso_necessario) - quantidade_necessaria)
+
+    user.soldados += RECRUTAR_SOLDADOS_GANHO
     db.session.commit()
 
-    flash('Casa construída com sucesso!', 'success')
+    flash(f'+{RECRUTAR_SOLDADOS_GANHO} Soldados recrutados com sucesso!', 'success')
     return redirect(url_for('dashboard'))
 
 
@@ -219,6 +284,3 @@ if __name__ == '__main__':
         print(f"Porta {desired_port} em uso; a iniciar na porta {port}.")
 
     app.run(host="0.0.0.0", port=port)
-
-app.add_url_rule("/ranking", view_func=views.ranking_page)
-app.add_url_rule("/api/ranking", view_func=views.api_ranking)
