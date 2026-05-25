@@ -1,24 +1,24 @@
 
-@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@500;700&family=Uncial+Antiqua&display=swap');
 
 :root {
-    --bg-0: #2c1a0f;
-    --bg-1: #1a0f0a;
-    --parchment: #fdf5e6;
-    --parchment-alt: #e8d0a9;
-    --text: #2b1d0f;
-    --heading: #8b0000;
-    --gold: #ffd700;
-    --gold-deep: #b8860b;
-    --gold-soft: #d4af37;
-    --wood: #5c0000;
-    --wood-light: #8b0000;
-    --panel-shadow: rgba(0, 0, 0, 0.8);
-    --surface-shadow: rgba(0, 0, 0, 0.35);
-    --muted: #5a4632;
-    --success: #4e7f46;
-    --danger: #9f3b2f;
-    --info: #9a6a22;
+    --bg-0: #1b110b;
+    --bg-1: #2b1a12;
+    --parchment: #f3e3bf;
+    --parchment-alt: #e0c894;
+    --text: #2a1a10;
+    --heading: #3e1f10;
+    --gold: #f2d27a;
+    --gold-deep: #a9771f;
+    --gold-soft: #f0c95d;
+    --wood: #3b2317;
+    --wood-light: #5b321c;
+    --panel-shadow: rgba(0, 0, 0, 0.72);
+    --surface-shadow: rgba(0, 0, 0, 0.38);
+    --muted: #5d4834;
+    --success: #577a3d;
+    --danger: #8f3b2f;
+    --info: #9c6a28;
 }
 
 * {
@@ -125,6 +125,18 @@ main.profile-container {
     width: min(1100px, 100%);
 }
 
+body.dashboard-page .dashboard-container {
+    background:
+        radial-gradient(circle at top, rgba(242, 210, 122, 0.08), transparent 35%),
+        linear-gradient(180deg, rgba(43, 26, 18, 0.96), rgba(24, 15, 10, 0.98));
+    border: 5px solid #8b5a2b;
+    box-shadow:
+        0 24px 50px rgba(0, 0, 0, 0.45),
+        inset 0 0 0 1px rgba(240, 201, 93, 0.12),
+        inset 0 0 40px rgba(0, 0, 0, 0.18);
+    color: #f8ecd0;
+}
+
 header {
     background-image: linear-gradient(to bottom, var(--wood-light), var(--wood));
     color: var(--gold);
@@ -141,7 +153,7 @@ h1,
 h2,
 h3 {
     color: var(--heading);
-    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.72);
+    text-shadow: 1px 1px 0 rgba(255, 244, 212, 0.25), 2px 2px 3px rgba(0, 0, 0, 0.65);
     border-bottom: 2px solid var(--gold-deep);
     padding-bottom: 5px;
     margin-bottom: 15px;
@@ -150,6 +162,16 @@ h3 {
 h1,
 h2 {
     font-family: 'MedievalSharp', 'Book Antiqua', serif;
+}
+
+h2,
+.section-heading h2,
+.auth-header h1,
+.realm-banner-copy h1,
+.navbar-brand,
+.profile-username {
+    font-family: 'Cinzel', 'MedievalSharp', serif;
+    letter-spacing: 0.03em;
 }
 
 nav {
@@ -347,6 +369,7 @@ nav ul li a:active,
 }
 
 .navbar {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -354,14 +377,39 @@ nav ul li a:active,
     width: 100%;
     max-width: none;
     margin: 0 0 20px;
-    padding: 16px 20px;
-    background: linear-gradient(to right, #5c0000, #8b0000, #5c0000);
-    border: 6px ridge var(--gold-deep);
-    border-left: 0;
-    border-right: 0;
-    border-radius: 0;
-    box-shadow: 5px 5px 15px var(--panel-shadow);
+    padding: 18px 24px;
+    min-height: 96px;
+    background-color: #3a281d;
+    background-image:
+        linear-gradient(rgba(20, 12, 8, 0.24), rgba(20, 12, 8, 0.24)),
+        url('../images/header_texture.png');
+    background-repeat: repeat, no-repeat;
+    background-position: center, center;
+    background-size: auto, 100% 100%;
+    border: 4px solid #8b5a2b;
+    border-bottom: 0;
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 0, 0, 0.35);
     color: var(--gold);
+}
+
+.navbar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 14px;
+    background:
+        linear-gradient(rgba(20, 12, 8, 0.2), rgba(20, 12, 8, 0.2)),
+        url('../images/header_texture.png');
+    background-repeat: repeat, repeat-x;
+    background-position: center, center bottom;
+    background-size: auto, 100% auto;
+    border-top: 2px solid #5d4037;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    pointer-events: none;
 }
 
 .navbar-brand {
@@ -445,9 +493,9 @@ nav ul li a:active,
     display: inline-block;
     margin-bottom: 8px;
     padding: 4px 10px;
-    border: 2px solid var(--gold-deep);
-    color: var(--heading);
-    background: rgba(255, 248, 220, 0.7);
+    border: 2px solid rgba(240, 201, 93, 0.6);
+    color: #f0c95d;
+    background: rgba(43, 26, 18, 0.72);
     font-size: 0.85em;
     font-weight: 700;
     text-transform: uppercase;
@@ -457,12 +505,12 @@ nav ul li a:active,
 .realm-banner-copy h1 {
     border-bottom: 0;
     margin-bottom: 6px;
-    color: var(--gold);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.85);
+    color: #f6e1a7;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8), 0 0 16px rgba(240, 201, 93, 0.12);
 }
 
 .realm-banner-copy p {
-    color: var(--parchment);
+    color: #f5e8c8;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
@@ -474,33 +522,38 @@ nav ul li a:active,
 }
 
 .stat-card {
-    background: linear-gradient(to bottom, #fff8dc, #f5deb3);
+    background:
+        linear-gradient(to bottom, rgba(247, 231, 191, 0.98), rgba(226, 196, 132, 0.98)),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.14), transparent 45%);
     border: 4px ridge var(--gold-deep);
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 16px;
     text-align: center;
-    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 .stat-card h3 {
     margin-bottom: 10px;
     padding-bottom: 6px;
+    color: #5a2d18;
 }
 
 .stat-card p {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--heading);
+    color: #4a2516;
 }
 
 .stat-card.highlight {
-    background: linear-gradient(to bottom, #4a2a1a, #2b1d0f);
-    border-color: var(--gold-soft);
+    background:
+        linear-gradient(to bottom, #4a2a1a, #25180f),
+        radial-gradient(circle at top, rgba(240, 201, 93, 0.08), transparent 50%);
+    border-color: #f0c95d;
 }
 
 .stat-card.highlight h3,
 .stat-card.highlight p {
-    color: var(--parchment);
+    color: #f8ecd0;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.9);
 }
 
@@ -518,6 +571,57 @@ nav ul li a:active,
 .action-zone form,
 .build-section form {
     width: 100%;
+}
+
+.dashboard-section {
+    margin-top: 26px;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 16px;
+    padding: 18px 20px 16px;
+    background:
+        linear-gradient(135deg, rgba(82, 49, 30, 0.98), rgba(46, 28, 17, 0.98)),
+        radial-gradient(circle at top, rgba(240, 201, 93, 0.08), transparent 34%);
+    border: 3px solid rgba(240, 201, 93, 0.45);
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.section-heading h2 {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    color: #f6e1a7;
+    border-bottom-color: rgba(240, 201, 93, 0.65);
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+}
+
+.section-heading p {
+    color: #ead8b7;
+    font-size: 0.98em;
+}
+
+.resource-actions {
+    margin-top: 0;
+}
+
+.build-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.build-grid form {
+    width: 100%;
+}
+
+.button-meta {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.76em;
+    line-height: 1.2;
+    color: rgba(251, 239, 210, 0.92);
 }
 
 .wood-image-button,
@@ -546,6 +650,17 @@ nav ul li a:active,
     width: 100%;
     min-height: 58px;
     font-size: 1.05em;
+}
+
+.btn-military {
+    width: 100%;
+    min-height: 76px;
+    background: linear-gradient(90deg, #7b5130, #4b2d1a);
+    border-color: #f0c95d;
+}
+
+.btn-military:hover {
+    background: linear-gradient(to bottom, #956648, #6a4125);
 }
 
 .profile-header {
@@ -820,7 +935,13 @@ tbody tr:hover {
     justify-content: space-between;
     align-items: center;
     padding: 14px 28px;
-    background: linear-gradient(180deg, rgba(58, 40, 29, 0.98), rgba(34, 23, 17, 0.98));
+    background-color: #3a281d;
+    background-image:
+        linear-gradient(rgba(32, 18, 12, 0.55), rgba(32, 18, 12, 0.55)),
+        url('../images/header_texture.png');
+    background-repeat: repeat, repeat;
+    background-position: center, center;
+    background-size: auto, 320px 120px;
     border-bottom: 1px solid rgba(212,175,55,0.2);
     box-shadow: 0 6px 20px rgba(9,5,3,0.38);
     backdrop-filter: blur(4px);
@@ -1004,7 +1125,13 @@ tbody tr:hover {
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background: linear-gradient(180deg, rgba(58, 40, 29, 0.98), rgba(34, 23, 17, 0.98));
+    background-color: #3a281d;
+    background-image:
+        linear-gradient(rgba(32, 18, 12, 0.55), rgba(32, 18, 12, 0.55)),
+        url('../images/header_texture.png');
+    background-repeat: repeat, repeat;
+    background-position: center, center;
+    background-size: auto, 320px 120px;
     border-bottom: 1px solid rgba(212,175,55,0.2);
 }
 
@@ -1405,9 +1532,22 @@ body.profile-page .profile-container{
     min-width: 180px;
 }
 
+.dashboard-container .action-zone {
+    gap: 14px;
+}
+
+.dashboard-container .build-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
 .dashboard-container .btn-build{
     width: 100%;
     max-width: 100%;
+}
+
+.dashboard-container .btn-military{
+    width: 100%;
 }
 
 .dashboard-container .auth-header{
@@ -1592,6 +1732,10 @@ body.profile-page .profile-container{
         min-width: 0;
     }
 
+    .build-grid{
+        grid-template-columns: 1fr;
+    }
+
     .wood-image,
     .tile-image{
         max-width: 88px;
@@ -1638,20 +1782,22 @@ body.dashboard-page .dashboard-container .auth-header {
     margin-bottom: 24px;
     padding: 26px 22px 24px;
     overflow: hidden;
-    background: linear-gradient(
-        to right,
-        #2a0000 0%,
-        #8b0000 12%,
-        #a30000 50%,
-        #8b0000 88%,
-        #2a0000 100%
-    );
-    border: 3px ridge #d4af37;
-    border-radius: 4px;
+    background:
+        linear-gradient(
+            to right,
+            #3a2215 0%,
+            #7b3f1f 10%,
+            #5a2816 50%,
+            #7b3f1f 90%,
+            #3a2215 100%
+        ),
+        radial-gradient(circle at top, rgba(240, 201, 93, 0.08), transparent 42%);
+    border: 3px ridge #f0c95d;
+    border-radius: 8px;
     box-shadow:
-        inset 0px 8px 15px rgba(0, 0, 0, 0.4),
-        inset 0px -8px 15px rgba(0, 0, 0, 0.4),
-        5px 5px 15px rgba(0, 0, 0, 0.8);
+        inset 0px 8px 15px rgba(0, 0, 0, 0.36),
+        inset 0px -8px 15px rgba(0, 0, 0, 0.36),
+        0 16px 26px rgba(0, 0, 0, 0.38);
 }
 
 body.dashboard-page .dashboard-container .auth-header::before,
@@ -1677,27 +1823,47 @@ body.dashboard-page .dashboard-container .auth-header::after {
 body.dashboard-page .dashboard-container .auth-header h1 {
     margin: 0 0 10px;
     border-bottom: 0;
-    color: #ffd700;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+    color: #f7e3b4;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.85);
     letter-spacing: 0.06em;
 }
 
 body.dashboard-page .dashboard-container .auth-header p {
     margin: 0;
-    color: #fdf5e6;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.95);
+    color: #f0e0c4;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.82);
     letter-spacing: 0.04em;
 }
 
 body.dashboard-page .dashboard-container .stat-card.highlight {
     background: linear-gradient(to bottom, #3b2414, #2b1d0f);
-    border-color: #d4af37;
+    border-color: #f0c95d;
 }
 
 body.dashboard-page .dashboard-container .stat-card.highlight h3,
 body.dashboard-page .dashboard-container .stat-card.highlight p {
-    color: #fdf5e6;
+    color: #f8ecd0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.92);
+}
+
+body.dashboard-page .dashboard-container .btn-submit {
+    border-radius: 10px;
+}
+
+body.dashboard-page .dashboard-container .btn-build,
+body.dashboard-page .dashboard-container .btn-military,
+body.dashboard-page .dashboard-container .btn-wood,
+body.dashboard-page .dashboard-container .btn-tiles {
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+body.dashboard-page .dashboard-container .btn-build:hover,
+body.dashboard-page .dashboard-container .btn-military:hover,
+body.dashboard-page .dashboard-container .btn-wood:hover,
+body.dashboard-page .dashboard-container .btn-tiles:hover {
+    filter: saturate(1.08) brightness(1.03);
 }
 
 
