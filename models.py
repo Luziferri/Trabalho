@@ -27,3 +27,15 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+    def get_leaderboard(self):
+    """Retorna o Top 10 jogadores ordenados por pontuação."""
+    with dbapi2.connect(self.dbfile) as connection:
+        cursor = connection.cursor()
+        # Ajusta "SCORE" para o nome da coluna onde guardas os pontos/recursos
+        query = "SELECT USERNAME, SCORE FROM USER ORDER BY SCORE DESC LIMIT 10"
+        cursor.execute(query)
+        
+        # Converte os resultados numa lista de dicionários para facilitar o envio em JSON
+        ranking = [{"username": row[0], "score": row[1]} for row in cursor.fetchall()]
+        return ranking
