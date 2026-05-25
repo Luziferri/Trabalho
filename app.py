@@ -166,7 +166,7 @@ def colher_recurso():
     # 2. Incrementa o recurso escolhido.
     setattr(user, recurso, getattr(user, recurso) + 5)
         
-    # 3. Guarda a alteração no jogo.db
+    # 3. Guarda a alteração no jogo.db teste
     db.session.commit()
     
     # 4. For normal requests, flash a message; for AJAX, skip server flash and return JSON
