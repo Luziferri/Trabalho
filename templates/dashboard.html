@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Reino - Jogo de Gestão</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    
 </head>
 <body class="dashboard-page">
 <nav class="navbar">
     <div class="navbar-brand">Império de Recursos</div>
     <div class="navbar-user">
-        <li><a class="botao" href="/ranking">Ranking</a></li>
+            <a class="botao" href="/ranking">Ranking</a>
         <a href="{{ url_for('perfil') }}" class="link-primary">Meu Perfil</a>
         <span>Rei: <strong>{{ user.username }}</strong></span>
         <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
@@ -126,20 +125,9 @@
                     <span>+5</span>
                 </button>
             </form>
-<<<<<<< HEAD
-        </section>
-    
-
-        <!-- Zona de Construção Principal -->
-        <section class="build-section">
-            <form action="{{ url_for('construir') }}" method="POST">
-                <button type="submit" class="btn-submit btn-build">
-                    Construir Casa (Custo: 50 Madeira | 50 Telhas)
-=======
             <form action="{{ url_for('colher_recurso', recurso='comida') }}" method="POST">
                 <button type="submit" class="btn-submit btn-tiles" aria-label="Colher comida">
                     <span>+5 Comida</span>
->>>>>>> d1ee1bcee1349066144f1d0fc034c4a7492a7f68
                 </button>
             </form>
             <form action="{{ url_for('colher_recurso', recurso='joias') }}" method="POST">
