@@ -1,12 +1,8 @@
-{% extends "layout.html" %}
-
-{% block title %}
-<h1 class="title">Leaderboard Global</h1>
-{% endblock %}
-
-{% block content %}
-<div class="box">
-    <table class="table is-fullwidth is-striped">
+{% extends "layout.html" %} {% block content %}
+<div class="container">
+    <h1>Leaderboard Global</h1>
+    
+    <table border="1" style="width: 100%; text-align: left;">
         <thead>
             <tr>
                 <th>Posição</th>
@@ -14,11 +10,54 @@
                 <th>Pontuação</th>
             </tr>
         </thead>
-        <tbody id="ranking-body">
-            <tr><td colspan="3">A carregar o ranking...</td></tr>
+        <tbody id="tabela-ranking">
+            <tr>
+                <td colspan="3">A carregar o ranking...</td>
+            </tr>
         </tbody>
     </table>
 </div>
 
-<script src="{{ url_for('static', filename='scripts/ranking.js') }}" defer></script>
+<script>
+    async function carregarRanking() {
+        try {
+            // Vai à rota do Python pedir os dados atualizados
+            const resposta = await fetch('/api/ranking');
+            const jogadores = await resposta.json();
+            
+            const tabela = document.getElementById('tabela-ranking');
+            tabela.innerHTML = ''; // Limpa a tabela antiga
+            
+            // Preenche a tabela com os novos dados
+            jogadores.forEach((jogador, index) => {
+                let badge = '';
+                let estilo = '';
+                
+                // Dá as medalhas ao Top 3 e mete a negrito
+                if (index === 0) { badge = '🥇 '; estilo = 'font-weight: bold;'; }
+                else if (index === 1) { badge = '🥈 '; estilo = 'font-weight: bold;'; }
+                else if (index === 2) { badge = '🥉 '; estilo = 'font-weight: bold;'; }
+                
+                const posicao = index + 1;
+                
+                // Cria a nova linha (tr) da tabela
+                tabela.innerHTML += `
+                    <tr style="${estilo}">
+                        <td>${posicao}º</td>
+                        <td>${badge}${jogador.username}</td>
+                        <td>${jogador.score}</td>
+                    </tr>
+                `;
+            });
+        } catch (erro) {
+            console.error("Erro ao atualizar o ranking:", erro);
+        }
+    }
+
+    // Carrega o ranking mal a página abre
+    carregarRanking();
+    
+    // Atualiza sozinho a cada 5 segundos (5000 milissegundos)
+    setInterval(carregarRanking, 5000);
+</script>
 {% endblock %}
