@@ -269,22 +269,6 @@ def recrutar_soldados():
     return redirect(url_for('dashboard'))
 
 
-@app.route('/ranking')
-def ranking_page():
-    return render_template("ranking.html")
-
-@app.route('/api/ranking')
-def api_ranking():
-    # Vai à base de dados buscar o TOP 10 de utilizadores com mais casas
-    resultados = db.session.execute(text("SELECT username, casas FROM user ORDER BY casas DESC LIMIT 10")).fetchall()
-    
-    ranking_data = []
-    for linha in resultados:
-        ranking_data.append({
-            "username": linha[0],
-            "score": f"{linha[1]} Casas"
-        })
-    return jsonify(ranking_data)
 
 
 if __name__ == '__main__':
@@ -302,7 +286,3 @@ if __name__ == '__main__':
         print(f"Porta {desired_port} em uso; a iniciar na porta {port}.")
 
     app.run(host="0.0.0.0", port=port)
-<<<<<<< HEAD
-
-=======
->>>>>>> d1ee1bcee1349066144f1d0fc034c4a7492a7f68
