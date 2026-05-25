@@ -57,7 +57,7 @@ def register():
             flash('Nome de utilizador ou email já em uso.', 'danger')
             return redirect(url_for('register'))
             
-        # Criação do utilizador com os novos campos avançados teste 1 teste 2
+        # Criação do utilizador com os novos campos avançados teste 1 teste 2 teste 3
         new_user = User(
             username=username, 
             email=email, 
