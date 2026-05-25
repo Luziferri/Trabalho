@@ -1,5 +1,6 @@
 import os
 import secrets
+import socket
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from models import db, User
@@ -203,5 +204,17 @@ def construir():
 
 
 if __name__ == '__main__':
-    port = app.config.get("PORT", 5000) 
+    def find_available_port(start_port, host="127.0.0.1", max_tries=20):
+        for port in range(start_port, start_port + max_tries):
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+                if sock.connect_ex((host, port)) != 0:
+                    return port
+        raise RuntimeError(f"Nenhuma porta livre encontrada a partir de {start_port}.")
+
+    desired_port = int(os.getenv("PORT", app.config.get("PORT", 5000)))
+    port = find_available_port(desired_port)
+
+    if port != desired_port:
+        print(f"Porta {desired_port} em uso; a iniciar na porta {port}.")
+
     app.run(host="0.0.0.0", port=port)
