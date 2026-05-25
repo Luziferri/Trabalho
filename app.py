@@ -165,6 +165,7 @@ def colher_recurso():
         return redirect(url_for('dashboard'))
     
     # 2. Incrementa o recurso escolhido.
+      # 2. Incrementa o recurso escolhido.
     setattr(user, recurso, getattr(user, recurso) + 5)
         
     # 3. Guarda a alteração no jogo.db teste
