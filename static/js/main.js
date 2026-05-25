@@ -53,34 +53,20 @@ document.addEventListener('DOMContentLoaded', function() {
         form.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', this.action, true);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            fetch(this.action, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.success) {
+                        window.showToast('+' + data.amount + ' ' + data.recurso, 'success');
+                        updateResourceCard(data.recurso, data.new_value);
+                        return;
+                    }
 
-            xhr.onload = function() {
-                let data = null;
-
-                try {
-                    data = JSON.parse(xhr.responseText);
-                } catch (error) {
-                    window.showToast('Erro ao atualizar o recurso.', 'danger');
-                    return;
-                }
-
-                if (xhr.status >= 200 && xhr.status < 300 && data && data.success) {
-                    window.showToast('+' + data.amount + ' ' + data.recurso, 'success');
-                    updateResourceCard(data.recurso, data.new_value);
-                    return;
-                }
-
-                window.showToast((data && data.message) ? data.message : 'Erro ao colher recurso.', 'danger');
-            };
-
-            xhr.onerror = function() {
-                window.showToast('Erro de rede.', 'danger');
-            };
-
-            xhr.send();
+                    window.showToast((data && data.message) ? data.message : 'Erro ao colher recurso.', 'danger');
+                })
+                .catch(error => {
+                    window.showToast('Erro de rede.', 'danger');
+                });
         });
     });
 });
