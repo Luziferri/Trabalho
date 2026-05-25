@@ -29,13 +29,25 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
     
     def get_leaderboard(self):
-    """Retorna o Top 10 jogadores ordenados por pontuação."""
-    with dbapi2.connect(self.dbfile) as connection:
-        cursor = connection.cursor()
-        # Ajusta "SCORE" para o nome da coluna onde guardas os pontos/recursos
-        query = "SELECT USERNAME, SCORE FROM USER ORDER BY SCORE DESC LIMIT 10"
-        cursor.execute(query)
+     #Retorna o Top 10 jogadores ordenados por pontuação.
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            # Ajusta "SCORE" para o nome da coluna onde guardas os pontos/recursos
+            query = "SELECT USERNAME, SCORE FROM USER ORDER BY SCORE DESC LIMIT 10"
+            cursor.execute(query)
         
-        # Converte os resultados numa lista de dicionários para facilitar o envio em JSON
-        ranking = [{"username": row[0], "score": row[1]} for row in cursor.fetchall()]
-        return ranking
+            # Converte os resultados numa lista de dicionários para facilitar o envio em JSON
+            ranking = [{"username": row[0], "score": row[1]} for row in cursor.fetchall()]
+            return ranking
+        
+from flask import render_template, current_app, jsonify
+
+def ranking_page():
+    """Renderiza a página base do Leaderboard."""
+    return render_template("ranking.html")
+
+def api_ranking():
+    """Endpoint JSON que fornece os dados atualizados do Leaderboard."""
+    db = current_app.config["db"]
+    ranking_data = db.get_leaderboard()
+    return jsonify(ranking_data)
