@@ -219,3 +219,6 @@ if __name__ == '__main__':
         print(f"Porta {desired_port} em uso; a iniciar na porta {port}.")
 
     app.run(host="0.0.0.0", port=port)
+
+app.add_url_rule("/ranking", view_func=views.ranking_page)
+app.add_url_rule("/api/ranking", view_func=views.api_ranking)
