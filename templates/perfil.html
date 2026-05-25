@@ -23,7 +23,7 @@
         </div>
 
         <section class="profile-card">
-            <h3 style="color: #4f46e5; margin-bottom: 15px;">Estatísticas de Recursos</h3>
+            <h3 class="profile-section-title">Estatísticas de Recursos</h3>
             <div class="profile-stats">
                 <div class="profile-field">
                     <span>Madeira</span>
@@ -33,17 +33,17 @@
                     <span>Telhas</span>
                     <strong>{{ user.telhas }}</strong>
                 </div>
-                <div class="profile-field" style="border-color: #4f46e5;">
-                    <span style="color: #4f46e5;">Casas</span>
-                    <strong style="color: #4f46e5;">{{ user.casas }}</strong>
+                <div class="profile-field profile-highlight">
+                    <span>Casas</span>
+                    <strong>{{ user.casas }}</strong>
                 </div>
             </div>
         </section>
 
         <section class="profile-card">
-            <h3 style="color: #4f46e5; margin-bottom: 15px;">Histórico de Realizações</h3>
-            <div class="profile-field" style="padding: 0;">
-                <ul class="achievement-list" style="list-style: none; margin: 0; padding: 0;">
+            <h3 class="profile-section-title">Histórico de Realizações</h3>
+            <div class="profile-field profile-history">
+                <ul class="achievement-list">
                     
                     <li>
                         <strong>Início da Jornada:</strong> Registaste-te no reino e começaste a tua gestão.
@@ -68,7 +68,7 @@
                     {% endif %}
 
                     {% if user.casas == 0 and user.madeira < 50 and user.telhas < 50 %}
-                    <li style="color: #64748b; font-style: italic;">
+                    <li class="achievement-muted">
                         Ainda não desbloqueaste realizações avançadas. Vai colher recursos para o teu império!
                     </li>
                     {% endif %}
@@ -78,8 +78,8 @@
         </section>
 
         <footer class="auth-footer profile-footer">
-            <a href="{{ url_for('dashboard') }}" style="color: #6366f1; text-decoration: none; font-weight: 600;">← Voltar ao Jogo</a>
-            <a href="{{ url_for('logout') }}" style="color: #ef4444; text-decoration: none; font-weight: 600;">Terminar Sessão</a>
+            <a href="{{ url_for('dashboard') }}">← Voltar ao Jogo</a>
+            <a href="{{ url_for('logout') }}" class="link-danger">Terminar Sessão</a>
         </footer>
     </main>
 </body>

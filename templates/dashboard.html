@@ -16,7 +16,18 @@
     </div>
 </nav>
 
-    <main class="auth-container dashboard-wide dashboard-container">
+    <main class="auth-container dashboard-wide dashboard-container game-surface">
+        <section class="realm-banner" aria-label="Banner do reino">
+            <div class="realm-banner-art">
+                <img src="{{ url_for('static', filename='images/rei.png') }}" alt="Brasão do reino" class="realm-crest">
+            </div>
+            <div class="realm-banner-copy">
+                <span class="realm-badge">Early Middle Ages</span>
+                <h1>Império de Recursos</h1>
+                <p>Colhe madeira, molda telhas e ergue o teu domínio.</p>
+            </div>
+        </section>
+
         <header class="auth-header">
             <h1>O Teu Reino</h1>
             <p>Extrai matérias-primas e investe no desenvolvimento de habitações.</p>
@@ -26,7 +37,7 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="flash-message" data-category="{{ category }}" style="display:none;">{{ message }}</div>
+                    <div class="flash-message" data-category="{{ category }}">{{ message }}</div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
