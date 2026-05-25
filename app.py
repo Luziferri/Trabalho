@@ -11,7 +11,7 @@ app.config.from_object("settings")
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') or app.config.get('SECRET_KEY') or secrets.token_hex(32)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jogo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+app.add_url_rule("/ranking", view_func=views.ranking_page)
 db.init_app(app)
 
 with app.app_context():
