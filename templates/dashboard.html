@@ -72,6 +72,40 @@
 
         <section class="dashboard-section">
             <header class="section-heading">
+                <h2>Construções Erguidas</h2>
+                <p>Este é o resumo das estruturas que já construíste no reino.</p>
+            </header>
+
+            <section class="stats-grid construction-grid">
+                <div class="stat-card highlight">
+                    <h3>Casas</h3>
+                    <p>{{ user.casas }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Fazendas</h3>
+                    <p>{{ user.fazendas }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Estradas</h3>
+                    <p>{{ user.estradas }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Castelos</h3>
+                    <p>{{ user.castelos }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Portos</h3>
+                    <p>{{ user.portos }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Igrejas</h3>
+                    <p>{{ user.igrejas }}</p>
+                </div>
+            </section>
+        </section>
+
+        <section class="dashboard-section">
+            <header class="section-heading">
                 <h2>Recolha de Recursos</h2>
                 <p>Escolhe o recurso que queres produzir agora.</p>
             </header>
