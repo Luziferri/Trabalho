@@ -11,7 +11,7 @@ app.config.from_object("settings")
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') or app.config.get('SECRET_KEY') or secrets.token_hex(32)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jogo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.add_url_rule("/ranking", view_func=views.ranking_page)
+
 db.init_app(app)
 
 with app.app_context():
@@ -204,6 +204,26 @@ def construir():
     return redirect(url_for('dashboard'))
 
 
+@app.route('/ranking')
+def ranking_page():
+    """Renderiza a página base do Leaderboard."""
+    return render_template("ranking.html")
+
+@app.route('/api/ranking')
+def api_ranking():
+    """Endpoint JSON que fornece os dados atualizados do Leaderboard."""
+    # Procura os top 10 jogadores ordenados por número de 'casas' (maior para menor)
+    top_users = User.query.order_by(User.casas.desc()).limit(10).all()
+    
+    ranking_data = []
+    for user in top_users:
+        ranking_data.append({
+            "username": user.username,
+            "score": f"{user.casas} Casas"  # Mostra as casas como pontuação
+        })
+    
+    return jsonify(ranking_data)
+
 if __name__ == '__main__':
     def find_available_port(start_port, host="127.0.0.1", max_tries=20):
         for port in range(start_port, start_port + max_tries):
@@ -220,5 +240,3 @@ if __name__ == '__main__':
 
     app.run(host="0.0.0.0", port=port)
 
-app.add_url_rule("/ranking", view_func=views.ranking_page)
-app.add_url_rule("/api/ranking", view_func=views.api_ranking)
