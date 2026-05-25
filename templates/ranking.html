@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+<h1 class="title">Leaderboard Global</h1>
+{% endblock %}
+
+{% block content %}
+<div class="box">
+    <table class="table is-fullwidth is-striped">
+        <thead>
+            <tr>
+                <th>Posição</th>
+                <th>Jogador</th>
+                <th>Pontuação</th>
+            </tr>
+        </thead>
+        <tbody id="ranking-body">
+            <tr><td colspan="3">A carregar o ranking...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="{{ url_for('static', filename='scripts/ranking.js') }}" defer></script>
+{% endblock %}
