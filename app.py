@@ -155,10 +155,11 @@ def colher_recurso():
     # 1. Procura o jogador atual na Base de Dados
     user = db.session.get(User, session['user_id'])
     recurso = request.args.get('recurso')
+    wants_json = request.accept_mimetypes.accept_json or request.is_json
 
     if recurso not in {'madeira', 'telhas'}:
-        # Return JSON for AJAX or redirect for normal requests
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.is_json:
+        # Return JSON for fetch requests or redirect for normal requests
+        if wants_json:
             return jsonify({'success': False, 'message': 'Recurso inválido.'}), 400
         flash('Recurso inválido.', 'danger')
         return redirect(url_for('dashboard'))
@@ -169,13 +170,12 @@ def colher_recurso():
     # 3. Guarda a alteração no jogo.db teste
     db.session.commit()
     
-    # 4. For normal requests, flash a message; for AJAX, skip server flash and return JSON
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.is_json
-    if not is_ajax:
+    # 4. For normal requests, flash a message; for fetch requests, return JSON
+    if not wants_json:
         flash(f'+5 {recurso.capitalize()}!', 'success')
 
-    # If this was an AJAX request, return JSON with the new value
-    if is_ajax:
+    # If this was a fetch request, return JSON with the new value
+    if wants_json:
         return jsonify({'success': True, 'recurso': recurso, 'amount': 5, 'new_value': getattr(user, recurso)})
 
     # 5. Atualiza a página do dashboard com o novo valor

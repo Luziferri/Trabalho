@@ -53,7 +53,12 @@ document.addEventListener('DOMContentLoaded', function() {
         form.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            fetch(this.action, { method: 'POST' })
+            fetch(this.action, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data && data.success) {
