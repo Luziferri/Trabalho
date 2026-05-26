@@ -64,7 +64,7 @@
             </article>
             <article class="stat-card hud-card highlight hud-status-card">
                 <h3>Tick</h3>
-                <p><span data-tick-countdown>{{ resource_state.next_tick_in }}</span>s</p>
+                <p><span data-tick-countdown data-next-tick-at="{{ resource_state.next_tick_at }}">{{ resource_state.next_tick_in }}</span>s</p>
             </article>
         </section>
 
@@ -116,31 +116,31 @@
                     </header>
 
                     <div class="sidebar-stack">
-                        <form action="{{ url_for('construir_edificio', tipo='casa') }}" method="POST">
+                        <form action="{{ url_for('construir_edificio', tipo='casa') }}" method="POST" class="ajax-form">
                             <button type="submit" class="btn-submit btn-build action-button">
                                 Construir Casa
                                 <span class="button-meta">50 Madeira | 50 Telhas</span>
                             </button>
                         </form>
-                        <form action="{{ url_for('construir_edificio', tipo='fazenda') }}" method="POST">
+                        <form action="{{ url_for('construir_edificio', tipo='fazenda') }}" method="POST" class="ajax-form">
                             <button type="submit" class="btn-submit btn-build action-button">
                                 Construir Fazenda
                                 <span class="button-meta">10 Comida</span>
                             </button>
                         </form>
-                        <form action="{{ url_for('construir_edificio', tipo='castelo') }}" method="POST">
+                        <form action="{{ url_for('construir_edificio', tipo='castelo') }}" method="POST" class="ajax-form">
                             <button type="submit" class="btn-submit btn-build action-button">
                                 Construir Castelo
                                 <span class="button-meta">20 Comida | 5 Joias</span>
                             </button>
                         </form>
-                        <form action="{{ url_for('construir_edificio', tipo='porto') }}" method="POST">
+                        <form action="{{ url_for('construir_edificio', tipo='porto') }}" method="POST" class="ajax-form">
                             <button type="submit" class="btn-submit btn-build action-button">
                                 Construir Porto
                                 <span class="button-meta">15 Comida | 2 Joias</span>
                             </button>
                         </form>
-                        <form action="{{ url_for('construir_edificio', tipo='igreja') }}" method="POST">
+                        <form action="{{ url_for('construir_edificio', tipo='igreja') }}" method="POST" class="ajax-form">
                             <button type="submit" class="btn-submit btn-build action-button">
                                 Construir Igreja
                                 <span class="button-meta">10 Joias</span>
@@ -152,10 +152,10 @@
                 <section class="dashboard-section sidebar-section">
                     <header class="section-heading">
                         <h2>Exército</h2>
-                        <p>Recruta tropas quando precisares de reforçar a defesa do reino.</p>
+                        <p class="section-desc-px">Recruta tropas quando precisares de reforçar a defesa do reino.</p>
                     </header>
 
-                    <form action="{{ url_for('recrutar_soldados') }}" method="POST" class="military-form sidebar-stack">
+                    <form action="{{ url_for('recrutar_soldados') }}" method="POST" class="military-form sidebar-stack ajax-form">
                         <button type="submit" class="btn-submit btn-military action-button">
                             Recrutar Soldados
                             <span class="button-meta">10 Comida | 2 Joias → +5 Soldados</span>
@@ -178,7 +178,7 @@
                 <li><span>Joias / tick</span><strong data-generation-key="joias">{{ resource_state.generation.joias }}</strong></li>
             </ul>
 
-            <p class="tick-copy">Próxima atualização em <strong data-tick-countdown>{{ resource_state.next_tick_in }}</strong> segundos.</p>
+            <p class="tick-copy">Próxima atualização em <strong data-tick-countdown data-next-tick-at="{{ resource_state.next_tick_at }}">{{ resource_state.next_tick_in }}</strong> segundos.</p>
         </section>
     </main>
     <div id="toast-container" aria-live="polite" aria-atomic="true"></div>

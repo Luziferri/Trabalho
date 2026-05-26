@@ -1,3 +1,479 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=MedievalSharp&family=Cinzel:wght@500;700&family=Uncial+Antiqua&display=swap');
+
+:root {
+    --bg-0: #1b110b;
+    --bg-1: #2b1a12;
+    --parchment: #f3e3bf;
+    --parchment-alt: #e0c894;
+    --text: #2a1a10;
+    --heading: #3e1f10;
+    --gold: #f2d27a;
+    --gold-deep: #a9771f;
+    --gold-soft: #f0c95d;
+    --wood: #3b2317;
+    --wood-light: #5b321c;
+    --panel-shadow: rgba(0, 0, 0, 0.72);
+    --surface-shadow: rgba(0, 0, 0, 0.38);
+    --muted: #5d4834;
+    --success: #577a3d;
+    --danger: #8f3b2f;
+    --info: #9c6a28;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'MedievalSharp', 'Book Antiqua', Palatino, serif;
+    color: var(--text);
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+    background-color: var(--bg-0);
+    padding: 24px 20px 40px;
+}
+
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    inset: auto;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::before {
+    width: 480px;
+    height: 480px;
+    top: -120px;
+    left: -120px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.14), transparent 64%);
+    filter: blur(24px);
+}
+
+body::after {
+    width: 520px;
+    height: 520px;
+    right: -140px;
+    bottom: -160px;
+    background: radial-gradient(circle, rgba(139, 0, 0, 0.12), transparent 64%);
+    filter: blur(28px);
+}
+
+body > * {
+    position: relative;
+    z-index: 1;
+}
+
+.container,
+main,
+article,
+header,
+footer {
+    background-color: var(--parchment);
+    background-image: linear-gradient(to right, var(--parchment-alt), var(--parchment), var(--parchment-alt));
+    border: 6px ridge var(--gold-deep);
+    border-radius: 4px;
+    box-shadow: 5px 5px 15px var(--panel-shadow);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 900px;
+}
+
+main {
+    width: min(900px, 100%);
+}
+
+main.auth-container {
+    max-width: 520px;
+    width: min(520px, 100%);
+}
+
+main.auth-container.dashboard-wide,
+main.dashboard-container,
+main.profile-container,
+main.ranking-container {
+    max-width: 1100px;
+    width: min(1100px, 100%);
+}
+
+h1,
+h2,
+h3 {
+    color: var(--heading);
+    text-shadow: 1px 1px 0 rgba(255, 244, 212, 0.25), 2px 2px 3px rgba(0, 0, 0, 0.65);
+    border-bottom: 2px solid var(--gold-deep);
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+h1,
+h2 {
+    font-family: 'MedievalSharp', 'Book Antiqua', serif;
+}
+
+h2,
+.section-heading h2,
+.auth-header h1,
+.realm-banner-copy h1,
+.navbar-brand,
+.profile-username {
+    font-family: 'Cinzel', 'MedievalSharp', serif;
+    letter-spacing: 0.03em;
+}
+
+nav {
+    background-color: transparent;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 5px;
+}
+
+.botao,
+button,
+nav ul li a,
+.btn-submit,
+.btn-logout,
+.link-primary,
+.link-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(to bottom, var(--wood-light), var(--wood));
+    color: var(--gold);
+    border: 4px outset var(--gold-deep);
+    padding: 10px 20px;
+    font-family: 'MedievalSharp', serif;
+    font-size: 1.05em;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.85);
+    transition: transform 0.2s ease, filter 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.botao:hover,
+button:hover,
+nav ul li a:hover,
+.btn-submit:hover,
+.btn-logout:hover,
+.link-primary:hover,
+.link-danger:hover {
+    background: linear-gradient(to bottom, #a50000, #7a0000);
+    transform: scale(1.05);
+    color: #ffffff;
+    border-color: var(--gold-soft);
+}
+
+.botao:active,
+button:active,
+nav ul li a:active,
+.btn-submit:active,
+.btn-logout:active,
+.link-primary:active,
+.link-danger:active {
+    transform: scale(0.99);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.95em;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #fffaf0;
+    border: 2px solid rgba(139, 69, 19, 0.35);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--gold-soft);
+    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.18);
+    transform: translateY(-1px);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #8f7d67;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.auth-header h1 {
+    border-bottom: 0;
+    color: var(--heading);
+    text-shadow: 1px 1px 1px var(--gold-soft);
+    font-size: 2.1em;
+    margin-bottom: 8px;
+}
+
+.auth-header p {
+    color: var(--muted);
+    border-bottom: 0;
+    margin-bottom: 0;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.95em;
+    color: var(--muted);
+    border-top: 1px solid rgba(212, 175, 55, 0.18);
+    padding-top: 18px;
+}
+
+.auth-footer a {
+    color: var(--gold-soft);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.auth-footer a:hover {
+    color: #fff0bc;
+    text-decoration: underline;
+}
+
+.flash-messages {
+    margin-bottom: 20px;
+}
+
+.flash-message {
+    display: none;
+}
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.95em;
+    margin-bottom: 10px;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.alert-danger {
+    background-color: rgba(159, 59, 47, 0.18);
+    border-color: rgba(159, 59, 47, 0.55);
+    color: #5b0f08;
+}
+
+.alert-success {
+    background-color: rgba(78, 127, 70, 0.16);
+    border-color: rgba(78, 127, 70, 0.5);
+    color: #23401f;
+}
+
+.alert-info,
+.alert-warning {
+    background-color: rgba(154, 106, 34, 0.16);
+    border-color: rgba(212, 175, 55, 0.5);
+    color: #5e4313;
+}
+
+.btn-submit {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 1.1em;
+}
+
+.btn-logout,
+.link-primary,
+.link-danger {
+    padding: 8px 14px;
+    font-size: 0.95em;
+}
+
+.link-danger {
+    border-color: #b04a3a;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff8dc;
+    border: 4px ridge var(--wood-light);
+    margin: 20px 0;
+}
+
+th {
+    background-color: var(--wood-light);
+    color: var(--gold);
+    border: 2px solid var(--gold-deep);
+    padding: 12px;
+}
+
+body {
+    min-height: 100vh;
+    /* Use pixel-art font globally, with MedievalSharp fallback for accents */
+    font-family: 'Press Start 2P', 'MedievalSharp', 'Book Antiqua', Palatino, serif;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+    background-color: var(--bg-0);
+}
+tbody tr:hover {
+    background-color: var(--parchment-alt);
+}
+
+@media (max-width: 900px) {
+    .stats-grid,
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .action-zone {
+        grid-template-columns: 1fr;
+    }
+
+    .realm-banner {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .realm-banner-copy {
+        text-align: center;
+    }
+
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-user,
+    .profile-footer {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 640px) {
+    body {
+        padding: 14px;
+    }
+
+    .container,
+    main,
+    article,
+    header,
+    footer,
+    .navbar {
+        padding: 16px;
+    }
+
+    .auth-container,
+    .dashboard-container,
+    .profile-container,
+    .game-surface {
+        padding: 16px;
+    }
+}
+
+:root {
+    --pixel-cut-lg: 12px;
+    --pixel-cut-md: 8px;
+    --pixel-cut-sm: 6px;
+}
+
+body.auth-page main.auth-container,
+body.profile-page main.profile-container,
+body.ranking-page main.ranking-container,
+body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell,
+.container,
+main,
+article,
+header,
+footer,
+.navbar,
+.realm-banner,
+.auth-header,
+.section-heading,
+.stat-card,
+.profile-card,
+.profile-field,
+.ranking-table-wrapper,
+.ranking-table,
+.toast,
+.flash-message,
+.production-list li,
+.map-building,
+.viewport-shell,
+.viewport-screen,
+.btn-submit,
+.botao,
+.btn-logout,
+.link-primary,
+.link-danger,
+.auth-form input,
+.auth-form select,
+.auth-form textarea,
+.profile-form input,
+.profile-form select,
+.profile-form textarea,
+.navbar-user a {
+    border-radius: 0 !important;
+    clip-path: polygon(
+        0 8px,
+        4px 8px,
+        4px 4px,
+        8px 4px,
+        8px 0,
+        calc(100% - 8px) 0,
+        calc(100% - 8px) 4px,
+        calc(100% - 4px) 4px,
+        calc(100% - 4px) 8px,
+        100% 8px,
+        100% calc(100% - 8px),
+        calc(100% - 4px) calc(100% - 8px),
+        calc(100% - 4px) calc(100% - 4px),
+        calc(100% - 8px) calc(100% - 4px),
+        calc(100% - 8px) 100%,
+        8px 100%,
+        8px calc(100% - 4px),
+        4px calc(100% - 4px),
+        4px calc(100% - 8px),
+        0 calc(100% - 8px)
+    );
+    image-rendering: pixelated;
+}
 @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@500;700&family=Uncial+Antiqua&display=swap');
 
 :root {

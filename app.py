@@ -66,7 +66,6 @@ BUILDING_LABELS = {
 
 RESOURCE_TICK_SECONDS = 5
 
-
 def get_resource_state(user):
     generation = user.get_resource_generation()
     resources = {
@@ -87,18 +86,22 @@ def get_resource_state(user):
     }
     last_tick = user.last_resource_tick or datetime.utcnow()
     elapsed_seconds = max(0, int((datetime.utcnow() - last_tick).total_seconds()))
+    
+    # MATEMÁTICA ALINHADA COM O TIMING DO FLASK:
     next_tick_in = RESOURCE_TICK_SECONDS - (elapsed_seconds % RESOURCE_TICK_SECONDS)
     if next_tick_in == 0:
         next_tick_in = RESOURCE_TICK_SECONDS
+        
+    next_tick_at = datetime.utcnow() + timedelta(seconds=next_tick_in)
+    
     return {
         'resources': resources,
         'buildings': buildings,
         'generation': generation,
         'next_tick_in': next_tick_in,
+        'next_tick_at': next_tick_at.isoformat(),
         'last_resource_tick': last_tick.isoformat() if user.last_resource_tick else None,
     }
-
-
 def apply_resource_ticks(user):
     now = datetime.utcnow()
     if user.last_resource_tick is None:
@@ -304,15 +307,20 @@ def recrutar_soldados():
     flask.flash(f'+{RECRUTAR_SOLDADOS_GANHO} Soldados recrutados com sucesso!', 'success')
     return flask.redirect(flask.url_for('dashboard'))
 
-
 @app.route('/api/resource-state', methods=['POST'])
 def api_resource_state():
     if 'user_id' not in flask.session:
         return flask.jsonify({'success': False, 'message': 'Precisas de iniciar sessão.'}), 403
 
     user = models.db.session.get(models.User, flask.session['user_id'])
+    # apply_resource_ticks já chama get_resource_state por dentro e retorna o dicionário completo
     resource_state = apply_resource_ticks(user)
-    return flask.jsonify({'success': True, **resource_state})
+    envelope = {
+        'success': True,
+        'server_time': datetime.utcnow().isoformat(),
+        **resource_state
+    }
+    return flask.jsonify(envelope)
 
 # 1. Rota para mostrar a página HTML do Ranking
 @app.route('/ranking')
