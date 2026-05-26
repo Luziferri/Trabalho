@@ -76,7 +76,6 @@
             <section class="viewport-panel" aria-label="Viewport central do reino">
                 <div class="viewport-shell">
                     <div class="viewport-screen">
-                        <div class="viewport-grid"></div>
                         <div class="map-buildings" aria-label="Construções no mapa">
                             <div class="map-building{% if resource_state.buildings.casas == 0 %} is-hidden{% endif %}" data-building-key="casas" style="--x: 18%; --y: 68%;">
                                 <span class="map-building-icon">H</span>
@@ -109,7 +108,6 @@
                                 <em data-building-count="igrejas">{{ resource_state.buildings.igrejas }}</em>
                             </div>
                         </div>
-                        <div class="viewport-copy" aria-hidden="true"></div>
                     </div>
                 </div>
             </section>
@@ -168,23 +166,23 @@
                         </button>
                     </form>
                 </section>
-
-                <section class="dashboard-section sidebar-section">
-                    <header class="section-heading">
-                        <h2>Produção</h2>
-                        <p>O tick atual renova os recursos com base nas construções existentes.</p>
-                    </header>
-
-                    <ul class="production-list">
-                        <li><span>Madeira / tick</span><strong data-generation-key="madeira">{{ resource_state.generation.madeira }}</strong></li>
-                        <li><span>Telhas / tick</span><strong data-generation-key="telhas">{{ resource_state.generation.telhas }}</strong></li>
-                        <li><span>Comida / tick</span><strong data-generation-key="comida">{{ resource_state.generation.comida }}</strong></li>
-                        <li><span>Joias / tick</span><strong data-generation-key="joias">{{ resource_state.generation.joias }}</strong></li>
-                    </ul>
-
-                    <p class="tick-copy">Próxima atualização em <strong data-tick-countdown>{{ resource_state.next_tick_in }}</strong> segundos.</p>
-                </section>
             </aside>
+        </section>
+
+        <section class="dashboard-section production-footer" aria-label="Produção do reino">
+            <header class="section-heading">
+                <h2>Produção</h2>
+                <p>O tick atual renova os recursos com base nas construções existentes.</p>
+            </header>
+
+            <ul class="production-list">
+                <li><span>Madeira / tick</span><strong data-generation-key="madeira">{{ resource_state.generation.madeira }}</strong></li>
+                <li><span>Telhas / tick</span><strong data-generation-key="telhas">{{ resource_state.generation.telhas }}</strong></li>
+                <li><span>Comida / tick</span><strong data-generation-key="comida">{{ resource_state.generation.comida }}</strong></li>
+                <li><span>Joias / tick</span><strong data-generation-key="joias">{{ resource_state.generation.joias }}</strong></li>
+            </ul>
+
+            <p class="tick-copy">Próxima atualização em <strong data-tick-countdown>{{ resource_state.next_tick_in }}</strong> segundos.</p>
         </section>
     </main>
     <div id="toast-container" aria-live="polite" aria-atomic="true"></div>

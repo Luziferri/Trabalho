@@ -39,11 +39,6 @@ body {
     position: relative;
     overflow-x: hidden;
     background-color: var(--bg-0);
-    background-image:
-        repeating-linear-gradient(45deg, var(--bg-0) 25%, transparent 25%, transparent 75%, var(--bg-0) 75%, var(--bg-0)),
-        repeating-linear-gradient(45deg, var(--bg-0) 25%, var(--bg-1) 25%, var(--bg-1) 75%, var(--bg-0) 75%, var(--bg-0));
-    background-position: 0 0, 10px 10px;
-    background-size: 20px 20px;
     padding: 24px 20px 40px;
 }
 
@@ -1989,81 +1984,6 @@ body.dashboard-page .dashboard-container.game-shell .map-building[data-building-
     background: rgba(41, 32, 54, 0.88);
 }
 
-body.dashboard-page .dashboard-container.game-shell .viewport-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    background-size: 96px 96px;
-    opacity: 0.16;
-    animation: viewport-drift 18s linear infinite;
-}
-
-body.dashboard-page .dashboard-container.game-shell .viewport-copy {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 14px;
-    padding: 28px;
-    max-width: 460px;
-    color: #f8ecd0;
-}
-
-body.dashboard-page .dashboard-container.game-shell .viewport-kicker {
-    display: inline-flex;
-    width: fit-content;
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: rgba(240, 201, 93, 0.18);
-    color: #f7e0a4;
-    font-size: 0.78em;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-body.dashboard-page .dashboard-container.game-shell .viewport-copy h2 {
-    border-bottom: 0;
-    padding-bottom: 0;
-    margin-bottom: 0;
-    color: #fff0c7;
-    font-size: 1.9rem;
-    max-width: 11ch;
-}
-
-body.dashboard-page .dashboard-container.game-shell .viewport-copy p,
-body.dashboard-page .dashboard-container.game-shell .viewport-notes {
-    color: rgba(248, 236, 208, 0.86);
-}
-
-body.dashboard-page .dashboard-container.game-shell .viewport-notes {
-    list-style: none;
-    display: grid;
-    gap: 8px;
-    margin-top: 8px;
-}
-
-body.dashboard-page .dashboard-container.game-shell .viewport-notes li {
-    position: relative;
-    padding-left: 18px;
-}
-
-body.dashboard-page .dashboard-container.game-shell .viewport-notes li::before {
-    content: '';
-    position: absolute;
-    top: 0.72em;
-    left: 0;
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: #f0c95d;
-    box-shadow: 0 0 10px rgba(240, 201, 93, 0.4);
-}
-
 body.dashboard-page .dashboard-container.game-shell .sidebar-panel {
     position: sticky;
     top: 18px;
@@ -2130,13 +2050,38 @@ body.dashboard-page .dashboard-container.game-shell .tick-copy {
     color: #ead8b7;
 }
 
-@keyframes viewport-drift {
-    from {
-        transform: translate3d(0, 0, 0);
-    }
-    to {
-        transform: translate3d(-96px, -96px, 0);
-    }
+body.dashboard-page .dashboard-container.game-shell .production-footer {
+    margin-top: 22px;
+    display: grid;
+    gap: 14px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .section-heading {
+    margin-bottom: 0;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .production-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 0;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .production-list li {
+    min-height: 72px;
+    padding: 10px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .production-list strong {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .tick-copy {
+    margin-top: 0;
 }
 
 @media (max-width: 1180px) {
@@ -2152,14 +2097,13 @@ body.dashboard-page .dashboard-container.game-shell .tick-copy {
         position: static;
     }
 
-    body.dashboard-page .dashboard-container.game-shell .viewport-shell,
-    body.dashboard-page .dashboard-container.game-shell .viewport-screen {
-        min-height: 640px;
-    }
-
     body.dashboard-page .dashboard-container.game-shell .map-building {
         min-width: 82px;
         padding: 8px 10px 10px;
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .production-footer .production-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -2173,16 +2117,6 @@ body.dashboard-page .dashboard-container.game-shell .tick-copy {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    body.dashboard-page .dashboard-container.game-shell .viewport-shell,
-    body.dashboard-page .dashboard-container.game-shell .viewport-screen {
-        min-height: 480px;
-    }
-
-    body.dashboard-page .dashboard-container.game-shell .viewport-copy {
-        padding: 22px;
-        max-width: 320px;
-    }
-
     body.dashboard-page .dashboard-container.game-shell .map-building {
         min-width: 72px;
         padding: 7px 9px 9px;
@@ -2190,6 +2124,10 @@ body.dashboard-page .dashboard-container.game-shell .tick-copy {
 
     body.dashboard-page .dashboard-container.game-shell .sidebar-section .section-heading {
         padding: 14px;
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .production-footer .production-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -2199,17 +2137,19 @@ body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-
     margin: 0;
     padding: 18px 24px 28px;
     border-radius: 0;
-    border-left-width: 0;
-    border-right-width: 0;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #b07b2c;
+    box-shadow:
+        0 0 0 2px #2d1a0f,
+        0 0 0 6px #8a5a22,
+        inset 0 0 0 2px rgba(240, 201, 93, 0.12),
+        0 18px 0 rgba(0, 0, 0, 0.35);
 }
 
 body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .game-layout {
     grid-template-columns: minmax(0, 1.5fr) 480px;
     gap: 28px;
-}
-
-body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .viewport-copy {
-    max-width: 38%;
 }
 
 body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .viewport-screen {
@@ -2229,9 +2169,6 @@ body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-
         grid-template-columns: minmax(0, 1fr);
     }
 
-    body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .viewport-copy {
-        max-width: 320px;
-    }
 }
 
 @media (max-width: 720px) {
@@ -2242,6 +2179,10 @@ body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-
     body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .viewport-shell,
     body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .viewport-screen {
         min-height: 500px;
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .production-footer .production-list {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -2289,14 +2230,26 @@ footer,
 .navbar-user a {
     border-radius: 0 !important;
     clip-path: polygon(
-        0 var(--pixel-cut-md),
-        var(--pixel-cut-md) 0,
-        calc(100% - var(--pixel-cut-md)) 0,
-        100% var(--pixel-cut-md),
-        100% calc(100% - var(--pixel-cut-md)),
-        calc(100% - var(--pixel-cut-md)) 100%,
-        var(--pixel-cut-md) 100%,
-        0 calc(100% - var(--pixel-cut-md))
+        0 8px,
+        4px 8px,
+        4px 4px,
+        8px 4px,
+        8px 0,
+        calc(100% - 8px) 0,
+        calc(100% - 8px) 4px,
+        calc(100% - 4px) 4px,
+        calc(100% - 4px) 8px,
+        100% 8px,
+        100% calc(100% - 8px),
+        calc(100% - 4px) calc(100% - 8px),
+        calc(100% - 4px) calc(100% - 4px),
+        calc(100% - 8px) calc(100% - 4px),
+        calc(100% - 8px) 100%,
+        8px 100%,
+        8px calc(100% - 4px),
+        4px calc(100% - 4px),
+        4px calc(100% - 8px),
+        0 calc(100% - 8px)
     );
     image-rendering: pixelated;
 }
@@ -2401,7 +2354,7 @@ body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-
         background:
             linear-gradient(180deg, rgba(44, 24, 15, 0.98), rgba(20, 12, 8, 0.98)),
             repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 8px, transparent 8px 16px);
-        border: 4px solid #8a5a22;
+        border: 4px solid #b07b2c;
         border-radius: 18px;
         box-shadow:
             0 0 0 4px #2b1a12,
@@ -2434,34 +2387,26 @@ body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-
     body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .production-list li {
         --corner-cut: 12px;
         clip-path: polygon(
-            0 calc(var(--corner-cut) + 4px),
-            4px calc(var(--corner-cut) + 4px),
-            4px calc(var(--corner-cut) - 4px),
-            8px calc(var(--corner-cut) - 4px),
+            0 8px,
+            4px 8px,
+            4px 4px,
             8px 4px,
-            calc(var(--corner-cut) - 4px) 4px,
-            calc(var(--corner-cut) - 4px) 0,
-            calc(100% - var(--corner-cut) + 4px) 0,
-            calc(100% - var(--corner-cut) + 4px) 4px,
+            8px 0,
+            calc(100% - 8px) 0,
             calc(100% - 8px) 4px,
-            calc(100% - 8px) calc(var(--corner-cut) - 4px),
-            calc(100% - 4px) calc(var(--corner-cut) - 4px),
-            calc(100% - 4px) calc(var(--corner-cut) + 4px),
-            100% calc(var(--corner-cut) + 4px),
-            100% calc(100% - var(--corner-cut) - 4px),
-            calc(100% - 4px) calc(100% - var(--corner-cut) - 4px),
+            calc(100% - 4px) 4px,
+            calc(100% - 4px) 8px,
+            100% 8px,
+            100% calc(100% - 8px),
             calc(100% - 4px) calc(100% - 8px),
-            calc(100% - 8px) calc(100% - 8px),
+            calc(100% - 4px) calc(100% - 4px),
             calc(100% - 8px) calc(100% - 4px),
-            calc(100% - var(--corner-cut) + 4px) calc(100% - 4px),
-            calc(100% - var(--corner-cut) + 4px) 100%,
-            calc(var(--corner-cut) - 4px) 100%,
-            calc(var(--corner-cut) - 4px) calc(100% - 4px),
+            calc(100% - 8px) 100%,
+            8px 100%,
             8px calc(100% - 4px),
-            8px calc(100% - 8px),
+            4px calc(100% - 4px),
             4px calc(100% - 8px),
-            4px calc(100% - var(--corner-cut) - 4px),
-            0 calc(100% - var(--corner-cut) - 4px)
+            0 calc(100% - 8px)
         );
     }
 
@@ -2541,14 +2486,6 @@ body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-
             0 0 0 3px #2d1a0f;
     }
 
-    body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .viewport-grid {
-        background-image:
-            linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-        background-size: 24px 24px;
-        opacity: 0.24;
-    }
-
     body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .map-building {
         border: 3px solid #f0c95d;
         border-radius: 0;
@@ -2587,6 +2524,28 @@ body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-
 body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .game-layout {
     border-radius: 0;
 }
+
+    body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell::before {
+        content: '';
+        position: absolute;
+        inset: 6px;
+        pointer-events: none;
+        border: 2px solid rgba(240, 201, 93, 0.28);
+        clip-path: polygon(
+            0 6px,
+            6px 6px,
+            6px 0,
+            calc(100% - 6px) 0,
+            calc(100% - 6px) 6px,
+            100% 6px,
+            100% calc(100% - 6px),
+            calc(100% - 6px) calc(100% - 6px),
+            calc(100% - 6px) 100%,
+            6px 100%,
+            6px calc(100% - 6px),
+            0 calc(100% - 6px)
+        );
+    }
 
     body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .section-heading h2,
     body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .realm-banner-copy h1,
