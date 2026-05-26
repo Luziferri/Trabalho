@@ -2,57 +2,44 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranking Global</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <a href="/dashboard">⬅ Voltar ao Jogo</a>
-    
-    <h1>Leaderboard Global</h1>
-    
-    <table border="1" style="width: 50%; text-align: left;">
-        <thead>
-            <tr>
-                <th>Posição</th>
-                <th>Jogador</th>
-                <th>Pontuação</th>
-            </tr>
-        </thead>
-        <tbody id="tabela-ranking">
-            <tr>
-                <td colspan="3">A carregar o ranking...</td>
-            </tr>
-        </tbody>
-    </table>
+<body class="dashboard-page ranking-page">
+    <nav class="navbar">
+        <div class="navbar-brand">Império de Recursos</div>
+        <div class="navbar-user">
+            <a class="botao" href="/dashboard">⬅ Voltar ao Jogo</a>
+        </div>
+    </nav>
 
-    <script>
-        async function carregarRanking() {
-            try {
-                const resposta = await fetch('/api/ranking');
-                const jogadores = await resposta.json();
-                const tabela = document.getElementById('tabela-ranking');
-                tabela.innerHTML = ''; 
-                
-                jogadores.forEach((jogador, index) => {
-                    let badge = '';
-                    let estilo = '';
-                    if (index === 0) { badge = '🥇 '; estilo = 'font-weight: bold;'; }
-                    else if (index === 1) { badge = '🥈 '; estilo = 'font-weight: bold;'; }
-                    else if (index === 2) { badge = '🥉 '; estilo = 'font-weight: bold;'; }
-                    
-                    tabela.innerHTML += `
-                        <tr style="${estilo}">
-                            <td>${index + 1}º</td>
-                            <td>${badge}${jogador.username}</td>
-                            <td>${jogador.score}</td>
+    <main class="auth-container dashboard-wide dashboard-container game-surface ranking-container">
+        <header class="auth-header ranking-header">
+            <h1>Leaderboard Global</h1>
+            <p>Os 10 melhores jogadores, ordenados pela pontuação total guardada na base de dados.</p>
+        </header>
+
+        <section class="dashboard-section ranking-section">
+            <div class="ranking-table-wrapper">
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>Posição</th>
+                            <th>Jogador</th>
+                            <th>Pontuação</th>
                         </tr>
-                    `;
-                });
-            } catch (erro) {
-                console.error("Erro:", erro);
-            }
-        }
-        carregarRanking();
-        setInterval(carregarRanking, 5000);
-    </script>
+                    </thead>
+                    <tbody id="ranking-body">
+                        <tr>
+                            <td colspan="3">A carregar o ranking...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/ranking.js') }}"></script>
 </body>
 </html>

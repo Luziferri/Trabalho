@@ -268,30 +268,16 @@ def recrutar_soldados():
     flask.flash(f'+{RECRUTAR_SOLDADOS_GANHO} Soldados recrutados com sucesso!', 'success')
     return flask.redirect(flask.url_for('dashboard'))
 
-from flask import render_template, jsonify
-
 # 1. Rota para mostrar a página HTML do Ranking
 @app.route('/ranking')
 def ranking_page():
-    return render_template('ranking.html')
+    return flask.render_template('ranking.html')
 
 # 2. Rota que fornece os dados em tempo real (A nossa API)
 @app.route('/api/ranking')
 def api_ranking():
-    # ATENÇÃO: Tens de adaptar esta parte à forma como usas a tua Base de Dados!
-    # Exemplo genérico a usar SQLAlchemy (muda 'User' e 'pontuacao' para os teus nomes reais):
-    # top_jogadores = User.query.order_by(User.pontuacao.desc()).limit(10).all()
-    
-    # Como não sei como está a tua base de dados, aqui fica um exemplo da estrutura
-    # que o Flask tem de enviar para o HTML:
-    dados_ranking = [
-        {"username": "Jogador1", "score": 1500},
-        {"username": "Jogador2", "score": 1200},
-        {"username": "Jogador3", "score": 900},
-        {"username": "Jogador4", "score": 500}
-    ]
-    
-    return jsonify(dados_ranking)
+    dados_ranking = models.User.get_leaderboard()
+    return flask.jsonify(dados_ranking)
 
 
 if __name__ == '__main__':
