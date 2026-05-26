@@ -1,6 +1,7 @@
 import os
 import secrets
 import socket
+from datetime import datetime, timedelta
 
 import flask
 import models
@@ -25,16 +26,21 @@ with app.app_context():
         colunas_necessarias = [
             'avatar', 'madeira', 'telhas', 'casas',
             'comida', 'joias', 'soldados', 'cavalos',
-            'fazendas', 'estradas', 'castelos', 'portos', 'igrejas'
+            'fazendas', 'estradas', 'castelos', 'portos', 'igrejas', 'last_resource_tick'
         ]
 
         for column_name in colunas_necessarias:
             if column_name == 'avatar':
                 column_sql = "avatar TEXT NOT NULL DEFAULT 'default.png'"
+            elif column_name == 'last_resource_tick':
+                column_sql = "last_resource_tick DATETIME"
             else:
                 column_sql = f"{column_name} INTEGER NOT NULL DEFAULT 0"
             if column_name not in existing_columns:
                 models.db.session.execute(sqlalchemy.text(f"ALTER TABLE user ADD COLUMN {column_sql}"))
+        models.db.session.commit()
+        models.db.session.execute(sqlalchemy.text("UPDATE user SET last_resource_tick = CURRENT_TIMESTAMP WHERE last_resource_tick IS NULL"))
+        models.db.session.execute(sqlalchemy.text("DROP TABLE IF EXISTS construction_slot"))
         models.db.session.commit()
 
 
@@ -58,65 +64,67 @@ BUILDING_LABELS = {
     'igreja': 'Igreja',
 }
 
+RESOURCE_TICK_SECONDS = 5
+
+
+def get_resource_state(user):
+    generation = user.get_resource_generation()
+    resources = {
+        'madeira': user.madeira,
+        'telhas': user.telhas,
+        'comida': user.comida,
+        'joias': user.joias,
+        'soldados': user.soldados,
+        'cavalos': user.cavalos,
+    }
+    buildings = {
+        'casas': user.casas,
+        'fazendas': user.fazendas,
+        'estradas': user.estradas,
+        'castelos': user.castelos,
+        'portos': user.portos,
+        'igrejas': user.igrejas,
+    }
+    last_tick = user.last_resource_tick or datetime.utcnow()
+    elapsed_seconds = max(0, int((datetime.utcnow() - last_tick).total_seconds()))
+    next_tick_in = RESOURCE_TICK_SECONDS - (elapsed_seconds % RESOURCE_TICK_SECONDS)
+    if next_tick_in == 0:
+        next_tick_in = RESOURCE_TICK_SECONDS
+    return {
+        'resources': resources,
+        'buildings': buildings,
+        'generation': generation,
+        'next_tick_in': next_tick_in,
+        'last_resource_tick': last_tick.isoformat() if user.last_resource_tick else None,
+    }
+
+
+def apply_resource_ticks(user):
+    now = datetime.utcnow()
+    if user.last_resource_tick is None:
+        user.last_resource_tick = now
+        models.db.session.commit()
+        return get_resource_state(user)
+
+    elapsed_seconds = max(0, int((now - user.last_resource_tick).total_seconds()))
+    ticks = elapsed_seconds // RESOURCE_TICK_SECONDS
+    if ticks > 0:
+        generation = user.get_resource_generation()
+        for resource_name, amount in generation.items():
+            setattr(user, resource_name, getattr(user, resource_name) + (amount * ticks))
+        user.last_resource_tick = user.last_resource_tick + timedelta(seconds=ticks * RESOURCE_TICK_SECONDS)
+        models.db.session.commit()
+
+    return get_resource_state(user)
+
 
 def get_building_label(tipo):
     if not tipo:
         return None
     return BUILDING_LABELS.get(tipo, tipo.capitalize())
 
-
-def ensure_user_construction_slots(user):
-    slots = models.ConstructionSlot.query.filter_by(user_id=user.id).order_by(models.ConstructionSlot.slot_number.asc()).all()
-
-    if len(slots) < TOTAL_CONSTRUCTION_SLOTS:
-        for slot_number in range(len(slots) + 1, TOTAL_CONSTRUCTION_SLOTS + 1):
-            models.db.session.add(
-                models.ConstructionSlot(
-                    user_id=user.id,
-                    slot_number=slot_number,
-                )
-            )
-        models.db.session.commit()
-        slots = models.ConstructionSlot.query.filter_by(user_id=user.id).order_by(models.ConstructionSlot.slot_number.asc()).all()
-
-    if not any(slot.is_active for slot in slots):
-        building_queue = []
-        for tipo, info in EDIFICIOS_INFO.items():
-            building_queue.extend([tipo] * getattr(user, info['coluna']))
-
-        if building_queue:
-            for slot, tipo in zip(slots, building_queue):
-                slot.building_type = tipo
-                slot.is_active = True
-            models.db.session.commit()
-            slots = models.ConstructionSlot.query.filter_by(user_id=user.id).order_by(models.ConstructionSlot.slot_number.asc()).all()
-
-    return slots
-
-
-def get_dashboard_construction_slots(user):
-    slots = ensure_user_construction_slots(user)
-    next_free_slot = next((slot for slot in slots if not slot.is_active), None)
-
-    slots_data = [
-        {
-            'slot_number': slot.slot_number,
-            'is_active': slot.is_active,
-            'building_type': slot.building_type,
-            'building_label': get_building_label(slot.building_type),
-        }
-        for slot in slots
-    ]
-
-    return slots_data, sum(1 for slot in slots if slot.is_active), next_free_slot.slot_number if next_free_slot else None
-
 RECRUTAR_SOLDADOS_CUSTO = {'comida': 10, 'joias': 2}
 RECRUTAR_SOLDADOS_GANHO = 5
-
-
-with app.app_context():
-    for user in models.User.query.order_by(models.User.id.asc()).all():
-        ensure_user_construction_slots(user)
 
 @app.route('/')
 def home():
@@ -229,54 +237,12 @@ def dashboard():
         return flask.redirect(flask.url_for('login'))
         
     user = models.db.session.get(models.User, flask.session['user_id'])
-    construction_slots, construction_slots_used, next_free_construction_slot = get_dashboard_construction_slots(user)
+    resource_state = apply_resource_ticks(user)
     return flask.render_template(
         'dashboard.html',
         user=user,
-        construction_slots=construction_slots,
-        construction_slots_total=TOTAL_CONSTRUCTION_SLOTS,
-        construction_slots_used=construction_slots_used,
-        next_free_construction_slot=next_free_construction_slot,
+        resource_state=resource_state,
     )
-
-@app.route('/colher', methods=['POST'])
-def colher_recurso():
-    """Colhe madeira ou telhas quando o utilizador clica no botão."""
-    # Verifica se o jogador está com a sessão ativa (Lab 8)
-    if 'user_id' not in flask.session:
-        flask.flash('Precisas de iniciar sessão primeiro.', 'warning')
-        return flask.redirect(flask.url_for('login'))
-        
-    # 1. Procura o jogador atual na Base de Dados
-    user = models.db.session.get(models.User, flask.session['user_id'])
-    recurso = flask.request.args.get('recurso')
-    wants_json = flask.request.accept_mimetypes.accept_json or flask.request.is_json
-    recursos_validos = {'madeira', 'telhas', 'comida', 'joias'}
-
-    if recurso not in recursos_validos:
-        # Return JSON for fetch requests or redirect for normal requests
-        if wants_json:
-            return flask.jsonify({'success': False, 'message': 'Recurso inválido.'}), 400
-        flask.flash('Recurso inválido.', 'danger')
-        return flask.redirect(flask.url_for('dashboard'))
-    
-    # 2. Incrementa o recurso escolhido.
-    quantidade = 2 if recurso == 'joias' else 5
-    setattr(user, recurso, getattr(user, recurso) + quantidade)
-        
-    # 3. Guarda a alteração no jogo.db teste
-    models.db.session.commit()
-    
-    # 4. For normal requests, flash a message; for fetch requests, return JSON
-    if not wants_json:
-        flask.flash(f'+{quantidade} {recurso.capitalize()}!', 'success')
-
-    # If this was a fetch request, return JSON with the new value
-    if wants_json:
-        return flask.jsonify({'success': True, 'recurso': recurso, 'amount': quantidade, 'new_value': getattr(user, recurso)})
-
-    # 5. Atualiza a página do dashboard com o novo valor
-    return flask.redirect(flask.url_for('dashboard'))
 
 
 def construir_edificio_por_tipo(tipo):
@@ -291,13 +257,6 @@ def construir_edificio_por_tipo(tipo):
         flask.flash('Edifício inválido.', 'danger')
         return flask.redirect(flask.url_for('dashboard'))
 
-    slots = ensure_user_construction_slots(user)
-    free_slot = next((slot for slot in slots if not slot.is_active), None)
-
-    if free_slot is None:
-        flask.flash('Não tens slots de construção livres.', 'warning')
-        return flask.redirect(flask.url_for('dashboard'))
-
     for recurso_necessario, quantidade_necessaria in info['custo'].items():
         if getattr(user, recurso_necessario) < quantidade_necessaria:
             flask.flash(f'Não tens recursos suficientes para construir {tipo.capitalize()}.', 'warning')
@@ -307,16 +266,13 @@ def construir_edificio_por_tipo(tipo):
         setattr(user, recurso_necessario, getattr(user, recurso_necessario) - quantidade_necessaria)
 
     setattr(user, info['coluna'], getattr(user, info['coluna']) + 1)
-    free_slot.building_type = tipo
-    free_slot.is_active = True
 
     if tipo == 'castelo':
         user.soldados += 5
         flask.flash('O teu novo Castelo gerou 5 Soldados para o teu exército!', 'info')
 
     models.db.session.commit()
-
-    flask.flash(f'{tipo.capitalize()} construído(a) com sucesso!', 'success')
+    flask.flash(f'{get_building_label(tipo)} construído(a) com sucesso!', 'success')
     return flask.redirect(flask.url_for('dashboard'))
 
 
@@ -324,11 +280,6 @@ def construir_edificio_por_tipo(tipo):
 def construir_edificio():
     tipo = flask.request.args.get('tipo')
     return construir_edificio_por_tipo(tipo)
-
-
-@app.route('/construir', methods=['POST'])
-def construir():
-    return construir_edificio_por_tipo('casa')
 
 
 @app.route('/recrutar_soldados', methods=['POST'])
@@ -352,6 +303,16 @@ def recrutar_soldados():
 
     flask.flash(f'+{RECRUTAR_SOLDADOS_GANHO} Soldados recrutados com sucesso!', 'success')
     return flask.redirect(flask.url_for('dashboard'))
+
+
+@app.route('/api/resource-state', methods=['POST'])
+def api_resource_state():
+    if 'user_id' not in flask.session:
+        return flask.jsonify({'success': False, 'message': 'Precisas de iniciar sessão.'}), 403
+
+    user = models.db.session.get(models.User, flask.session['user_id'])
+    resource_state = apply_resource_ticks(user)
+    return flask.jsonify({'success': True, **resource_state})
 
 # 1. Rota para mostrar a página HTML do Ranking
 @app.route('/ranking')

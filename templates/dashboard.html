@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Reino - Jogo de Gestão</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Script didático: usamos `defer` conforme Lab04 para carregar JS sem bloquear -->
+    <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
 </head>
 <body class="dashboard-page">
 <nav class="navbar">
@@ -17,23 +19,7 @@
     </div>
 </nav>
 
-    <main class="auth-container dashboard-wide dashboard-container game-surface">
-        <section class="realm-banner" aria-label="Banner do reino">
-            <div class="realm-banner-art">
-                <img src="{{ url_for('static', filename='images/rei.png') }}" alt="Brasão do reino" class="realm-crest">
-            </div>
-            <div class="realm-banner-copy">
-                <span class="realm-badge">Early Middle Ages</span>
-                <h1>Império de Recursos</h1>
-                <p>Colhe madeira, molda telhas e ergue o teu domínio.</p>
-            </div>
-        </section>
-
-        <header class="auth-header">
-            <h1>O Teu Reino</h1>
-            <p>Extrai matérias-primas e investe no desenvolvimento de habitações.</p>
-        </header>
-
+    <main class="auth-container dashboard-wide dashboard-container game-shell">
         {# Server-side flash messages are converted to client toasts to avoid stacked alerts on reload #}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -43,184 +29,168 @@
             {% endif %}
         {% endwith %}
 
-        <!-- Grelha de Recursos e Inventário (Lab 3) -->
-        <section class="stats-grid">
-            <div class="stat-card">
-                <h3>Madeira</h3>
-                <p>{{ user.madeira }}</p>
+        <section class="realm-banner" aria-label="Banner do reino">
+            <div class="realm-banner-art">
+                <img src="{{ url_for('static', filename='images/rei.png') }}" alt="Brasão do reino" class="realm-crest">
             </div>
-            <div class="stat-card">
-                <h3>Telhas</h3>
-                <p>{{ user.telhas }}</p>
-            </div>
-            <div class="stat-card highlight">
-                <h3>Casas Construídas</h3>
-                <p>{{ user.casas }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Comida</h3>
-                <p>{{ user.comida }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Joias</h3>
-                <p>{{ user.joias }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Soldados</h3>
-                <p>{{ user.soldados }}</p>
+            <div class="realm-banner-copy">
+                <span class="realm-badge">Early Middle Ages</span>
+                <h1>Império de Recursos</h1>
+                <p>O teu reino cresce em segundo plano enquanto comandas a expansão no painel central.</p>
             </div>
         </section>
 
-        <section class="dashboard-section">
-            <header class="section-heading">
-                <h2>Construções Erguidas</h2>
-                <p>Este é o resumo das estruturas que já construíste no reino.</p>
-            </header>
+        <header class="auth-header dashboard-header">
+            <h1>O Teu Reino</h1>
+            <p>Recursos acumulam automaticamente a cada 5 segundos. As construções aumentam a produção futura.</p>
+        </header>
 
-            <section class="stats-grid construction-grid">
-                <div class="stat-card highlight">
-                    <h3>Casas</h3>
-                    <p>{{ user.casas }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Fazendas</h3>
-                    <p>{{ user.fazendas }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Estradas</h3>
-                    <p>{{ user.estradas }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Castelos</h3>
-                    <p>{{ user.castelos }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Portos</h3>
-                    <p>{{ user.portos }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Igrejas</h3>
-                    <p>{{ user.igrejas }}</p>
+        <section class="stats-grid hud-grid" aria-label="Recursos do reino">
+            <article class="stat-card hud-card" data-resource-key="madeira">
+                <h3>Madeira</h3>
+                <p>{{ resource_state.resources.madeira }}</p>
+            </article>
+            <article class="stat-card hud-card" data-resource-key="telhas">
+                <h3>Telhas</h3>
+                <p>{{ resource_state.resources.telhas }}</p>
+            </article>
+            <article class="stat-card hud-card" data-resource-key="comida">
+                <h3>Comida</h3>
+                <p>{{ resource_state.resources.comida }}</p>
+            </article>
+            <article class="stat-card hud-card" data-resource-key="joias">
+                <h3>Joias</h3>
+                <p>{{ resource_state.resources.joias }}</p>
+            </article>
+            <article class="stat-card hud-card highlight" data-resource-key="soldados">
+                <h3>Soldados</h3>
+                <p>{{ resource_state.resources.soldados }}</p>
+            </article>
+            <article class="stat-card hud-card highlight hud-status-card">
+                <h3>Tick</h3>
+                <p><span data-tick-countdown>{{ resource_state.next_tick_in }}</span>s</p>
+            </article>
+        </section>
+
+        <section class="game-layout" aria-label="Layout principal do jogo">
+            <section class="viewport-panel" aria-label="Viewport central do reino">
+                <div class="viewport-shell">
+                    <div class="viewport-screen">
+                        <div class="viewport-grid"></div>
+                        <div class="map-buildings" aria-label="Construções no mapa">
+                            <div class="map-building{% if resource_state.buildings.casas == 0 %} is-hidden{% endif %}" data-building-key="casas" style="--x: 18%; --y: 68%;">
+                                <span class="map-building-icon">H</span>
+                                <strong>Casas</strong>
+                                <em data-building-count="casas">{{ resource_state.buildings.casas }}</em>
+                            </div>
+                            <div class="map-building{% if resource_state.buildings.fazendas == 0 %} is-hidden{% endif %}" data-building-key="fazendas" style="--x: 32%; --y: 52%;">
+                                <span class="map-building-icon">F</span>
+                                <strong>Fazendas</strong>
+                                <em data-building-count="fazendas">{{ resource_state.buildings.fazendas }}</em>
+                            </div>
+                            <div class="map-building{% if resource_state.buildings.estradas == 0 %} is-hidden{% endif %}" data-building-key="estradas" style="--x: 48%; --y: 74%;">
+                                <span class="map-building-icon">E</span>
+                                <strong>Estradas</strong>
+                                <em data-building-count="estradas">{{ resource_state.buildings.estradas }}</em>
+                            </div>
+                            <div class="map-building{% if resource_state.buildings.castelos == 0 %} is-hidden{% endif %}" data-building-key="castelos" style="--x: 64%; --y: 38%;">
+                                <span class="map-building-icon">C</span>
+                                <strong>Castelos</strong>
+                                <em data-building-count="castelos">{{ resource_state.buildings.castelos }}</em>
+                            </div>
+                            <div class="map-building{% if resource_state.buildings.portos == 0 %} is-hidden{% endif %}" data-building-key="portos" style="--x: 78%; --y: 62%;">
+                                <span class="map-building-icon">P</span>
+                                <strong>Portos</strong>
+                                <em data-building-count="portos">{{ resource_state.buildings.portos }}</em>
+                            </div>
+                            <div class="map-building{% if resource_state.buildings.igrejas == 0 %} is-hidden{% endif %}" data-building-key="igrejas" style="--x: 86%; --y: 28%;">
+                                <span class="map-building-icon">I</span>
+                                <strong>Igrejas</strong>
+                                <em data-building-count="igrejas">{{ resource_state.buildings.igrejas }}</em>
+                            </div>
+                        </div>
+                        <div class="viewport-copy" aria-hidden="true"></div>
+                    </div>
                 </div>
             </section>
-        </section>
 
-        <section class="dashboard-section">
-            <header class="section-heading">
-                <h2>Slots de Construção</h2>
-                <p>
-                    {{ construction_slots_used }} de {{ construction_slots_total }} slots ocupados.
-                    {% if next_free_construction_slot %}
-                        Próximo slot livre: {{ next_free_construction_slot }}.
-                    {% else %}
-                        Todos os slots estão ocupados.
-                    {% endif %}
-                </p>
-            </header>
+            <aside class="sidebar-panel" aria-label="Ações do reino">
+                <section class="dashboard-section sidebar-section">
+                    <header class="section-heading">
+                        <h2>Construções</h2>
+                        <p>Seleciona uma construção para expandir a economia do reino.</p>
+                    </header>
 
-            <div class="slot-grid" role="list" aria-label="Slots de construção do reino">
-                {% for slot in construction_slots %}
-                    <article class="slot-card {% if slot.is_active %}occupied{% else %}free{% endif %}" role="listitem">
-                        <span class="slot-badge">Slot {{ slot.slot_number }}</span>
-                        {% if slot.is_active %}
-                            <strong>{{ slot.building_label }}</strong>
-                            <span class="slot-status">Construção ativa</span>
-                        {% else %}
-                            <strong>Vazio</strong>
-                            <span class="slot-status">Disponível para construir</span>
-                        {% endif %}
-                    </article>
-                {% endfor %}
-            </div>
-        </section>
+                    <div class="sidebar-stack">
+                        <form action="{{ url_for('construir_edificio', tipo='casa') }}" method="POST">
+                            <button type="submit" class="btn-submit btn-build action-button">
+                                Construir Casa
+                                <span class="button-meta">50 Madeira | 50 Telhas</span>
+                            </button>
+                        </form>
+                        <form action="{{ url_for('construir_edificio', tipo='fazenda') }}" method="POST">
+                            <button type="submit" class="btn-submit btn-build action-button">
+                                Construir Fazenda
+                                <span class="button-meta">10 Comida</span>
+                            </button>
+                        </form>
+                        <form action="{{ url_for('construir_edificio', tipo='castelo') }}" method="POST">
+                            <button type="submit" class="btn-submit btn-build action-button">
+                                Construir Castelo
+                                <span class="button-meta">20 Comida | 5 Joias</span>
+                            </button>
+                        </form>
+                        <form action="{{ url_for('construir_edificio', tipo='porto') }}" method="POST">
+                            <button type="submit" class="btn-submit btn-build action-button">
+                                Construir Porto
+                                <span class="button-meta">15 Comida | 2 Joias</span>
+                            </button>
+                        </form>
+                        <form action="{{ url_for('construir_edificio', tipo='igreja') }}" method="POST">
+                            <button type="submit" class="btn-submit btn-build action-button">
+                                Construir Igreja
+                                <span class="button-meta">10 Joias</span>
+                            </button>
+                        </form>
+                    </div>
+                </section>
 
-        <section class="dashboard-section">
-            <header class="section-heading">
-                <h2>Recolha de Recursos</h2>
-                <p>Escolhe o recurso que queres produzir agora.</p>
-            </header>
+                <section class="dashboard-section sidebar-section">
+                    <header class="section-heading">
+                        <h2>Exército</h2>
+                        <p>Recruta tropas quando precisares de reforçar a defesa do reino.</p>
+                    </header>
 
-            <!-- Zona de Ações Clicker -->
-            <div class="action-zone resource-actions">
-            <form action="{{ url_for('colher_recurso', recurso='madeira') }}" method="POST">
-                <button type="submit" class="btn-submit btn-wood wood-image-button" aria-label="Colher madeira">
-                    <img src="{{ url_for('static', filename='images/log.png') }}" alt="Madeira" class="wood-image">
-                    <span>+5</span>
-                </button>
-            </form>
-            <form action="{{ url_for('colher_recurso', recurso='telhas') }}" method="POST">
-                <button type="submit" class="btn-submit btn-tiles tile-image-button" aria-label="Colher telhas">
-                    <img src="{{ url_for('static', filename='images/telha.png') }}" alt="Telhas" class="tile-image">
-                    <span>+5</span>
-                </button>
-            </form>
-            <form action="{{ url_for('colher_recurso', recurso='comida') }}" method="POST">
-                <button type="submit" class="btn-submit btn-tiles" aria-label="Colher comida">
-                    <span>+5 Comida</span>
-                </button>
-            </form>
-            <form action="{{ url_for('colher_recurso', recurso='joias') }}" method="POST">
-                <button type="submit" class="btn-submit btn-build" aria-label="Colher joias">
-                    <span>+2 Joias</span>
-                </button>
-            </form>
-            </div>
-        </section>
+                    <form action="{{ url_for('recrutar_soldados') }}" method="POST" class="military-form sidebar-stack">
+                        <button type="submit" class="btn-submit btn-military action-button">
+                            Recrutar Soldados
+                            <span class="button-meta">10 Comida | 2 Joias → +5 Soldados</span>
+                        </button>
+                    </form>
+                </section>
 
-        <section class="dashboard-section build-section">
-            <header class="section-heading">
-                <h2>Construção e Exército</h2>
-                <p>Ergue edifícios ou recruta tropas para fortalecer o reino. Cada construção ocupa o próximo slot livre.</p>
-            </header>
+                <section class="dashboard-section sidebar-section">
+                    <header class="section-heading">
+                        <h2>Produção</h2>
+                        <p>O tick atual renova os recursos com base nas construções existentes.</p>
+                    </header>
 
-            <div class="build-grid">
-                <form action="{{ url_for('construir_edificio', tipo='casa') }}" method="POST">
-                    <button type="submit" class="btn-submit btn-build">
-                        Construir Casa
-                        <span class="button-meta">50 Madeira | 50 Telhas</span>
-                    </button>
-                </form>
-                <form action="{{ url_for('construir_edificio', tipo='fazenda') }}" method="POST">
-                    <button type="submit" class="btn-submit btn-build">
-                        Construir Fazenda
-                        <span class="button-meta">10 Comida</span>
-                    </button>
-                </form>
-                <form action="{{ url_for('construir_edificio', tipo='estrada') }}" method="POST">
-                    <button type="submit" class="btn-submit btn-build">
-                        Construir Estrada
-                        <span class="button-meta">5 Comida</span>
-                    </button>
-                </form>
-                <form action="{{ url_for('construir_edificio', tipo='castelo') }}" method="POST">
-                    <button type="submit" class="btn-submit btn-build">
-                        Construir Castelo
-                        <span class="button-meta">20 Comida | 5 Joias</span>
-                    </button>
-                </form>
-                <form action="{{ url_for('construir_edificio', tipo='porto') }}" method="POST">
-                    <button type="submit" class="btn-submit btn-build">
-                        Construir Porto
-                        <span class="button-meta">15 Comida | 2 Joias</span>
-                    </button>
-                </form>
-                <form action="{{ url_for('construir_edificio', tipo='igreja') }}" method="POST">
-                    <button type="submit" class="btn-submit btn-build">
-                        Construir Igreja
-                        <span class="button-meta">10 Joias</span>
-                    </button>
-                </form>
-                <form action="{{ url_for('recrutar_soldados') }}" method="POST" class="military-form">
-                    <button type="submit" class="btn-submit btn-military">
-                        Recrutar Soldados
-                        <span class="button-meta">10 Comida | 2 Joias → +5 Soldados</span>
-                    </button>
-                </form>
-            </div>
+                    <ul class="production-list">
+                        <li><span>Madeira / tick</span><strong data-generation-key="madeira">{{ resource_state.generation.madeira }}</strong></li>
+                        <li><span>Telhas / tick</span><strong data-generation-key="telhas">{{ resource_state.generation.telhas }}</strong></li>
+                        <li><span>Comida / tick</span><strong data-generation-key="comida">{{ resource_state.generation.comida }}</strong></li>
+                        <li><span>Joias / tick</span><strong data-generation-key="joias">{{ resource_state.generation.joias }}</strong></li>
+                    </ul>
+
+                    <p class="tick-copy">Próxima atualização em <strong data-tick-countdown>{{ resource_state.next_tick_in }}</strong> segundos.</p>
+                </section>
+            </aside>
         </section>
     </main>
     <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <!-- Note: Este template usa elementos e data-attributes para demonstrar conceitos de Lab04/05: -->
+    <!-- - Elementos com classes e IDs para seleção via DOM (querySelector, getElementById) -->
+    <!-- - Formulários com action que são chamados via fetch (AJAX) no main.js -->
 </body>
 </html>

@@ -27,9 +27,18 @@ class User(db.Model):
     igrejas = db.Column(db.Integer, nullable=False, default=0)
     soldados = db.Column(db.Integer, nullable=False, default=0)
     cavalos = db.Column(db.Integer, nullable=False, default=0)
+    last_resource_tick = db.Column(db.DateTime, nullable=True)
     
     pergunta_seguranca = db.Column(db.String(100), nullable=False)
     resposta_seguranca = db.Column(db.String(100), nullable=False)
+
+    def get_resource_generation(self):
+        return {
+            'madeira': self.casas,
+            'telhas': self.casas + (self.portos * 2),
+            'comida': self.fazendas * 2,
+            'joias': self.castelos + self.igrejas,
+        }
 
     def set_password(self, password):
         # 3. Medida Adicional de Segurança: HASHING REFORÇADOaaaa
@@ -76,19 +85,3 @@ class User(db.Model):
 
         jogadores = cls.query.order_by(score_expression.desc(), cls.username.asc()).limit(limit).all()
         return [{"username": jogador.username, "score": jogador.get_score()} for jogador in jogadores]
-
-
-class ConstructionSlot(db.Model):
-    __tablename__ = 'construction_slot'
-    __table_args__ = (
-        db.UniqueConstraint('user_id', 'slot_number', name='uq_construction_slot_user_slot'),
-    )
-
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
-    slot_number = db.Column(db.Integer, nullable=False)
-    building_type = db.Column(db.String(20), nullable=True)
-    is_active = db.Column(db.Boolean, nullable=False, default=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-    user = db.relationship('User', backref=db.backref('construction_slots', lazy='select', cascade='all, delete-orphan'))
