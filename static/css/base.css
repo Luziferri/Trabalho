@@ -18,6 +18,39 @@
     --success: #577a3d;
     --danger: #8f3b2f;
     --info: #9c6a28;
+    /* --- moved from dashboard.css: theme tokens specific to dashboard visuals --- */
+    --brown-dark:  #1a0d05;
+    --brown-mid:   #3a2315;
+    --brown-light: #5d4834;
+    --bg-card:     #24140a;
+    --text-light:  #f8ecd0;
+    /* --text-gold removed (duplicate of --gold-soft). Use --gold-soft */
+    --green-bg:    #1e2b14;
+    --green-brd:   #3c5428;
+    --green-txt:   #55ff55;
+}
+
+/* --------------------------------------------------------------------------
+   PIXEL CLIP-PATH UTILITIES (moved from dashboard.css)
+   Reusable clip-path shapes for pixel-art corners. Kept in base because
+   they may be useful across multiple pages/components.
+*/
+.px-clip {
+    clip-path: polygon(
+        0 10px,5px 10px,5px 5px,10px 5px,10px 0,
+        calc(100% - 10px) 0,calc(100% - 10px) 5px,calc(100% - 5px) 5px,calc(100% - 5px) 10px,100% 10px,
+        100% calc(100% - 10px),calc(100% - 5px) calc(100% - 10px),calc(100% - 5px) calc(100% - 5px),calc(100% - 10px) calc(100% - 5px),calc(100% - 10px) 100%,
+        10px 100%,10px calc(100% - 5px),5px calc(100% - 5px),5px calc(100% - 10px),0 calc(100% - 10px)
+    );
+}
+
+.px-clip-lg {
+    clip-path: polygon(
+        0 20px,10px 20px,10px 10px,20px 10px,20px 0,
+        calc(100% - 20px) 0,calc(100% - 20px) 10px,calc(100% - 10px) 10px,calc(100% - 10px) 20px,100% 20px,
+        100% calc(100% - 20px),calc(100% - 10px) calc(100% - 20px),calc(100% - 10px) calc(100% - 10px),calc(100% - 20px) calc(100% - 10px),calc(100% - 20px) 100%,
+        20px 100%,20px calc(100% - 10px),10px calc(100% - 10px),10px calc(100% - 20px),0 calc(100% - 20px)
+    );
 }
 
 * {
@@ -109,229 +142,8 @@ h1,
 h2,
 h3 {
     color: var(--heading);
-    text-shadow: 1px 1px 0 rgba(255, 244, 212, 0.25), 2px 2px 3px rgba(0, 0, 0, 0.65);
-    border-bottom: 2px solid var(--gold-deep);
-    padding-bottom: 5px;
-    margin-bottom: 15px;
+    image-rendering: pixelated;
 }
-
-h1,
-h2 {
-    font-family: 'MedievalSharp', 'Book Antiqua', serif;
-}
-
-h2,
-.section-heading h2,
-.auth-header h1,
-.realm-banner-copy h1,
-.navbar-brand,
-.profile-username {
-    font-family: 'Cinzel', 'MedievalSharp', serif;
-    letter-spacing: 0.03em;
-}
-
-nav {
-    background-color: transparent;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-nav ul {
-    list-style: none;
-}
-
-nav ul li {
-    display: inline-block;
-    margin: 5px;
-}
-
-.botao,
-button,
-nav ul li a,
-.btn-submit,
-.btn-logout,
-.link-primary,
-.link-danger {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: linear-gradient(to bottom, var(--wood-light), var(--wood));
-    color: var(--gold);
-    border: 4px outset var(--gold-deep);
-    padding: 10px 20px;
-    font-family: 'MedievalSharp', serif;
-    font-size: 1.05em;
-    text-decoration: none;
-    font-weight: bold;
-    cursor: pointer;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.85);
-    transition: transform 0.2s ease, filter 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-
-.botao:hover,
-button:hover,
-nav ul li a:hover,
-.btn-submit:hover,
-.btn-logout:hover,
-.link-primary:hover,
-.link-danger:hover {
-    background: linear-gradient(to bottom, #a50000, #7a0000);
-    transform: scale(1.05);
-    color: #ffffff;
-    border-color: var(--gold-soft);
-}
-
-.botao:active,
-button:active,
-nav ul li a:active,
-.btn-submit:active,
-.btn-logout:active,
-.link-primary:active,
-.link-danger:active {
-    transform: scale(0.99);
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 0.95em;
-    margin-bottom: 8px;
-    color: var(--text);
-    font-weight: 700;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 12px 16px;
-    background-color: #fffaf0;
-    border: 2px solid rgba(139, 69, 19, 0.35);
-    border-radius: 10px;
-    color: var(--text);
-    font-size: 1em;
-    font-family: inherit;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--gold-soft);
-    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.18);
-    transform: translateY(-1px);
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: #8f7d67;
-}
-
-.auth-header {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.auth-header h1 {
-    border-bottom: 0;
-    color: var(--heading);
-    text-shadow: 1px 1px 1px var(--gold-soft);
-    font-size: 2.1em;
-    margin-bottom: 8px;
-}
-
-.auth-header p {
-    color: var(--muted);
-    border-bottom: 0;
-    margin-bottom: 0;
-}
-
-.auth-footer {
-    text-align: center;
-    margin-top: 24px;
-    font-size: 0.95em;
-    color: var(--muted);
-    border-top: 1px solid rgba(212, 175, 55, 0.18);
-    padding-top: 18px;
-}
-
-.auth-footer a {
-    color: var(--gold-soft);
-    text-decoration: none;
-    font-weight: 700;
-}
-
-.auth-footer a:hover {
-    color: #fff0bc;
-    text-decoration: underline;
-}
-
-.flash-messages {
-    margin-bottom: 20px;
-}
-
-.flash-message {
-    display: none;
-}
-
-.alert {
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 0.95em;
-    margin-bottom: 10px;
-    font-weight: 600;
-    border: 1px solid transparent;
-}
-
-.alert-danger {
-    background-color: rgba(159, 59, 47, 0.18);
-    border-color: rgba(159, 59, 47, 0.55);
-    color: #5b0f08;
-}
-
-.alert-success {
-    background-color: rgba(78, 127, 70, 0.16);
-    border-color: rgba(78, 127, 70, 0.5);
-    color: #23401f;
-}
-
-.alert-info,
-.alert-warning {
-    background-color: rgba(154, 106, 34, 0.16);
-    border-color: rgba(212, 175, 55, 0.5);
-    color: #5e4313;
-}
-
-.btn-submit {
-    width: 100%;
-    margin-top: 10px;
-    font-size: 1.1em;
-}
-
-.btn-logout,
-.link-primary,
-.link-danger {
-    padding: 8px 14px;
-    font-size: 0.95em;
-}
-
-.link-danger {
-    border-color: #b04a3a;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff8dc;
-    border: 4px ridge var(--wood-light);
-    margin: 20px 0;
-}
-
 th {
     background-color: var(--wood-light);
     color: var(--gold);

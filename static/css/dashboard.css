@@ -1,57 +1,8 @@
 
-/* ==========================================================================
-   DASHBOARD — ESTILO PIXEL ART UNIFICADO
-   Fonte principal: 'Press Start 2P' (pixel) para títulos, botões, HUD
-   Fonte secundária: 'MedievalSharp', serif para texto corrido e descrições
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   VARIÁVEIS GLOBAIS
-   -------------------------------------------------------------------------- */
-:root {
-    --gold:        #f0c95d;
-    --gold-dim:    #a9771f;
-    --brown-dark:  #1a0d05;
-    --brown-mid:   #3a2315;
-    --brown-light: #5d4834;
-    --bg-card:     #24140a;
-    --text-light:  #f8ecd0;
-    --text-gold:   #f0c95d;
-    --green-bg:    #1e2b14;
-    --green-brd:   #3c5428;
-    --green-txt:   #55ff55;
-}
-
-/* --------------------------------------------------------------------------
-   PIXEL CLIP-PATH — REUTILIZÁVEL
-   Use .px-clip (pequeno) ou .px-clip-lg (grande) em qualquer elemento
-   -------------------------------------------------------------------------- */
-.px-clip {
-    clip-path: polygon(
-        0 10px,5px 10px,5px 5px,10px 5px,10px 0,
-        calc(100% - 10px) 0,calc(100% - 10px) 5px,calc(100% - 5px) 5px,calc(100% - 5px) 10px,100% 10px,
-        100% calc(100% - 10px),calc(100% - 5px) calc(100% - 10px),calc(100% - 5px) calc(100% - 5px),calc(100% - 10px) calc(100% - 5px),calc(100% - 10px) 100%,
-        10px 100%,10px calc(100% - 5px),5px calc(100% - 5px),5px calc(100% - 10px),0 calc(100% - 10px)
-    );
-}
-
-.px-clip-lg {
-    clip-path: polygon(
-        0 20px,10px 20px,10px 10px,20px 10px,20px 0,
-        calc(100% - 20px) 0,calc(100% - 20px) 10px,calc(100% - 10px) 10px,calc(100% - 10px) 20px,100% 20px,
-        100% calc(100% - 20px),calc(100% - 10px) calc(100% - 20px),calc(100% - 10px) calc(100% - 10px),calc(100% - 20px) calc(100% - 10px),calc(100% - 20px) 100%,
-        20px 100%,20px calc(100% - 10px),10px calc(100% - 10px),10px calc(100% - 20px),0 calc(100% - 20px)
-    );
-}
-
-/* --------------------------------------------------------------------------
-   TIPOGRAFIA — REGRAS GERAIS
-   Tudo pixel art exceto texto corrido longo (descrições, parágrafos)
-   -------------------------------------------------------------------------- */
-
 /* Pixel art: títulos, botões, HUD, rótulos, navbar */
 .navbar-brand,
 .section-heading h2,
+.section-heading p,
 .stat-card h3,
 .stat-card p,
 .hud-card h3,
@@ -62,12 +13,17 @@
 .button-meta,
 .realm-badge,
 .realm-banner-copy h1,
+.realm-banner-copy p,
 .production-list span,
 .production-list strong,
+.production-list li,
+.section-desc-px,
 .tick-copy,
 .map-building strong,
 .map-building em,
 .navbar-user a,
+.navbar-user span,
+.navbar-user strong,
 .navbar-user .botao,
 .navbar-user .link-primary,
 .navbar-user .btn-logout,
@@ -78,13 +34,9 @@
 }
 
 /* Medieval: descrições, parágrafos e texto corrido */
-.realm-banner-copy p,
-.section-heading p,
-.section-desc-px,
-.production-list li,
-.tick-copy {
-    font-family: 'MedievalSharp', serif;
-}
+/* Remove serif override so these elements use the pixel font declared
+   for HUD and headings. If you want them serif later, add a more specific
+   selector. */
 
 /* Tamanhos pixel art consistentes */
 .navbar-brand           { font-size: 13px; }
@@ -112,16 +64,24 @@
 .realm-banner-copy p    { font-size: 9px; }
 
 /* --------------------------------------------------------------------------
-   CORPO DA PÁGINA
-   -------------------------------------------------------------------------- */
+    CORPO DA PÁGINA
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Ajustes para a página de dashboard apenas. Não move para
+    `base.css` porque altera o layout apenas quando o `body` tem a
+    classe `dashboard-page`.
+*/
 body.dashboard-page {
-    display: block;
-    padding: 0;
+     display: block;
+     padding: 0;
 }
 
 /* --------------------------------------------------------------------------
-   CONTAINER PRINCIPAL
-   -------------------------------------------------------------------------- */
+    CONTAINER PRINCIPAL
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Estilos de container específicos para o layout amplo do dashboard.
+    Mantém a aparência do "game shell" e é específico a esta página, portanto
+    deve ficar em `dashboard.css`.
+*/
 body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell {
     width: 100vw;
     max-width: none;
@@ -141,8 +101,13 @@ body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-
 }
 
 /* --------------------------------------------------------------------------
-   NAVBAR
-   -------------------------------------------------------------------------- */
+    NAVBAR
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Navbar geral do dashboard — contém regras específicas como
+    cores e sombras do tema. Se existir uma navbar compartilhada entre
+    páginas, extrair apenas regras base para `base.css` e manter variações
+    de tema aqui.
+*/
 .navbar {
     position: relative;
     display: flex;
@@ -200,8 +165,11 @@ body.dashboard-page .navbar-user .link-primary:hover {
 }
 
 /* --------------------------------------------------------------------------
-   REALM BANNER
-   -------------------------------------------------------------------------- */
+    REALM BANNER
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Composição e estilo do banner do reino — claramente dashboard-
+    específico. Deixe em `dashboard.css`.
+*/
 body.dashboard-page .dashboard-container .realm-banner {
     display: grid;
     grid-template-columns: 100px 1fr;
@@ -262,12 +230,19 @@ body.dashboard-page .dashboard-container .realm-banner-copy p {
 }
 
 /* --------------------------------------------------------------------------
-   HUD GRID — INVENTÁRIO MINECRAFT
-   -------------------------------------------------------------------------- */
+    HUD GRID — INVENTÁRIO MINECRAFT (horizontal layout)
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Layout do HUD (recursos) — esta secção é específica do dashboard
+    e implementa um comportamento horizontal com scroll. Mantê-la aqui.
+    Observação: algumas propriedades (ex.: box-shadow, background) reutilizam
+    variáveis definidas no topo que podem ser movidas para `base.css`.
+*/
 body.dashboard-page .dashboard-container.game-shell .hud-grid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 8px;
-    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 12px;
+    padding: 12px 14px;
     margin-top: 18px;
     background: var(--brown-mid);
     box-shadow:
@@ -275,19 +250,36 @@ body.dashboard-page .dashboard-container.game-shell .hud-grid {
         inset 0 0 0 14px var(--brown-dark);
     border-radius: 0 !important;
     border: none !important;
-    overflow: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure each card stays compact and doesn't shrink on small screens */
+body.dashboard-page .dashboard-container.game-shell .hud-grid .hud-card {
+    flex: 0 0 auto;
+    min-width: 220px;
+}
+
+/* Optional: make the HUD show a single-line scrollbar area on small screens */
+body.dashboard-page .dashboard-container.game-shell .hud-grid::-webkit-scrollbar {
+    height: 10px;
+}
+body.dashboard-page .dashboard-container.game-shell .hud-grid::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.25);
+    border-radius: 6px;
 }
 
 body.dashboard-page .dashboard-container.game-shell .hud-card {
     background: var(--bg-card) !important;
     border: none !important;
     box-shadow: inset 0 0 0 3px var(--brown-light), inset 0 0 0 5px var(--brown-dark) !important;
-    min-height: 100px;
-    padding: 12px 10px;
+    min-height: 56px;
+    padding: 10px 12px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
     border-radius: 0 !important;
     cursor: default;
     transition: background 0.1s, box-shadow 0.1s;
@@ -295,23 +287,26 @@ body.dashboard-page .dashboard-container.game-shell .hud-card {
 
 body.dashboard-page .dashboard-container.game-shell .hud-card:hover {
     background: #2f1d11 !important;
-    box-shadow: inset 0 0 0 3px var(--gold-dim), inset 0 0 0 5px var(--brown-dark) !important;
+    box-shadow: inset 0 0 0 3px var(--gold-deep), inset 0 0 0 5px var(--brown-dark) !important;
 }
 
 body.dashboard-page .dashboard-container.game-shell .hud-card h3 {
     color: #e0c894 !important;
-    text-align: center;
+    text-align: left;
     text-transform: uppercase;
     text-shadow: 1px 1px 0 #000 !important;
     border: none !important;
     padding: 0;
     margin: 0;
+    flex: 1 1 auto;
 }
 
 body.dashboard-page .dashboard-container.game-shell .hud-card p {
     color: #ffffff !important;
     text-shadow: 2px 2px 0 var(--brown-dark) !important;
     margin: 0;
+    text-align: right;
+    white-space: nowrap;
 }
 
 /* Slot especial: tick / relógio — fundo verde */
@@ -332,8 +327,12 @@ body.dashboard-page .dashboard-container.game-shell .hud-status-card [data-tick-
 }
 
 /* --------------------------------------------------------------------------
-   SECTION HEADING — CABEÇALHOS DE SECÇÃO
-   -------------------------------------------------------------------------- */
+    SECTION HEADING — CABEÇALHOS DE SECÇÃO
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Estilo de cabeçalhos de secção usado no dashboard. Pode ser útil
+    em outras páginas, mas atualmente aplica sombras e cores do tema; manter
+    em `dashboard.css` ou extrair para `base.css` se desejar consistência.
+*/
 .section-heading {
     text-align: center;
     padding: 14px 16px;
@@ -362,8 +361,11 @@ body.dashboard-page .dashboard-container.game-shell .hud-status-card [data-tick-
 }
 
 /* --------------------------------------------------------------------------
-   GAME LAYOUT — MAPA + SIDEBAR
-   -------------------------------------------------------------------------- */
+    GAME LAYOUT — MAPA + SIDEBAR
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Layout específico do painel de jogo. Regras como grid-template e
+    dimensões são específicas do dashboard e devem permanecer aqui.
+*/
 body.dashboard-page .dashboard-container.game-shell .game-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 360px;
@@ -478,8 +480,11 @@ body.dashboard-page .dashboard-container.game-shell .map-building[data-building-
 }
 
 /* --------------------------------------------------------------------------
-   SIDEBAR PANEL
-   -------------------------------------------------------------------------- */
+    SIDEBAR PANEL
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Sidebar de ações (construir/recrutar). Mantido no dashboard pois
+    controla comportamento e espaçamento específicos desta página.
+*/
 body.dashboard-page .dashboard-container.game-shell .sidebar-panel {
     position: sticky;
     top: 18px;
@@ -503,8 +508,12 @@ body.dashboard-page .dashboard-container.game-shell .sidebar-stack form {
 }
 
 /* --------------------------------------------------------------------------
-   BOTÕES DE AÇÃO — CONSTRUÇÃO E MILITAR
-   -------------------------------------------------------------------------- */
+    BOTÕES DE AÇÃO — CONSTRUÇÃO E MILITAR
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Estilos específicos de botões do dashboard (tamanho, sombras,
+    cores). Estes são fortemente ligados ao tema e devem permanecer em
+    `dashboard.css`.
+*/
 
 /* Base comum de todos os botões de ação */
 .action-button,
@@ -563,8 +572,12 @@ body.dashboard-page .dashboard-container.game-shell .sidebar-stack form {
 }
 
 /* --------------------------------------------------------------------------
-   PRODUCTION LIST — ITENS DE PRODUÇÃO
-   -------------------------------------------------------------------------- */
+    PRODUCTION LIST — ITENS DE PRODUÇÃO
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Componente de footer de produção (lista de yields por tick). Fica
+    em `dashboard.css` porque é parte do painel do jogo; no entanto, regras
+    genéricas de listagem podem ser extraídas para `base.css` se desejado.
+*/
 body.dashboard-page .dashboard-container.game-shell .production-list {
     list-style: none;
     display: grid;
@@ -604,8 +617,11 @@ body.dashboard-page .dashboard-container.game-shell .tick-copy strong {
 }
 
 /* --------------------------------------------------------------------------
-   PRODUCTION FOOTER
-   -------------------------------------------------------------------------- */
+    PRODUCTION FOOTER
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Footer de produção (layout e grid). Mantido aqui por ser
+    específico ao dashboard; mover só se reutilizado por outras páginas.
+*/
 body.dashboard-page .dashboard-container.game-shell .production-footer {
     margin-top: 0;
     padding: 0 18px;
@@ -643,8 +659,12 @@ body.dashboard-page .dashboard-container.game-shell .production-footer .tick-cop
 }
 
 /* --------------------------------------------------------------------------
-   TOASTS
-   -------------------------------------------------------------------------- */
+    TOASTS
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Contêiner e estilos de toast usados para mensagens flash convertidas
+    em toasts no dashboard. Se outros templates usam toasts idênticos, mover
+    para `base.css` e manter apenas variações locais aqui.
+*/
 #toast-container {
     position: fixed;
     right: 20px;

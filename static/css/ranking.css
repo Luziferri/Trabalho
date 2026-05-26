@@ -2,6 +2,23 @@ body.ranking-page {
     display: block;
 }
 
+/* Force pixel-art font on ranking page to match site theme */
+body.ranking-page,
+body.ranking-page .ranking-container,
+body.ranking-page .ranking-header,
+body.ranking-page .ranking-table,
+body.ranking-page .ranking-table th,
+body.ranking-page .ranking-table td {
+    font-family: 'Press Start 2P', monospace;
+}
+
+/* More specific selector to override global/section h1 rules */
+body.ranking-page .ranking-header h1,
+body.ranking-page .auth-header.ranking-header h1 {
+    font-family: 'Press Start 2P', monospace;
+    letter-spacing: 0.02em;
+}
+
 body.ranking-page .ranking-container {
     margin: 24px auto 40px;
     padding-top: 28px;
