@@ -30,7 +30,7 @@ class User(db.Model):
     resposta_seguranca = db.Column(db.String(100), nullable=False)
 
     def set_password(self, password):
-        # 3. Medida Adicional de Segurança: HASHING REFORÇADO
+        # 3. Medida Adicional de Segurança: HASHING REFORÇADOaaaa
         # Em vez do hash normal, forçamos o algoritmo pbkdf2 com 600.000 iterações!
         self.password_hash = generate_password_hash(password, method='pbkdf2:sha256:600000')
 
