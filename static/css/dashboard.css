@@ -106,13 +106,7 @@ body.dashboard-page .dashboard-container .auth-header h1 {
     margin: 0 0 20px;
     padding: 18px 24px;
     min-height: 96px;
-    background-color: #3a281d;
-    background-image:
-        linear-gradient(rgba(20, 12, 8, 0.24), rgba(20, 12, 8, 0.24)),
-        url('../images/header_texture.png');
-    background-repeat: repeat, no-repeat;
-    background-position: center, center;
-    background-size: auto, 100% 100%;
+    background: linear-gradient(180deg, #4a2f1f 0%, #3a281d 55%, #2a1a12 100%);
     border: 4px solid #8b5a2b;
     border-bottom: 0;
     border-radius: 4px;
@@ -130,14 +124,9 @@ body.dashboard-page .dashboard-container .auth-header h1 {
     left: 0;
     right: 0;
     bottom: 0;
-    height: 14px;
-    background:
-        linear-gradient(rgba(20, 12, 8, 0.2), rgba(20, 12, 8, 0.2)),
-        url('../images/header_texture.png');
-    background-repeat: repeat, repeat-x;
-    background-position: center, center bottom;
-    background-size: auto, 100% auto;
-    border-top: 2px solid #5d4037;
+    height: 10px;
+    background: #8b5a2b;
+    border-top: 2px solid #8b5a2b;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     pointer-events: none;
@@ -163,11 +152,19 @@ body.dashboard-page .dashboard-container .auth-header h1 {
     color: #fff2b3;
 }
 
+/* ==========================================================================
+   TEXTO DO USUÁRIO NA BARRA DE NAVEGAÇÃO
+   Afeta: <span>Rei: <strong>{{ user.username }}</strong></span> no dashboard.html
+   ========================================================================== */
 .navbar-user span {
     font-weight: 700;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.85);
 }
 
+/* ==========================================================================
+   CONTAINER DO DASHBOARD E SUPERFÍCIE DO JOGO
+   Afeta: elementos com classe "dashboard-container" e "game-surface" no dashboard.html
+   ========================================================================== */
 .dashboard-container,
 .game-surface {
     overflow: hidden;
@@ -195,12 +192,17 @@ body.dashboard-page .dashboard-container .auth-header h1 {
         inset 0 0 24px rgba(0, 0, 0, 0.36);
 }
 
+/* ========================================================================
+   IMAGEM DO BRASÃO NO BANNER
+   Afeta: <img class="realm-crest"> dentro de <div class="realm-banner-art"> no dashboard.html
+   ======================================================================== */
 .realm-banner-art {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* Afeta: <img class="realm-crest" alt="Brasão do reino"> no banner do reino */
 .realm-crest {
     width: 100px;
     height: 100px;
@@ -208,10 +210,12 @@ body.dashboard-page .dashboard-container .auth-header h1 {
     filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.3));
 }
 
+/* Afeta: <span class="realm-badge">Early Middle Ages</span> no banner do reino */
 .realm-banner-copy {
     text-align: left;
 }
 
+/* Afeta: a etiqueta "Early Middle Ages" no banner do reino */
 .realm-badge {
     display: inline-block;
     margin-bottom: 8px;
@@ -225,6 +229,7 @@ body.dashboard-page .dashboard-container .auth-header h1 {
     letter-spacing: 0.05em;
 }
 
+/* Afeta: <h1>Império de Recursos</h1> dentro de <div class="realm-banner-copy"> */
 .realm-banner-copy h1 {
     border-bottom: 0;
     margin-bottom: 6px;
@@ -232,11 +237,13 @@ body.dashboard-page .dashboard-container .auth-header h1 {
     text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8), 0 0 16px rgba(240, 201, 93, 0.12);
 }
 
+/* Afeta: o parágrafo explicativo logo abaixo do título do banner do reino */
 .realm-banner-copy p {
     color: #f5e8c8;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
+/* Afeta: <section class="stats-grid hud-grid"> com os cartões de recursos */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -244,98 +251,153 @@ body.dashboard-page .dashboard-container .auth-header h1 {
     margin-top: 20px;
 }
 
+/* Afeta: cada <article class="stat-card hud-card"> dos recursos do HUD */
 .stat-card {
-    background:
-        linear-gradient(to bottom, rgba(247, 231, 191, 0.98), rgba(226, 196, 132, 0.98)),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.14), transparent 45%);
-    border: 4px ridge var(--gold-deep);
-    border-radius: 8px;
-    padding: 16px;
+    background: #24140a;
+    border: none !important;
+    box-shadow:
+        inset 0 0 0 4px #5d4834,
+        inset 0 0 0 8px #1a0d05,
+        0 10px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 0 !important;
+    padding: 16px 14px 14px;
     text-align: center;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    clip-path: polygon(
+        0 12px, 6px 12px, 6px 6px, 12px 6px, 12px 0,
+        calc(100% - 12px) 0, calc(100% - 12px) 6px, calc(100% - 6px) 6px, calc(100% - 6px) 12px, 100% 12px,
+        100% calc(100% - 12px), calc(100% - 6px) calc(100% - 12px), calc(100% - 6px) calc(100% - 6px), calc(100% - 12px) calc(100% - 6px), calc(100% - 12px) 100%,
+        12px 100%, 12px calc(100% - 6px), 6px calc(100% - 6px), 6px calc(100% - 12px), 0 calc(100% - 12px)
+    ) !important;
 }
 
+/* Afeta: os títulos H3 dentro de cada cartão de recurso no HUD */
 .stat-card h3 {
     margin-bottom: 10px;
     padding-bottom: 6px;
-    color: #5a2d18;
+    color: #e0c894;
+    border-bottom: 2px solid rgba(240, 201, 93, 0.45);
+    text-shadow: 2px 2px 0 #1a0d05;
 }
 
+/* Afeta: os valores numéricos dentro dos cartões de recurso */
 .stat-card p {
     font-size: 2rem;
     font-weight: 700;
-    color: #4a2516;
+    color: #fff6d6;
+    text-shadow: 2px 2px 0 #1a0d05;
 }
 
+/* Afeta: os cartões destacados como "Soldados" e "Tick" no HUD */
 .stat-card.highlight {
-    background:
-        linear-gradient(to bottom, #4a2a1a, #25180f),
-        radial-gradient(circle at top, rgba(240, 201, 93, 0.08), transparent 50%);
-    border-color: #f0c95d;
+    background: #2f1d11;
+    box-shadow:
+        inset 0 0 0 4px #f0c95d,
+        inset 0 0 0 8px #5d4834,
+        0 10px 0 rgba(0, 0, 0, 0.24);
 }
 
 .stat-card.highlight h3,
 .stat-card.highlight p {
     color: #f8ecd0;
-    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.9);
+    text-shadow: 2px 2px 0 #1a0d05;
 }
 
 .stat-card.highlight p {
     font-size: 2.1rem;
 }
 
+/* Afeta: todas as secções com <section class="dashboard-section"> no dashboard */
 .dashboard-section {
     margin-top: 26px;
 }
 
+/* Afeta: os cabeçalhos de secção em Construções, Exército e Produção */
 .section-heading {
     text-align: center;
     margin-bottom: 16px;
-    padding: 18px 20px 16px;
-    background:
-        linear-gradient(135deg, rgba(82, 49, 30, 0.98), rgba(46, 28, 17, 0.98)),
-        radial-gradient(circle at top, rgba(240, 201, 93, 0.08), transparent 34%);
-    border: 3px solid rgba(240, 201, 93, 0.45);
-    border-radius: 10px;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    padding: 16px 18px 14px;
+    background: #3a2315;
+    border: none !important;
+    box-shadow:
+        inset 0 0 0 4px #5d4834,
+        inset 0 0 0 8px #1a0d05,
+        0 10px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 0 !important;
+    clip-path: polygon(
+        0 12px, 6px 12px, 6px 6px, 12px 6px, 12px 0,
+        calc(100% - 12px) 0, calc(100% - 12px) 6px, calc(100% - 6px) 6px, calc(100% - 6px) 12px, 100% 12px,
+        100% calc(100% - 12px), calc(100% - 6px) calc(100% - 12px), calc(100% - 6px) calc(100% - 6px), calc(100% - 12px) calc(100% - 6px), calc(100% - 12px) 100%,
+        12px 100%, 12px calc(100% - 6px), 6px calc(100% - 6px), 6px calc(100% - 12px), 0 calc(100% - 12px)
+    ) !important;
 }
 
+/* Afeta: o H2 e o texto descritivo dentro dos cabeçalhos de secção */
 .section-heading h2 {
     margin-bottom: 8px;
     padding-bottom: 8px;
     color: #f6e1a7;
     border-bottom-color: rgba(240, 201, 93, 0.65);
-    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+    text-shadow: 2px 2px 0 #1a0d05;
 }
 
+/* Afeta: o parágrafo explicativo dentro de cada .section-heading */
 .section-heading p {
     color: #ead8b7;
     font-size: 0.98em;
 }
 
+/* Afeta: o texto pequeno abaixo dos botões de construção e recrutamento */
 .button-meta {
     display: block;
     margin-top: 6px;
     font-size: 0.76em;
     line-height: 1.2;
     color: rgba(251, 239, 210, 0.92);
+    letter-spacing: 0.04em;
 }
 
+/* Afeta: os botões "Construir Casa/Fazenda/Castelo/Porto/Igreja" no sidebar */
 .btn-build {
     width: 100%;
-    min-height: 58px;
-    font-size: 1.05em;
+    min-height: 72px;
+    font-size: 1.02em;
+    padding: 12px 14px;
+    background: #5b321c !important;
+    border: none !important;
+    box-shadow:
+        inset 0 0 0 4px #a9771f,
+        inset 0 0 0 8px #1a0d05,
+        0 8px 0 rgba(0, 0, 0, 0.24) !important;
+    border-radius: 0 !important;
+    clip-path: polygon(
+        0 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0,
+        calc(100% - 10px) 0, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+        100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+        10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0 calc(100% - 10px)
+    ) !important;
 }
 
+/* Afeta: o botão "Recrutar Soldados" no painel lateral */
 .btn-military {
     width: 100%;
-    min-height: 76px;
-    background: linear-gradient(90deg, #7b5130, #4b2d1a);
-    border-color: #f0c95d;
+    min-height: 78px;
+    background: #4a2a1a !important;
+    border: none !important;
+    box-shadow:
+        inset 0 0 0 4px #f0c95d,
+        inset 0 0 0 8px #1a0d05,
+        0 8px 0 rgba(0, 0, 0, 0.24) !important;
+    border-radius: 0 !important;
+    clip-path: polygon(
+        0 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0,
+        calc(100% - 10px) 0, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+        100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+        10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0 calc(100% - 10px)
+    ) !important;
 }
 
 .btn-military:hover {
-    background: linear-gradient(to bottom, #956648, #6a4125);
+    background: #6a4125 !important;
 }
 
 body.dashboard-page .dashboard-container.game-shell .realm-banner,
@@ -343,24 +405,118 @@ body.dashboard-page .dashboard-container.game-shell .dashboard-header {
     margin-top: 18px;
 }
 
+
+
+
+
+
+
+/* ==========================================================================
+   HUD DE RECURSOS (ESTILO MINECRAFT COM ESCALA DE PÍXEIS CALIBRADA - 10PX)
+   ========================================================================== */
+
+/* --- 1. O PAINEL DE MADEIRA PRINCIPAL --- */
 body.dashboard-page .dashboard-container.game-shell .hud-grid {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px; 
+    padding: 18px;
     margin-top: 18px;
+    background: #3a2315; 
+    border: none !important;
+    
+    /* Moldura exterior refinada para 10px de espessura sólida */
+    box-shadow: 
+        inset 0 0 0 10px #5d4834,
+        0 0 0 10px #0a0502 !important; 
+    
+    border-radius: 0 !important;
+
+    /* RECORTE EM ESCADINHA AJUSTADO (Degraus de 10px e 5px) */
+    clip-path: polygon(
+        0 20px, 10px 20px, 10px 10px, 20px 10px, 20px 0,
+        calc(100% - 20px) 0, calc(100% - 20px) 10px, calc(100% - 10px) 10px, calc(100% - 10px) 20px, 100% 20px,
+        100% calc(100% - 20px), calc(100% - 10px) calc(100% - 20px), calc(100% - 10px) calc(100% - 10px), calc(100% - 20px) calc(100% - 10px), calc(100% - 20px) 100%,
+        20px 100%, 20px calc(100% - 10px), 10px calc(100% - 10px), 10px calc(100% - 20px), 0 calc(100% - 20px)
+    ) !important;
+    overflow: hidden;
 }
 
+/* --- 2. OS CARTÕES / SLOTS DE INVENTÁRIO --- */
 body.dashboard-page .dashboard-container.game-shell .hud-card {
-    min-height: 140px;
+    background: #24140a !important; 
+    border: none !important;
+    
+    /* Moldura interna sólida com 10px de espessura uniforme */
+    box-shadow: inset 0 0 0 10px #5d4834 !important;
+    
+    min-height: 115px; /* Altura ideal e equilibrada */
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0 !important;
+
+    /* RECORTE EM ESCADINHA PARA OS SLOTS INDIVIDUAIS (Degraus de 10px e 5px) */
+    clip-path: polygon(
+        0 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0,
+        calc(100% - 10px) 0, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+        100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+        10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0 calc(100% - 10px)
+    ) !important;
+}
+
+/* Hover preciso mudando para o dourado do teu tema */
+body.dashboard-page .dashboard-container.game-shell .hud-card:hover {
+    background: #2f1d11 !important;
+    box-shadow: inset 0 0 0 10px #b07b2c !important;
+}
+
+/* --- 3. TEXTOS E NÚMEROS STACKS --- */
+body.dashboard-page .dashboard-container.game-shell .hud-card h3 {
+    color: #e0c894 !important; 
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 2px 0 0 0;
+    padding: 0;
+    border: none !important;
+    text-shadow: 2px 2px 0px #1a0d05 !important;
+    text-align: center;
+    width: 100%;
+    letter-spacing: 0.5px;
 }
 
 body.dashboard-page .dashboard-container.game-shell .hud-card p {
-    font-size: 1.75rem;
-    margin-top: 4px;
+    color: #ffffff !important;
+    font-size: 1.45rem; 
+    font-weight: bold;
+    margin: 0;
+    align-self: flex-end; /* Mantém encostado no canto inferior direito */
+    text-shadow: 2px 2px 0px #1a0d05 !important;
 }
 
-body.dashboard-page .dashboard-container.game-shell .hud-status-card p {
-    font-size: 1.55rem;
+/* --- 4. RELÓGIO (TICK) --- */
+body.dashboard-page .dashboard-container.game-shell .hud-status-card {
+    background: #1e2b14 !important; 
+    box-shadow: inset 0 0 0 10px #3c5428 !important; /* Moldura de 10px em verde */
 }
 
+body.dashboard-page .dashboard-container.game-shell .hud-status-card p,
+body.dashboard-page .dashboard-container.game-shell .hud-status-card [data-tick-countdown] {
+    color: #55ff55 !important; 
+    text-shadow: 2px 2px 0px #0f150a !important;
+    align-self: center;
+}
+
+
+
+
+
+
+
+
+/* Afeta: o contentor principal entre o mapa e a sidebar (<section class="game-layout">) */
 body.dashboard-page .dashboard-container.game-shell .game-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 360px;
@@ -369,13 +525,12 @@ body.dashboard-page .dashboard-container.game-shell .game-layout {
     margin-top: 24px;
 }
 
+/* Afeta: a coluna esquerda <section class="viewport-panel"> com o mapa do reino */
 body.dashboard-page .dashboard-container.game-shell .viewport-panel {
     min-width: 0;
 }
 
-
-
-
+/* Afeta: a moldura externa do mapa dentro de <div class="viewport-shell"> */
 body.dashboard-page .dashboard-container.game-shell .viewport-shell {
     min-height: 760px;
     padding: 18px;
@@ -389,6 +544,7 @@ body.dashboard-page .dashboard-container.game-shell .viewport-shell {
         0 18px 44px rgba(0, 0, 0, 0.45);
 }
 
+    /* Afeta: a área interna do mapa dentro de <div class="viewport-screen"> */
 body.dashboard-page .dashboard-container.game-shell .viewport-screen {
     position: relative;
     min-height: 720px;
@@ -403,12 +559,14 @@ body.dashboard-page .dashboard-container.game-shell .viewport-screen {
         inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
+/* Afeta: o layer que contém todas as <div class="map-building"> */
 body.dashboard-page .dashboard-container.game-shell .map-buildings {
     position: absolute;
     inset: 0;
     z-index: 1;
 }
 
+/* Afeta: cada edifício individual no mapa (casas, fazendas, estradas, castelos, portos, igrejas) */
 body.dashboard-page .dashboard-container.game-shell .map-building {
     position: absolute;
     left: var(--x);
@@ -427,6 +585,7 @@ body.dashboard-page .dashboard-container.game-shell .map-building {
     color: #f8ecd0;
 }
 
+/* Afeta: o ícone circular dentro de cada edifício do mapa */
 body.dashboard-page .dashboard-container.game-shell .map-building-icon {
     display: inline-flex;
     align-items: center;
@@ -441,6 +600,7 @@ body.dashboard-page .dashboard-container.game-shell .map-building-icon {
     text-shadow: none;
 }
 
+/* Afeta: o nome do edifício dentro de cada bloco do mapa */
 body.dashboard-page .dashboard-container.game-shell .map-building strong {
     border-bottom: 0;
     padding-bottom: 0;
@@ -450,28 +610,34 @@ body.dashboard-page .dashboard-container.game-shell .map-building strong {
     text-shadow: none;
 }
 
+/* Afeta: a contagem de cada edifício dentro do bloco do mapa */
 body.dashboard-page .dashboard-container.game-shell .map-building em {
     font-style: normal;
     font-size: 0.76rem;
     color: rgba(248, 236, 208, 0.82);
 }
 
+/* Afeta: os blocos de edifícios quando o HTML lhes adiciona a classe is-hidden */
 body.dashboard-page .dashboard-container.game-shell .map-building.is-hidden {
     display: none;
 }
 
+/* Afeta: o bloco do castelo no mapa, distinguindo-o visualmente dos restantes */
 body.dashboard-page .dashboard-container.game-shell .map-building[data-building-key="castelos"] {
     background: rgba(44, 20, 16, 0.9);
 }
 
+/* Afeta: o bloco do porto no mapa */
 body.dashboard-page .dashboard-container.game-shell .map-building[data-building-key="portos"] {
     background: rgba(12, 36, 58, 0.88);
 }
 
+/* Afeta: o bloco da igreja no mapa */
 body.dashboard-page .dashboard-container.game-shell .map-building[data-building-key="igrejas"] {
     background: rgba(41, 32, 54, 0.88);
 }
 
+/* Afeta: a coluna direita <aside class="sidebar-panel"> com as ações do reino */
 body.dashboard-page .dashboard-container.game-shell .sidebar-panel {
     position: sticky;
     top: 18px;
@@ -480,25 +646,30 @@ body.dashboard-page .dashboard-container.game-shell .sidebar-panel {
     gap: 18px;
 }
 
+/* Afeta: as duas secções laterais dentro da sidebar */
 body.dashboard-page .dashboard-container.game-shell .sidebar-section {
     margin-top: 0;
 }
 
+/* Afeta: o contentor vertical dos formulários na sidebar */
 body.dashboard-page .dashboard-container.game-shell .sidebar-stack {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
+/* Afeta: cada <form> dentro da coluna lateral */
 body.dashboard-page .dashboard-container.game-shell .sidebar-stack form {
     width: 100%;
 }
 
+/* Afeta: o shell e a viewport para ocuparem toda a largura do painel */
 body.dashboard-page .dashboard-container.game-shell .viewport-shell,
 body.dashboard-page .dashboard-container.game-shell .viewport-screen {
     width: 100%;
 }
 
+/* Afeta: os botões das ações no painel lateral, incluindo os de construção e recrutamento */
 body.dashboard-page .dashboard-container.game-shell .action-button {
     width: 100%;
     min-height: 88px;
@@ -506,8 +677,13 @@ body.dashboard-page .dashboard-container.game-shell .action-button {
     justify-content: center;
     flex-direction: column;
     text-align: left;
+    padding: 14px 16px;
+    border: none !important;
+    background-position: center;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
+/* Afeta: a lista de produção no bloco inferior <ul class="production-list"> */
 body.dashboard-page .dashboard-container.game-shell .production-list {
     list-style: none;
     display: grid;
@@ -515,29 +691,43 @@ body.dashboard-page .dashboard-container.game-shell .production-list {
     margin-top: 14px;
 }
 
+/* Afeta: cada item da lista de produção no footer do dashboard */
 body.dashboard-page .dashboard-container.game-shell .production-list li {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
     padding: 12px 14px;
-    border-radius: 10px;
-    border: 1px solid rgba(240, 201, 93, 0.16);
-    background: rgba(0, 0, 0, 0.18);
+    border: none !important;
+    background: #24140a;
     color: #f4e7c8;
+    box-shadow:
+        inset 0 0 0 3px #5d4834,
+        inset 0 0 0 6px #1a0d05,
+        0 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 0 !important;
+    clip-path: polygon(
+        0 8px, 4px 8px, 4px 4px, 8px 4px, 8px 0,
+        calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px,
+        100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%,
+        8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px)
+    ) !important;
 }
 
+/* Afeta: os valores em destaque na lista de produção e no texto do tick */
 body.dashboard-page .dashboard-container.game-shell .production-list strong,
 body.dashboard-page .dashboard-container.game-shell .tick-copy strong {
     color: #f7dc8a;
 }
 
+/* Afeta: a frase "Próxima atualização em..." no footer do dashboard */
 body.dashboard-page .dashboard-container.game-shell .tick-copy {
     margin-top: 14px;
     text-align: center;
     color: #ead8b7;
 }
 
+/* Afeta: a secção inferior <section class="production-footer"> */
 body.dashboard-page .dashboard-container.game-shell .production-footer {
     margin-top: 0;
     padding: 0 18px;
@@ -545,6 +735,7 @@ body.dashboard-page .dashboard-container.game-shell .production-footer {
     gap: 12px;
 }
 
+/* Afeta: o cabeçalho da secção Produção no footer */
 body.dashboard-page .dashboard-container.game-shell .production-footer .section-heading {
     margin-bottom: 0;
     margin-top: 0;
@@ -556,12 +747,14 @@ body.dashboard-page .dashboard-container.game-shell .production-footer .section-
     transform: none;
 }
 
+/* Afeta: a grelha interna da produção no footer */
 body.dashboard-page .dashboard-container.game-shell .production-footer .production-list {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
     margin-top: 0;
 }
 
+/* Afeta: cada linha do resumo de produção no footer */
 body.dashboard-page .dashboard-container.game-shell .production-footer .production-list li {
     min-height: 72px;
     padding: 10px 12px;
@@ -571,11 +764,13 @@ body.dashboard-page .dashboard-container.game-shell .production-footer .producti
     gap: 8px;
 }
 
+/* Afeta: o número da produção por tick no footer */
 body.dashboard-page .dashboard-container.game-shell .production-footer .production-list strong {
     font-size: 1.25rem;
     line-height: 1;
 }
 
+/* Afeta: o texto do tick no footer; é escondido em larguras maiores e recuperado em media queries */
 body.dashboard-page .dashboard-container.game-shell .production-footer .tick-copy {
     margin-top: 0;
     position: static;
@@ -584,6 +779,37 @@ body.dashboard-page .dashboard-container.game-shell .production-footer .tick-cop
     display: none !important;
 }
 
+/* Afeta: os links e botões no topo do dashboard para manter o pixelart do painel */
+body.dashboard-page .navbar-user a,
+body.dashboard-page .navbar-user .botao,
+body.dashboard-page .navbar-user .btn-logout,
+body.dashboard-page .navbar-user .link-primary {
+    background: #5b321c;
+    color: #f7e3b4;
+    border: none;
+    box-shadow:
+        inset 0 0 0 3px #a9771f,
+        inset 0 0 0 6px #1a0d05;
+    border-radius: 0;
+    clip-path: polygon(
+        0 8px, 4px 8px, 4px 4px, 8px 4px, 8px 0,
+        calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px,
+        100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%,
+        8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px)
+    );
+    text-shadow: 2px 2px 0 #1a0d05;
+}
+
+body.dashboard-page .navbar-user a:hover,
+body.dashboard-page .navbar-user .botao:hover,
+body.dashboard-page .navbar-user .btn-logout:hover,
+body.dashboard-page .navbar-user .link-primary:hover {
+    background: #6a4125;
+    color: #fff6d6;
+    transform: translateY(-1px);
+}
+
+/* Afeta: o contentor de toasts que o main.js injeta no canto inferior direito */
 #toast-container {
     position: fixed;
     right: 20px;
@@ -595,6 +821,7 @@ body.dashboard-page .dashboard-container.game-shell .production-footer .tick-cop
     width: min(360px, calc(100vw - 40px));
 }
 
+/* Afeta: cada toast individual gerado dinamicamente pelo JavaScript */
 .toast {
     opacity: 0;
     transform: translateY(12px) scale(0.98);
@@ -607,24 +834,29 @@ body.dashboard-page .dashboard-container.game-shell .production-footer .tick-cop
     font-weight: 700;
 }
 
+/* Afeta: o estado visível do toast quando o JS adiciona a classe show */
 .toast.show {
     opacity: 1;
     transform: translateY(0) scale(1);
 }
 
+/* Afeta: os toasts de sucesso (ex.: ação concluída no dashboard) */
 .toast.success {
     border-color: rgba(78, 127, 70, 0.7);
 }
 
+/* Afeta: os toasts de erro/danger */
 .toast.danger {
     border-color: rgba(159, 59, 47, 0.7);
 }
 
+/* Afeta: os toasts informativos e de aviso */
 .toast.info,
 .toast.warning {
     border-color: rgba(154, 106, 34, 0.7);
 }
 
+/* Afeta: o dashboard em ecrãs largos, reposicionando o bloco de produção */
 @media (min-width: 1180px) {
     body.dashboard-page .dashboard-container.game-shell .production-footer .section-heading {
         position: relative;
@@ -642,6 +874,7 @@ body.dashboard-page .dashboard-container.game-shell .production-footer .tick-cop
     }
 }
 
+/* Afeta: o dashboard em tablets / portáteis médios */
 @media (max-width: 1180px) {
     body.dashboard-page .dashboard-container.game-shell .hud-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -672,6 +905,7 @@ body.dashboard-page .dashboard-container.game-shell .production-footer .tick-cop
     }
 }
 
+/* Afeta: o dashboard em telemóveis e ecrãs pequenos */
 @media (max-width: 720px) {
     body.dashboard-page .dashboard-container.game-shell {
         width: min(100%, calc(100% - 12px));
@@ -720,12 +954,12 @@ body.dashboard-page .dashboard-container.game-shell .production-footer .tick-cop
 
 
 
-/* ==========================================================================
-   BANNER DO REINO (ESTILO MINECRAFT / PIXEL ART)
-   Colado no final do ficheiro para forçar a sobreposição
-   ========================================================================== */
+/* ========================================================================== 
+    BANNER DO REINO (VERSÃO SOBRESCRITA NO FIM DO FICHEIRO)
+    Afeta: o mesmo <section class="realm-banner"> do dashboard.html, mas com visual pixel/retro
+    ========================================================================== */
 
-/* 1. O Contentor Principal (O "Bloco" de Madeira) */
+/* Afeta: <section class="realm-banner"> no dashboard.html, sobrepondo a versão anterior */
 body.dashboard-page .dashboard-container .realm-banner {
     background: #3a2315 ; 
     border-top: 4px solid #5d4834 ;
@@ -742,7 +976,7 @@ body.dashboard-page .dashboard-container .realm-banner {
     margin-bottom: 20px ;
 }
 
-/* 2. O Contentor do Brasão (Estilo "Slot" de Inventário) */
+/* Afeta: <div class="realm-banner-art"> que envolve o brasão do reino */
 body.dashboard-page .dashboard-container .realm-banner-art {
     background: #24140a ; 
     border-top: 4px solid #1a0d05 ;
@@ -755,7 +989,7 @@ body.dashboard-page .dashboard-container .realm-banner-art {
     align-items: center ;
 }
 
-/* A Imagem do Rei (com sombra dura em vez de difusa) */
+/* Afeta: <img class="realm-crest"> dentro do banner do reino */
 body.dashboard-page .dashboard-container .realm-crest {
     width: 80px ;
     height: 80px ;
@@ -763,7 +997,7 @@ body.dashboard-page .dashboard-container .realm-crest {
     filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.6)) ;
 }
 
-/* 3. A Etiqueta "Early Middle Ages" */
+/* Afeta: <span class="realm-badge">Early Middle Ages</span> no banner do reino */
 body.dashboard-page .dashboard-container .realm-badge {
     background: #577a3d ; 
     border: 2px solid #1a0d05 ; 
@@ -778,7 +1012,7 @@ body.dashboard-page .dashboard-container .realm-badge {
     display: inline-block ;
 }
 
-/* 4. Título e Subtítulo */
+/* Afeta: o título e o parágrafo dentro de <div class="realm-banner-copy"> */
 body.dashboard-page .dashboard-container .realm-banner-copy h1 {
     color: #f0c95d ; 
     text-shadow: 3px 3px 0px #1a0d05 ; 
