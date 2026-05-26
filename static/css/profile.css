@@ -1,0 +1,100 @@
+body.profile-page {
+    display: block;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px ridge var(--gold-deep);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.22);
+    margin-bottom: 12px;
+    background: #fff8dc;
+}
+
+.profile-username {
+    border-bottom: 0;
+    margin-bottom: 8px;
+}
+
+.profile-meta {
+    color: var(--muted);
+}
+
+.profile-card {
+    background: linear-gradient(to right, #fff8dc, #f7e7bf, #fff8dc);
+    border: 4px ridge var(--gold-deep);
+    border-radius: 4px;
+    padding: 18px;
+    margin-bottom: 18px;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+.profile-section-title {
+    margin-bottom: 14px;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.profile-field {
+    background: rgba(255, 255, 255, 0.45);
+    border: 2px solid rgba(184, 134, 11, 0.45);
+    border-radius: 6px;
+    padding: 14px;
+    text-align: center;
+}
+
+.profile-field span {
+    display: block;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.profile-field strong {
+    font-size: 1.8rem;
+    color: var(--heading);
+}
+
+.profile-highlight {
+    background: rgba(255, 215, 0, 0.12);
+}
+
+.profile-history {
+    text-align: left;
+}
+
+.achievement-list {
+    list-style: none;
+}
+
+.achievement-list li {
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(139, 69, 19, 0.2);
+}
+
+.achievement-list li:last-child {
+    border-bottom: 0;
+}
+
+.achievement-muted {
+    color: var(--muted);
+    font-style: italic;
+}
+
+.profile-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}

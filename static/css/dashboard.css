@@ -1,0 +1,795 @@
+/* ==========================================================================
+   CORPO DA PÁGINA DO DASHBOARD
+   Afeta: <body class="dashboard-page"> no dashboard.html
+   ========================================================================== */
+body.dashboard-page {
+    display: block;
+    padding: 0;
+}
+
+/* ==========================================================================
+   CONTAINER PRINCIPAL DO DASHBOARD
+   Afeta: <main class="auth-container dashboard-wide dashboard-container game-shell"> no dashboard.html
+   ========================================================================== */
+body.dashboard-page .dashboard-container {
+    background:
+        radial-gradient(circle at top, rgba(242, 210, 122, 0.08), transparent 35%),
+        linear-gradient(180deg, rgba(43, 26, 18, 0.96), rgba(24, 15, 10, 0.98));
+    border: 5px solid #8b5a2b;
+    box-shadow:
+        0 24px 50px rgba(0, 0, 0, 0.45),
+        inset 0 0 0 1px rgba(240, 201, 93, 0.12),
+        inset 0 0 40px rgba(0, 0, 0, 0.18);
+    color: #f8ecd0;
+    overflow: hidden;
+}
+
+body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell {
+    width: 100vw;
+    max-width: none;
+    margin: 0;
+    padding: 18px 24px 28px;
+    border-radius: 0;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #b07b2c;
+    box-shadow:
+        0 0 0 2px #2d1a0f,
+        0 0 0 6px #8a5a22,
+        inset 0 0 0 2px rgba(240, 201, 93, 0.12),
+        0 18px 0 rgba(0, 0, 0, 0.35);
+}
+
+body.dashboard-page .dashboard-container .auth-header {
+    position: relative;
+    margin-bottom: 24px;
+    padding: 26px 22px 24px;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            to right,
+            #3a2215 0%,
+            #7b3f1f 10%,
+            #5a2816 50%,
+            #7b3f1f 90%,
+            #3a2215 100%
+        ),
+        radial-gradient(circle at top, rgba(240, 201, 93, 0.08), transparent 42%);
+    border: 3px ridge #f0c95d;
+    border-radius: 8px;
+    box-shadow:
+        inset 0px 8px 15px rgba(0, 0, 0, 0.36),
+        inset 0px -8px 15px rgba(0, 0, 0, 0.36),
+        0 16px 26px rgba(0, 0, 0, 0.38);
+}
+
+body.dashboard-page .dashboard-container .auth-header::before,
+body.dashboard-page .dashboard-container .auth-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 28px;
+    pointer-events: none;
+}
+
+body.dashboard-page .dashboard-container .auth-header::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.42), transparent);
+}
+
+body.dashboard-page .dashboard-container .auth-header::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.42), transparent);
+}
+
+body.dashboard-page .dashboard-container .auth-header h1 {
+    margin: 0 0 10px;
+    border-bottom: 0;
+    color: #f7e3b4;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.85);
+    letter-spacing: 0.06em;
+}
+
+/* ==========================================================================
+   BARRA DE NAVEGAÇÃO SUPERIOR
+   Afeta: <nav class="navbar"> no dashboard.html
+   ========================================================================== */
+.navbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    max-width: none;
+    margin: 0 0 20px;
+    padding: 18px 24px;
+    min-height: 96px;
+    background-color: #3a281d;
+    background-image:
+        linear-gradient(rgba(20, 12, 8, 0.24), rgba(20, 12, 8, 0.24)),
+        url('../images/header_texture.png');
+    background-repeat: repeat, no-repeat;
+    background-position: center, center;
+    background-size: auto, 100% 100%;
+    border: 4px solid #8b5a2b;
+    border-bottom: 0;
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 0, 0, 0.35);
+    color: var(--gold);
+}
+
+/* ==========================================================================
+   BARRA DE NAVEGAÇÃO - LINHA DECORATIVA INFERIOR
+   Afeta: elemento pseudo-elemento ::after do <nav class="navbar"> no dashboard.html
+   ========================================================================== */
+.navbar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 14px;
+    background:
+        linear-gradient(rgba(20, 12, 8, 0.2), rgba(20, 12, 8, 0.2)),
+        url('../images/header_texture.png');
+    background-repeat: repeat, repeat-x;
+    background-position: center, center bottom;
+    background-size: auto, 100% auto;
+    border-top: 2px solid #5d4037;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   MARCA NA BARRA DE NAVEGAÇÃO
+   Afeta: <div class="navbar-brand">Império de Recursos</div> no dashboard.html
+   ========================================================================== */
+.navbar-brand {
+    font-size: 1.45em;
+    font-weight: 700;
+    color: var(--gold);
+    text-shadow: 2px 2px 4px #000;
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    color: #fff2b3;
+}
+
+.navbar-user span {
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.85);
+}
+
+.dashboard-container,
+.game-surface {
+    overflow: hidden;
+}
+
+.realm-banner {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 20px;
+    align-items: center;
+    padding: 18px;
+    margin-bottom: 20px;
+    background-image:
+        linear-gradient(to right, rgba(54, 27, 12, 0.82), rgba(43, 21, 10, 0.82)),
+        linear-gradient(rgba(14, 8, 5, 0.45), rgba(14, 8, 5, 0.45)),
+        url('../images/wood_texture.png');
+    background-origin: padding-box, border-box, border-box;
+    background-clip: padding-box, border-box, border-box;
+    background-position: center;
+    background-size: auto, cover, 260px 260px;
+    border: 10px solid transparent;
+    border-radius: 4px;
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 222, 163, 0.18),
+        inset 0 0 24px rgba(0, 0, 0, 0.36);
+}
+
+.realm-banner-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.realm-crest {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.3));
+}
+
+.realm-banner-copy {
+    text-align: left;
+}
+
+.realm-badge {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 4px 10px;
+    border: 2px solid rgba(240, 201, 93, 0.6);
+    color: #f0c95d;
+    background: rgba(43, 26, 18, 0.72);
+    font-size: 0.85em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.realm-banner-copy h1 {
+    border-bottom: 0;
+    margin-bottom: 6px;
+    color: #f6e1a7;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8), 0 0 16px rgba(240, 201, 93, 0.12);
+}
+
+.realm-banner-copy p {
+    color: #f5e8c8;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    background:
+        linear-gradient(to bottom, rgba(247, 231, 191, 0.98), rgba(226, 196, 132, 0.98)),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.14), transparent 45%);
+    border: 4px ridge var(--gold-deep);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.stat-card h3 {
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    color: #5a2d18;
+}
+
+.stat-card p {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4a2516;
+}
+
+.stat-card.highlight {
+    background:
+        linear-gradient(to bottom, #4a2a1a, #25180f),
+        radial-gradient(circle at top, rgba(240, 201, 93, 0.08), transparent 50%);
+    border-color: #f0c95d;
+}
+
+.stat-card.highlight h3,
+.stat-card.highlight p {
+    color: #f8ecd0;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.9);
+}
+
+.stat-card.highlight p {
+    font-size: 2.1rem;
+}
+
+.dashboard-section {
+    margin-top: 26px;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 16px;
+    padding: 18px 20px 16px;
+    background:
+        linear-gradient(135deg, rgba(82, 49, 30, 0.98), rgba(46, 28, 17, 0.98)),
+        radial-gradient(circle at top, rgba(240, 201, 93, 0.08), transparent 34%);
+    border: 3px solid rgba(240, 201, 93, 0.45);
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.section-heading h2 {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    color: #f6e1a7;
+    border-bottom-color: rgba(240, 201, 93, 0.65);
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+}
+
+.section-heading p {
+    color: #ead8b7;
+    font-size: 0.98em;
+}
+
+.button-meta {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.76em;
+    line-height: 1.2;
+    color: rgba(251, 239, 210, 0.92);
+}
+
+.btn-build {
+    width: 100%;
+    min-height: 58px;
+    font-size: 1.05em;
+}
+
+.btn-military {
+    width: 100%;
+    min-height: 76px;
+    background: linear-gradient(90deg, #7b5130, #4b2d1a);
+    border-color: #f0c95d;
+}
+
+.btn-military:hover {
+    background: linear-gradient(to bottom, #956648, #6a4125);
+}
+
+body.dashboard-page .dashboard-container.game-shell .realm-banner,
+body.dashboard-page .dashboard-container.game-shell .dashboard-header {
+    margin-top: 18px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .hud-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    margin-top: 18px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .hud-card {
+    min-height: 140px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .hud-card p {
+    font-size: 1.75rem;
+    margin-top: 4px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .hud-status-card p {
+    font-size: 1.55rem;
+}
+
+body.dashboard-page .dashboard-container.game-shell .game-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 22px;
+    align-items: start;
+    margin-top: 24px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .viewport-panel {
+    min-width: 0;
+}
+
+
+
+
+body.dashboard-page .dashboard-container.game-shell .viewport-shell {
+    min-height: 760px;
+    padding: 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(240, 201, 93, 0.22);
+    background:
+        radial-gradient(circle at top, rgba(240, 201, 93, 0.08), transparent 36%),
+        linear-gradient(180deg, rgba(16, 12, 10, 0.98), rgba(5, 5, 5, 0.98));
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+        0 18px 44px rgba(0, 0, 0, 0.45);
+}
+
+body.dashboard-page .dashboard-container.game-shell .viewport-screen {
+    position: relative;
+    min-height: 720px;
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1px solid rgba(240, 201, 93, 0.2);
+    background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.04), transparent 55%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.98), rgba(10, 10, 10, 0.98));
+    box-shadow:
+        inset 0 0 120px rgba(0, 0, 0, 0.85),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-buildings {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transform: translate(-50%, -50%);
+    min-width: 92px;
+    padding: 10px 12px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(240, 201, 93, 0.28);
+    background: rgba(19, 15, 12, 0.82);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    color: #f8ecd0;
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #f0c95d, #a9771f);
+    color: #221509;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-shadow: none;
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building strong {
+    border-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    font-size: 0.82rem;
+    color: #fff0c7;
+    text-shadow: none;
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building em {
+    font-style: normal;
+    font-size: 0.76rem;
+    color: rgba(248, 236, 208, 0.82);
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building.is-hidden {
+    display: none;
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building[data-building-key="castelos"] {
+    background: rgba(44, 20, 16, 0.9);
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building[data-building-key="portos"] {
+    background: rgba(12, 36, 58, 0.88);
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building[data-building-key="igrejas"] {
+    background: rgba(41, 32, 54, 0.88);
+}
+
+body.dashboard-page .dashboard-container.game-shell .sidebar-panel {
+    position: sticky;
+    top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .sidebar-section {
+    margin-top: 0;
+}
+
+body.dashboard-page .dashboard-container.game-shell .sidebar-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .sidebar-stack form {
+    width: 100%;
+}
+
+body.dashboard-page .dashboard-container.game-shell .viewport-shell,
+body.dashboard-page .dashboard-container.game-shell .viewport-screen {
+    width: 100%;
+}
+
+body.dashboard-page .dashboard-container.game-shell .action-button {
+    width: 100%;
+    min-height: 88px;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    text-align: left;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(240, 201, 93, 0.16);
+    background: rgba(0, 0, 0, 0.18);
+    color: #f4e7c8;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-list strong,
+body.dashboard-page .dashboard-container.game-shell .tick-copy strong {
+    color: #f7dc8a;
+}
+
+body.dashboard-page .dashboard-container.game-shell .tick-copy {
+    margin-top: 14px;
+    text-align: center;
+    color: #ead8b7;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer {
+    margin-top: 0;
+    padding: 0 18px;
+    display: grid;
+    gap: 12px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .section-heading {
+    margin-bottom: 0;
+    margin-top: 0;
+    margin-left: 0;
+    max-width: none;
+    text-align: left;
+    position: static;
+    z-index: auto;
+    transform: none;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .production-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 0;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .production-list li {
+    min-height: 72px;
+    padding: 10px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .production-list strong {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .tick-copy {
+    margin-top: 0;
+    position: static;
+    transform: none;
+    z-index: auto;
+    display: none !important;
+}
+
+#toast-container {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 9999;
+    width: min(360px, calc(100vw - 40px));
+}
+
+.toast {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+    transition: opacity 0.28s ease, transform 0.28s ease;
+    padding: 14px 16px;
+    border: 4px ridge var(--gold-deep);
+    background: linear-gradient(to right, #fff8dc, #f5deb3);
+    color: var(--text);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+    font-weight: 700;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.toast.success {
+    border-color: rgba(78, 127, 70, 0.7);
+}
+
+.toast.danger {
+    border-color: rgba(159, 59, 47, 0.7);
+}
+
+.toast.info,
+.toast.warning {
+    border-color: rgba(154, 106, 34, 0.7);
+}
+
+@media (min-width: 1180px) {
+    body.dashboard-page .dashboard-container.game-shell .production-footer .section-heading {
+        position: relative;
+        transform: translateY(-120px);
+        margin-bottom: -120px;
+        z-index: 6;
+        text-align: left;
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .tick-copy {
+        position: relative;
+        transform: translateY(-70px);
+        z-index: 5;
+        text-align: center;
+    }
+}
+
+@media (max-width: 1180px) {
+    body.dashboard-page .dashboard-container.game-shell .hud-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .game-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .sidebar-panel {
+        position: static;
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .map-building {
+        min-width: 82px;
+        padding: 8px 10px 10px;
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .production-footer .production-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .production-footer .section-heading {
+        margin-left: 0;
+        margin-top: 0;
+        max-width: none;
+        text-align: center;
+    }
+}
+
+@media (max-width: 720px) {
+    body.dashboard-page .dashboard-container.game-shell {
+        width: min(100%, calc(100% - 12px));
+        padding: 12px;
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .hud-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .map-building {
+        min-width: 72px;
+        padding: 7px 9px 9px;
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .sidebar-section .section-heading {
+        padding: 14px;
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .production-footer .production-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .production-footer .section-heading {
+        margin-left: 0;
+        margin-top: 0;
+        max-width: none;
+        text-align: center;
+    }
+
+    body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell {
+        padding: 10px;
+    }
+
+    body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .viewport-shell,
+    body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell .viewport-screen {
+        min-height: 500px;
+    }
+
+    body.dashboard-page .dashboard-container.game-shell .production-footer .production-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+
+
+/* ==========================================================================
+   BANNER DO REINO (ESTILO MINECRAFT / PIXEL ART)
+   Colado no final do ficheiro para forçar a sobreposição
+   ========================================================================== */
+
+/* 1. O Contentor Principal (O "Bloco" de Madeira) */
+body.dashboard-page .dashboard-container .realm-banner {
+    background: #3a2315 ; 
+    border-top: 4px solid #5d4834 ;
+    border-left: 4px solid #5d4834 ;
+    border-bottom: 4px solid #1a0d05 ;
+    border-right: 4px solid #1a0d05 ;
+    box-shadow: none ; 
+    border-radius: 0 ; 
+    display: grid ;
+    grid-template-columns: 110px 1fr ;
+    gap: 24px ;
+    align-items: center ;
+    padding: 16px 20px ;
+    margin-bottom: 20px ;
+}
+
+/* 2. O Contentor do Brasão (Estilo "Slot" de Inventário) */
+body.dashboard-page .dashboard-container .realm-banner-art {
+    background: #24140a ; 
+    border-top: 4px solid #1a0d05 ;
+    border-left: 4px solid #1a0d05 ;
+    border-bottom: 4px solid #5d4834 ;
+    border-right: 4px solid #5d4834 ;
+    padding: 12px ;
+    display: flex ;
+    justify-content: center ;
+    align-items: center ;
+}
+
+/* A Imagem do Rei (com sombra dura em vez de difusa) */
+body.dashboard-page .dashboard-container .realm-crest {
+    width: 80px ;
+    height: 80px ;
+    object-fit: contain ;
+    filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.6)) ;
+}
+
+/* 3. A Etiqueta "Early Middle Ages" */
+body.dashboard-page .dashboard-container .realm-badge {
+    background: #577a3d ; 
+    border: 2px solid #1a0d05 ; 
+    color: #ffffff ;
+    text-shadow: 2px 2px 0px #000000 ;
+    border-radius: 0 ;
+    padding: 4px 10px ;
+    font-weight: bold ;
+    text-transform: uppercase ;
+    letter-spacing: 1px ;
+    margin-bottom: 8px ;
+    display: inline-block ;
+}
+
+/* 4. Título e Subtítulo */
+body.dashboard-page .dashboard-container .realm-banner-copy h1 {
+    color: #f0c95d ; 
+    text-shadow: 3px 3px 0px #1a0d05 ; 
+    margin-bottom: 6px ;
+    font-size: 2rem ;
+    border-bottom: none ;
+}
+
+body.dashboard-page .dashboard-container .realm-banner-copy p {
+    color: #e0c894 ; 
+    text-shadow: 2px 2px 0px #1a0d05 ;
+    font-size: 1.05rem ;
+    margin: 0 ;
+}
