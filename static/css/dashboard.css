@@ -1,0 +1,742 @@
+
+/* Pixel art: títulos, botões, HUD, rótulos, navbar */
+.navbar-brand,
+.section-heading h2,
+.section-heading p,
+.stat-card h3,
+.stat-card p,
+.hud-card h3,
+.hud-card p,
+.btn-build,
+.btn-military,
+.action-button,
+.button-meta,
+.realm-badge,
+.realm-banner-copy h1,
+.realm-banner-copy p,
+.production-list span,
+.production-list strong,
+.production-list li,
+.section-desc-px,
+.tick-copy,
+.map-building strong,
+.map-building em,
+.navbar-user a,
+.navbar-user span,
+.navbar-user strong,
+.navbar-user .botao,
+.navbar-user .link-primary,
+.navbar-user .btn-logout,
+.realm-title,
+.toast {
+    font-family: 'Press Start 2P', monospace;
+    letter-spacing: 0.02em;
+}
+
+/* Medieval: descrições, parágrafos e texto corrido */
+/* Remove serif override so these elements use the pixel font declared
+   for HUD and headings. If you want them serif later, add a more specific
+   selector. */
+
+/* Tamanhos pixel art consistentes */
+.navbar-brand           { font-size: 13px; }
+.section-heading h2     { font-size: 11px; }
+.realm-banner-copy h1   { font-size: 14px; }
+.stat-card h3,
+.hud-card h3            { font-size: 9px; }
+.stat-card p,
+.hud-card p             { font-size: 20px; }
+.btn-build,
+.btn-military,
+.action-button          { font-size: 9px; }
+.button-meta            { font-size: 8px; }
+.navbar-user a,
+.navbar-user .botao,
+.navbar-user .link-primary,
+.navbar-user .btn-logout { font-size: 9px; }
+.map-building strong    { font-size: 9px; }
+.map-building em        { font-size: 8px; }
+.production-list span   { font-size: 9px; }
+.production-list strong { font-size: 16px; }
+.tick-copy              { font-size: 10px; }
+.section-heading p      { font-size: 9px; }
+.realm-badge            { font-size: 8px; }
+.realm-banner-copy p    { font-size: 9px; }
+
+/* --------------------------------------------------------------------------
+    CORPO DA PÁGINA
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Ajustes para a página de dashboard apenas. Não move para
+    `base.css` porque altera o layout apenas quando o `body` tem a
+    classe `dashboard-page`.
+*/
+body.dashboard-page {
+     display: block;
+     padding: 0;
+}
+
+/* --------------------------------------------------------------------------
+    CONTAINER PRINCIPAL
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Estilos de container específicos para o layout amplo do dashboard.
+    Mantém a aparência do "game shell" e é específico a esta página, portanto
+    deve ficar em `dashboard.css`.
+*/
+body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell {
+    width: 100vw;
+    max-width: none;
+    margin: 0;
+    padding: 18px 24px 28px;
+    border-radius: 0;
+    border: 4px solid var(--brown-light);
+    background:
+        radial-gradient(circle at top, rgba(242,210,122,0.06), transparent 35%),
+        linear-gradient(180deg, rgba(43,26,18,0.97), rgba(24,15,10,0.99));
+    box-shadow:
+        0 0 0 2px #2d1a0f,
+        0 0 0 6px #8a5a22,
+        inset 0 0 0 2px rgba(240,201,93,0.10);
+    color: var(--text-light);
+    overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+    NAVBAR
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Navbar geral do dashboard — contém regras específicas como
+    cores e sombras do tema. Se existir uma navbar compartilhada entre
+    páginas, extrair apenas regras base para `base.css` e manter variações
+    de tema aqui.
+*/
+.navbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    margin: 0 0 20px;
+    padding: 12px 18px;
+    min-height: 60px;
+    background: var(--brown-mid);
+    box-shadow:
+        inset 0 0 0 4px var(--brown-light),
+        inset 0 0 0 7px var(--brown-dark);
+    color: var(--gold);
+}
+
+.navbar-brand {
+    color: var(--gold);
+    text-shadow: 2px 2px 0 #000;
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+/* Botões e links da navbar */
+body.dashboard-page .navbar-user a,
+body.dashboard-page .navbar-user .botao,
+body.dashboard-page .navbar-user .btn-logout,
+body.dashboard-page .navbar-user .link-primary {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #5b321c;
+    color: #f7e3b4;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000;
+    box-shadow:
+        inset 0 0 0 3px #a9771f,
+        inset 0 0 0 5px var(--brown-dark);
+}
+
+body.dashboard-page .navbar-user a:hover,
+body.dashboard-page .navbar-user .botao:hover,
+body.dashboard-page .navbar-user .btn-logout:hover,
+body.dashboard-page .navbar-user .link-primary:hover {
+    background: #7a4e2d;
+    color: #fff6d6;
+}
+
+/* --------------------------------------------------------------------------
+    REALM BANNER
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Composição e estilo do banner do reino — claramente dashboard-
+    específico. Deixe em `dashboard.css`.
+*/
+body.dashboard-page .dashboard-container .realm-banner {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 20px;
+    align-items: center;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    background: var(--brown-mid);
+    box-shadow:
+        inset 0 0 0 4px var(--brown-light),
+        inset 0 0 0 7px var(--brown-dark);
+}
+
+body.dashboard-page .dashboard-container .realm-banner-art {
+    background: var(--bg-card);
+    box-shadow:
+        inset 0 0 0 3px var(--brown-light),
+        inset 0 0 0 6px var(--brown-dark);
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.dashboard-page .dashboard-container .realm-crest {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    filter: drop-shadow(3px 3px 0 rgba(0,0,0,0.8));
+}
+
+body.dashboard-page .dashboard-container .realm-badge {
+    display: inline-block;
+    background: #577a3d;
+    box-shadow:
+        inset 0 0 0 2px #2a4a1a,
+        inset 0 0 0 4px #0a1505;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000;
+    padding: 4px 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+body.dashboard-page .dashboard-container .realm-banner-copy h1 {
+    color: var(--gold);
+    text-shadow: 2px 2px 0 #000;
+    margin-bottom: 8px;
+    border-bottom: none;
+}
+
+body.dashboard-page .dashboard-container .realm-banner-copy p {
+    color: #e0c894;
+    text-shadow: 1px 1px 0 #000;
+    line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+    HUD GRID — INVENTÁRIO MINECRAFT (horizontal layout)
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Layout do HUD (recursos) — esta secção é específica do dashboard
+    e implementa um comportamento horizontal com scroll. Mantê-la aqui.
+    Observação: algumas propriedades (ex.: box-shadow, background) reutilizam
+    variáveis definidas no topo que podem ser movidas para `base.css`.
+*/
+body.dashboard-page .dashboard-container.game-shell .hud-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 12px;
+    padding: 12px 14px;
+    margin-top: 18px;
+    background: var(--brown-mid);
+    box-shadow:
+        inset 0 0 0 8px var(--brown-light),
+        inset 0 0 0 14px var(--brown-dark);
+    border-radius: 0 !important;
+    border: none !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure each card stays compact and doesn't shrink on small screens */
+body.dashboard-page .dashboard-container.game-shell .hud-grid .hud-card {
+    flex: 0 0 auto;
+    min-width: 220px;
+}
+
+/* Optional: make the HUD show a single-line scrollbar area on small screens */
+body.dashboard-page .dashboard-container.game-shell .hud-grid::-webkit-scrollbar {
+    height: 10px;
+}
+body.dashboard-page .dashboard-container.game-shell .hud-grid::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.25);
+    border-radius: 6px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .hud-card {
+    background: var(--bg-card) !important;
+    border: none !important;
+    box-shadow: inset 0 0 0 3px var(--brown-light), inset 0 0 0 5px var(--brown-dark) !important;
+    min-height: 56px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-radius: 0 !important;
+    cursor: default;
+    transition: background 0.1s, box-shadow 0.1s;
+}
+
+body.dashboard-page .dashboard-container.game-shell .hud-card:hover {
+    background: #2f1d11 !important;
+    box-shadow: inset 0 0 0 3px var(--gold-deep), inset 0 0 0 5px var(--brown-dark) !important;
+}
+
+body.dashboard-page .dashboard-container.game-shell .hud-card h3 {
+    color: #e0c894 !important;
+    text-align: left;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0 #000 !important;
+    border: none !important;
+    padding: 0;
+    margin: 0;
+    flex: 1 1 auto;
+}
+
+body.dashboard-page .dashboard-container.game-shell .hud-card p {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 0 var(--brown-dark) !important;
+    margin: 0;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* Slot especial: tick / relógio — fundo verde */
+body.dashboard-page .dashboard-container.game-shell .hud-status-card {
+    background: var(--green-bg) !important;
+    box-shadow: inset 0 0 0 3px var(--green-brd), inset 0 0 0 5px #0a1505 !important;
+}
+
+body.dashboard-page .dashboard-container.game-shell .hud-status-card h3 {
+    color: #8fcf5a !important;
+}
+
+body.dashboard-page .dashboard-container.game-shell .hud-status-card p,
+body.dashboard-page .dashboard-container.game-shell .hud-status-card [data-tick-countdown] {
+    color: var(--green-txt) !important;
+    text-shadow: 1px 1px 0 #0a1505 !important;
+    text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+    SECTION HEADING — CABEÇALHOS DE SECÇÃO
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Estilo de cabeçalhos de secção usado no dashboard. Pode ser útil
+    em outras páginas, mas atualmente aplica sombras e cores do tema; manter
+    em `dashboard.css` ou extrair para `base.css` se desejar consistência.
+*/
+.section-heading {
+    text-align: center;
+    padding: 14px 16px;
+    background: var(--brown-mid);
+    border: none !important;
+    box-shadow:
+        inset 0 0 0 4px var(--brown-light),
+        inset 0 0 0 7px var(--brown-dark);
+    border-radius: 0 !important;
+    margin-bottom: 14px;
+}
+
+.section-heading h2 {
+    color: var(--gold) !important;
+    text-shadow: 2px 2px 0 #000;
+    margin-bottom: 6px;
+    padding-bottom: 0;
+    border-bottom: none !important;
+    text-transform: uppercase;
+}
+
+.section-heading p {
+    color: #ead8b7;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+    GAME LAYOUT — MAPA + SIDEBAR
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Layout específico do painel de jogo. Regras como grid-template e
+    dimensões são específicas do dashboard e devem permanecer aqui.
+*/
+body.dashboard-page .dashboard-container.game-shell .game-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 20px;
+    align-items: start;
+    margin-top: 22px;
+}
+
+/* VIEWPORT / MAPA */
+body.dashboard-page .dashboard-container.game-shell .viewport-shell {
+    width: 100%;
+    min-height: 680px;
+    padding: 14px;
+    background: #0a0a0a;
+    box-shadow:
+        inset 0 0 0 4px var(--brown-light),
+        inset 0 0 0 8px var(--brown-dark);
+    border-radius: 0 !important;
+    border: none !important;
+}
+
+body.dashboard-page .dashboard-container.game-shell .viewport-screen {
+    position: relative;
+    width: 100%;
+    min-height: 650px;
+    overflow: hidden;
+    border-radius: 0 !important;
+    border: none !important;
+    background: radial-gradient(circle at center, #0d1a05 0%, #050a02 70%);
+    box-shadow: inset 0 0 0 2px rgba(240,201,93,0.12);
+}
+
+/* Grelha de fundo do mapa */
+body.dashboard-page .dashboard-container.game-shell .viewport-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(240,201,93,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,201,93,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-buildings {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+/* Edifícios no mapa */
+body.dashboard-page .dashboard-container.game-shell .map-building {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transform: translate(-50%, -50%);
+    min-width: 80px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--bg-card);
+    box-shadow:
+        inset 0 0 0 3px var(--brown-light),
+        inset 0 0 0 5px var(--brown-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    image-rendering: pixelated;
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building strong {
+    color: #fff0c7;
+    text-shadow: 1px 1px 0 #000;
+    text-transform: uppercase;
+    border-bottom: none;
+    padding: 0;
+    margin: 0;
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building em {
+    font-style: normal;
+    color: var(--gold);
+    text-shadow: 1px 1px 0 #000;
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building.is-hidden {
+    display: none;
+}
+
+/* Cores por tipo de edifício */
+body.dashboard-page .dashboard-container.game-shell .map-building[data-building-key="castelos"] .map-building-icon {
+    background: #2c1410;
+    box-shadow: inset 0 0 0 3px #8b2a1a, inset 0 0 0 5px #0f0604;
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building[data-building-key="portos"] .map-building-icon {
+    background: #0c243a;
+    box-shadow: inset 0 0 0 3px #1a5a8b, inset 0 0 0 5px #05080f;
+}
+
+body.dashboard-page .dashboard-container.game-shell .map-building[data-building-key="igrejas"] .map-building-icon {
+    background: #292036;
+    box-shadow: inset 0 0 0 3px #5a3a8b, inset 0 0 0 5px #0a0714;
+}
+
+/* --------------------------------------------------------------------------
+    SIDEBAR PANEL
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Sidebar de ações (construir/recrutar). Mantido no dashboard pois
+    controla comportamento e espaçamento específicos desta página.
+*/
+body.dashboard-page .dashboard-container.game-shell .sidebar-panel {
+    position: sticky;
+    top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .sidebar-section {
+    margin-top: 0;
+}
+
+body.dashboard-page .dashboard-container.game-shell .sidebar-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .sidebar-stack form {
+    width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+    BOTÕES DE AÇÃO — CONSTRUÇÃO E MILITAR
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Estilos específicos de botões do dashboard (tamanho, sombras,
+    cores). Estes são fortemente ligados ao tema e devem permanecer em
+    `dashboard.css`.
+*/
+
+/* Base comum de todos os botões de ação */
+.action-button,
+.btn-build,
+.btn-military {
+    display: block;
+    width: 100%;
+    border: none !important;
+    border-radius: 0 !important;
+    cursor: pointer;
+    text-align: left;
+    line-height: 1.4;
+    transition: background 0.1s;
+    text-shadow: 1px 1px 0 #000;
+}
+
+/* Botão construção */
+.btn-build {
+    min-height: 64px;
+    padding: 12px 14px;
+    background: #5b321c !important;
+    color: #f7e3b4 !important;
+    box-shadow:
+        inset 0 0 0 3px #a9771f,
+        inset 0 0 0 5px var(--brown-dark),
+        0 6px 0 rgba(0,0,0,0.3) !important;
+}
+
+.btn-build:hover {
+    background: #7a4e2d !important;
+}
+
+/* Botão militar — borda dourada especial */
+.btn-military {
+    min-height: 72px;
+    padding: 14px 14px;
+    background: #4a2a1a !important;
+    color: #fff6d6 !important;
+    box-shadow:
+        inset 0 0 0 3px var(--gold),
+        inset 0 0 0 5px var(--brown-dark),
+        0 6px 0 rgba(0,0,0,0.3) !important;
+}
+
+.btn-military:hover {
+    background: #6a4125 !important;
+}
+
+/* Texto de custo abaixo dos botões */
+.button-meta {
+    display: block;
+    margin-top: 5px;
+    opacity: 0.90;
+    color: rgba(248,236,208,0.9) !important;
+    line-height: 1.3;
+}
+
+/* --------------------------------------------------------------------------
+    PRODUCTION LIST — ITENS DE PRODUÇÃO
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Componente de footer de produção (lista de yields por tick). Fica
+    em `dashboard.css` porque é parte do painel do jogo; no entanto, regras
+    genéricas de listagem podem ser extraídas para `base.css` se desejado.
+*/
+body.dashboard-page .dashboard-container.game-shell .production-list {
+    list-style: none;
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    border: none !important;
+    background: var(--bg-card);
+    color: #f4e7c8;
+    box-shadow:
+        inset 0 0 0 3px var(--brown-light),
+        inset 0 0 0 5px var(--brown-dark);
+    border-radius: 0 !important;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-list strong {
+    color: #f7dc8a;
+    text-shadow: 1px 1px 0 #000;
+}
+
+/* TICK */
+body.dashboard-page .dashboard-container.game-shell .tick-copy {
+    margin-top: 12px;
+    text-align: center;
+    color: #ead8b7;
+}
+
+body.dashboard-page .dashboard-container.game-shell .tick-copy strong {
+    color: var(--green-txt);
+}
+
+/* --------------------------------------------------------------------------
+    PRODUCTION FOOTER
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Footer de produção (layout e grid). Mantido aqui por ser
+    específico ao dashboard; mover só se reutilizado por outras páginas.
+*/
+body.dashboard-page .dashboard-container.game-shell .production-footer {
+    margin-top: 0;
+    padding: 0 18px;
+    display: grid;
+    gap: 10px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .section-heading {
+    margin: 0;
+    text-align: left;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .production-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 0;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .production-list li {
+    min-height: 64px;
+    padding: 10px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .production-list strong {
+    font-size: 18px;
+    line-height: 1;
+}
+
+body.dashboard-page .dashboard-container.game-shell .production-footer .tick-copy {
+    display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+    TOASTS
+    -------------------------------------------------------------------------- */
+/* ORIGEM: Contêiner e estilos de toast usados para mensagens flash convertidas
+    em toasts no dashboard. Se outros templates usam toasts idênticos, mover
+    para `base.css` e manter apenas variações locais aqui.
+*/
+#toast-container {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 9999;
+    width: min(340px, calc(100vw - 40px));
+}
+
+.toast {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    padding: 12px 14px;
+    background: linear-gradient(to right, #fff8dc, #f5deb3);
+    box-shadow:
+        inset 0 0 0 3px #a9771f,
+        inset 0 0 0 5px var(--brown-dark);
+    font-weight: 700;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast.success { box-shadow: inset 0 0 0 3px #4e7f46, inset 0 0 0 5px #1a2e14; }
+.toast.danger  { box-shadow: inset 0 0 0 3px #9f3b2f, inset 0 0 0 5px #2e0f0a; }
+.toast.info,
+.toast.warning { box-shadow: inset 0 0 0 3px #9a6a22, inset 0 0 0 5px #2a1a05; }
+
+/* --------------------------------------------------------------------------
+   MEDIA QUERIES
+   -------------------------------------------------------------------------- */
+@media (max-width: 1180px) {
+    body.dashboard-page .dashboard-container.game-shell .hud-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    body.dashboard-page .dashboard-container.game-shell .game-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    body.dashboard-page .dashboard-container.game-shell .sidebar-panel {
+        position: static;
+    }
+    body.dashboard-page .dashboard-container.game-shell .production-footer .production-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    body.dashboard-page .dashboard-container.game-shell .production-footer .section-heading {
+        text-align: center;
+    }
+}
+
+@media (max-width: 720px) {
+    body.dashboard-page main.auth-container.dashboard-wide.dashboard-container.game-shell {
+        width: 100%;
+        padding: 10px;
+    }
+    body.dashboard-page .dashboard-container.game-shell .hud-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    body.dashboard-page .dashboard-container.game-shell .viewport-shell,
+    body.dashboard-page .dashboard-container.game-shell .viewport-screen {
+        min-height: 460px;
+    }
+    body.dashboard-page .dashboard-container.game-shell .production-footer .production-list {
+        grid-template-columns: 1fr;
+    }
+    body.dashboard-page .dashboard-container.game-shell .production-footer .section-heading {
+        text-align: center;
+    }
+    .navbar-brand { font-size: 10px; }
+    .section-heading h2 { font-size: 9px; }
+}

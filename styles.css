@@ -1,0 +1,79 @@
+/* ==========================================================================
+   BANNER DO REINO (ESTILO MINECRAFT / PIXEL ART)
+   Colado no final do ficheiro para forçar a sobreposição
+   ========================================================================== */
+
+/* 1. O Contentor Principal (O "Bloco" de Madeira) */
+html body.dashboard-page .dashboard-container .realm-banner,
+body.dashboard-page .dashboard-container.game-shell .realm-banner {
+    background: #3a2315; 
+    border-top: 4px solid #5d4834;
+    border-left: 4px solid #5d4834;
+    border-bottom: 4px solid #1a0d05;
+    border-right: 4px solid #1a0d05;
+    box-shadow: none; 
+    border-radius: 0; 
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 24px;
+    align-items: center;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+/* 2. O Contentor do Brasão (Estilo "Slot" de Inventário) */
+html body.dashboard-page .dashboard-container .realm-banner-art,
+body.dashboard-page .dashboard-container.game-shell .realm-banner-art {
+    background: #24140a; 
+    border-top: 4px solid #1a0d05;
+    border-left: 4px solid #1a0d05;
+    border-bottom: 4px solid #5d4834;
+    border-right: 4px solid #5d4834;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* A Imagem do Rei (com sombra dura em vez de difusa) */
+html body.dashboard-page .dashboard-container .realm-crest,
+body.dashboard-page .dashboard-container.game-shell .realm-crest {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.6));
+}
+
+/* 3. A Etiqueta "Early Middle Ages" */
+html body.dashboard-page .dashboard-container .realm-badge,
+body.dashboard-page .dashboard-container.game-shell .realm-badge {
+    background: #577a3d; 
+    border: 2px solid #1a0d05; 
+    color: #ffffff;
+    text-shadow: 2px 2px 0px #000000;
+    border-radius: 0;
+    padding: 4px 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+/* 4. Título e Subtítulo */
+html body.dashboard-page .dashboard-container .realm-banner-copy h1,
+body.dashboard-page .dashboard-container.game-shell .realm-banner-copy h1 {
+    color: #f0c95d; 
+    text-shadow: 3px 3px 0px #1a0d05; 
+    margin-bottom: 6px;
+    font-size: 2rem;
+    border-bottom: none;
+}
+
+html body.dashboard-page .dashboard-container .realm-banner-copy p,
+body.dashboard-page .dashboard-container.game-shell .realm-banner-copy p {
+    color: #e0c894; 
+    text-shadow: 2px 2px 0px #1a0d05;
+    font-size: 1.05rem;
+    margin: 0;
+}

@@ -1,0 +1,16 @@
+body.auth-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-hr {
+    border: 0;
+    border-top: 2px solid var(--gold-deep);
+    margin: 12px 0 22px;
+}
