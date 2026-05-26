@@ -47,8 +47,76 @@ EDIFICIOS_INFO = {
     'igreja': {'custo': {'joias': 10}, 'coluna': 'igrejas'},
 }
 
+TOTAL_CONSTRUCTION_SLOTS = 10
+
+BUILDING_LABELS = {
+    'casa': 'Casa',
+    'fazenda': 'Fazenda',
+    'estrada': 'Estrada',
+    'castelo': 'Castelo',
+    'porto': 'Porto',
+    'igreja': 'Igreja',
+}
+
+
+def get_building_label(tipo):
+    if not tipo:
+        return None
+    return BUILDING_LABELS.get(tipo, tipo.capitalize())
+
+
+def ensure_user_construction_slots(user):
+    slots = models.ConstructionSlot.query.filter_by(user_id=user.id).order_by(models.ConstructionSlot.slot_number.asc()).all()
+
+    if len(slots) < TOTAL_CONSTRUCTION_SLOTS:
+        for slot_number in range(len(slots) + 1, TOTAL_CONSTRUCTION_SLOTS + 1):
+            models.db.session.add(
+                models.ConstructionSlot(
+                    user_id=user.id,
+                    slot_number=slot_number,
+                )
+            )
+        models.db.session.commit()
+        slots = models.ConstructionSlot.query.filter_by(user_id=user.id).order_by(models.ConstructionSlot.slot_number.asc()).all()
+
+    if not any(slot.is_active for slot in slots):
+        building_queue = []
+        for tipo, info in EDIFICIOS_INFO.items():
+            building_queue.extend([tipo] * getattr(user, info['coluna']))
+
+        if building_queue:
+            for slot, tipo in zip(slots, building_queue):
+                slot.building_type = tipo
+                slot.is_active = True
+            models.db.session.commit()
+            slots = models.ConstructionSlot.query.filter_by(user_id=user.id).order_by(models.ConstructionSlot.slot_number.asc()).all()
+
+    return slots
+
+
+def get_dashboard_construction_slots(user):
+    slots = ensure_user_construction_slots(user)
+    next_free_slot = next((slot for slot in slots if not slot.is_active), None)
+
+    slots_data = [
+        {
+            'slot_number': slot.slot_number,
+            'is_active': slot.is_active,
+            'building_type': slot.building_type,
+            'building_label': get_building_label(slot.building_type),
+        }
+        for slot in slots
+    ]
+
+    return slots_data, sum(1 for slot in slots if slot.is_active), next_free_slot.slot_number if next_free_slot else None
+
 RECRUTAR_SOLDADOS_CUSTO = {'comida': 10, 'joias': 2}
 RECRUTAR_SOLDADOS_GANHO = 5
+
+
+with app.app_context():
+    for user in models.User.query.order_by(models.User.id.asc()).all():
+        ensure_user_construction_slots(user)
 
 @app.route('/')
 def home():
@@ -161,7 +229,15 @@ def dashboard():
         return flask.redirect(flask.url_for('login'))
         
     user = models.db.session.get(models.User, flask.session['user_id'])
-    return flask.render_template('dashboard.html', user=user)
+    construction_slots, construction_slots_used, next_free_construction_slot = get_dashboard_construction_slots(user)
+    return flask.render_template(
+        'dashboard.html',
+        user=user,
+        construction_slots=construction_slots,
+        construction_slots_total=TOTAL_CONSTRUCTION_SLOTS,
+        construction_slots_used=construction_slots_used,
+        next_free_construction_slot=next_free_construction_slot,
+    )
 
 @app.route('/colher', methods=['POST'])
 def colher_recurso():
@@ -215,6 +291,13 @@ def construir_edificio_por_tipo(tipo):
         flask.flash('Edifício inválido.', 'danger')
         return flask.redirect(flask.url_for('dashboard'))
 
+    slots = ensure_user_construction_slots(user)
+    free_slot = next((slot for slot in slots if not slot.is_active), None)
+
+    if free_slot is None:
+        flask.flash('Não tens slots de construção livres.', 'warning')
+        return flask.redirect(flask.url_for('dashboard'))
+
     for recurso_necessario, quantidade_necessaria in info['custo'].items():
         if getattr(user, recurso_necessario) < quantidade_necessaria:
             flask.flash(f'Não tens recursos suficientes para construir {tipo.capitalize()}.', 'warning')
@@ -224,6 +307,8 @@ def construir_edificio_por_tipo(tipo):
         setattr(user, recurso_necessario, getattr(user, recurso_necessario) - quantidade_necessaria)
 
     setattr(user, info['coluna'], getattr(user, info['coluna']) + 1)
+    free_slot.building_type = tipo
+    free_slot.is_active = True
 
     if tipo == 'castelo':
         user.soldados += 5

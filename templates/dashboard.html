@@ -107,6 +107,35 @@
 
         <section class="dashboard-section">
             <header class="section-heading">
+                <h2>Slots de Construção</h2>
+                <p>
+                    {{ construction_slots_used }} de {{ construction_slots_total }} slots ocupados.
+                    {% if next_free_construction_slot %}
+                        Próximo slot livre: {{ next_free_construction_slot }}.
+                    {% else %}
+                        Todos os slots estão ocupados.
+                    {% endif %}
+                </p>
+            </header>
+
+            <div class="slot-grid" role="list" aria-label="Slots de construção do reino">
+                {% for slot in construction_slots %}
+                    <article class="slot-card {% if slot.is_active %}occupied{% else %}free{% endif %}" role="listitem">
+                        <span class="slot-badge">Slot {{ slot.slot_number }}</span>
+                        {% if slot.is_active %}
+                            <strong>{{ slot.building_label }}</strong>
+                            <span class="slot-status">Construção ativa</span>
+                        {% else %}
+                            <strong>Vazio</strong>
+                            <span class="slot-status">Disponível para construir</span>
+                        {% endif %}
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="dashboard-section">
+            <header class="section-heading">
                 <h2>Recolha de Recursos</h2>
                 <p>Escolhe o recurso que queres produzir agora.</p>
             </header>
@@ -141,7 +170,7 @@
         <section class="dashboard-section build-section">
             <header class="section-heading">
                 <h2>Construção e Exército</h2>
-                <p>Ergue edifícios ou recruta tropas para fortalecer o reino.</p>
+                <p>Ergue edifícios ou recruta tropas para fortalecer o reino. Cada construção ocupa o próximo slot livre.</p>
             </header>
 
             <div class="build-grid">

@@ -612,6 +612,66 @@ nav ul li a:active,
     gap: 16px;
 }
 
+.slot-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.slot-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 120px;
+    padding: 16px;
+    border-radius: 10px;
+    border: 3px solid rgba(240, 201, 93, 0.35);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    background:
+        linear-gradient(135deg, rgba(76, 47, 28, 0.98), rgba(35, 22, 14, 0.98)),
+        radial-gradient(circle at top right, rgba(240, 201, 93, 0.08), transparent 42%);
+    color: #f8ecd0;
+}
+
+.slot-card.free {
+    border-color: rgba(145, 113, 62, 0.7);
+    background:
+        linear-gradient(135deg, rgba(106, 76, 40, 0.92), rgba(58, 37, 21, 0.98)),
+        radial-gradient(circle at top right, rgba(240, 201, 93, 0.1), transparent 45%);
+}
+
+.slot-card.occupied {
+    border-color: rgba(240, 201, 93, 0.7);
+    background:
+        linear-gradient(135deg, rgba(41, 26, 16, 0.98), rgba(19, 12, 8, 0.98)),
+        radial-gradient(circle at top right, rgba(240, 201, 93, 0.14), transparent 42%);
+}
+
+.slot-badge {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(240, 201, 93, 0.18);
+    color: #f6e1a7;
+    font-size: 0.78em;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.slot-card strong {
+    font-size: 1.08em;
+    color: #fff3d8;
+}
+
+.slot-status {
+    margin-top: 6px;
+    font-size: 0.88em;
+    color: rgba(251, 239, 210, 0.82);
+}
+
 .build-grid form {
     width: 100%;
 }
@@ -1712,6 +1772,10 @@ body.profile-page .profile-container{
         width: 100%;
     }
 
+    .slot-grid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .navbar{
         flex-direction: column;
         gap: 10px;
@@ -1803,6 +1867,10 @@ body.profile-page .profile-container{
     }
 
     .build-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .slot-grid{
         grid-template-columns: 1fr;
     }
 

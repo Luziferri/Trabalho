@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -74,3 +76,19 @@ class User(db.Model):
 
         jogadores = cls.query.order_by(score_expression.desc(), cls.username.asc()).limit(limit).all()
         return [{"username": jogador.username, "score": jogador.get_score()} for jogador in jogadores]
+
+
+class ConstructionSlot(db.Model):
+    __tablename__ = 'construction_slot'
+    __table_args__ = (
+        db.UniqueConstraint('user_id', 'slot_number', name='uq_construction_slot_user_slot'),
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
+    slot_number = db.Column(db.Integer, nullable=False)
+    building_type = db.Column(db.String(20), nullable=True)
+    is_active = db.Column(db.Boolean, nullable=False, default=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    user = db.relationship('User', backref=db.backref('construction_slots', lazy='select', cascade='all, delete-orphan'))
